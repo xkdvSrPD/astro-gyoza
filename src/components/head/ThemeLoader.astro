@@ -2,13 +2,13 @@
   import { getLocalTheme, getSystemTheme, changePageTheme } from '@/utils/theme'
 
   // 哀悼日
-  const MOURNING_DAYS = ['4-4', '5-12', '7-7', '9-18', '12-13']
+  // const MOURNING_DAYS = ['4-4', '5-12', '7-7', '9-18', '12-13']
 
-  function isMourningDay() {
-    const today = new Date()
-    const dateStr = `${today.getMonth() + 1}-${today.getDate()}`
-    return MOURNING_DAYS.includes(dateStr)
-  }
+  // function isMourningDay() {
+  //   const today = new Date()
+  //   const dateStr = `${today.getMonth() + 1}-${today.getDate()}`
+  //   return MOURNING_DAYS.includes(dateStr)
+  // }
 
   function load() {
     const localTheme = getLocalTheme()
@@ -18,12 +18,20 @@
     } else {
       changePageTheme(localTheme)
     }
-    if (isMourningDay()) {
-      document.documentElement.classList.add('gray')
-    }
+    // if (isMourningDay()) {
+    //   document.documentElement.classList.add('gray')
+    // }
   }
 
+  // 立即执行主题加载
   load()
 
-  // document.addEventListener('swup:content:replace', load)
+  // 监听swup路由切换事件，确保主题状态保持
+  document.addEventListener('swup:content:replace', load)
+  
+  // 监听swup页面准备事件，在内容替换前预设主题
+  document.addEventListener('swup:page:view', load)
+  
+  // 监听swup开始切换事件，提前设置主题
+  document.addEventListener('swup:visit:start', load)
 </script>

@@ -33,6 +33,10 @@ html {
   color: theme('textColor.primary');
   background-color: theme('backgroundColor.root');
   scroll-padding-top: 64px;
+  /* 防止主题切换时的闪烁 */
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 html.gray {
@@ -41,4 +45,16 @@ html.gray {
 
 * {
   scrollbar-width: thin;
+}
+
+/* 为主要元素添加主题切换过渡效果 */
+body {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* 确保swup切换时保持主题状态 */
+.swup-transition-fade {
+  transition: opacity 0.2s ease;
 }
