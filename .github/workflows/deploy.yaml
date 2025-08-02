@@ -40,7 +40,7 @@ jobs:
         local_path: dist
         remote_path: /
         clean: true
-        accelerate: false
+        accelerate: true
         
     - name: Refresh DogeCloud CDN Cache
       env:
