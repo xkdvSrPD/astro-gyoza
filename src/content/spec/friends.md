@@ -8,11 +8,11 @@ comments: true
 
 评论即可！
 
-会检查你的网站[是否在线](https://uptime.vio.vin/)，挂了会被删嗷！
+会检查你的网站[是否在线](https://uptime.vio.vin/status/friends)，挂了会被删嗷！
 
-```yml
-title: 网站名称
-description: 一句话介绍下你的网站或者你自己
-link: 网站地址
-avatar: 头像地址
+```yaml
+title: 薇尔薇
+description: Go to work only for getting off work
+link: https://www.vio.vin
+avatar: https://www.vio.vin/favicon.ico
 ```
