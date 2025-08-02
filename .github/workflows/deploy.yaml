@@ -1,0 +1,101 @@
+name: Deploy Astro to DogeCloud
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: latest
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'pnpm'
+        
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+      
+    - name: Build Astro project
+      run: pnpm run build
+      
+    - name: Upload to DogeCloud COS
+      uses: zu1k/dogecloud-cos-action@v0.1.3
+      with:
+        access_key: ${{ secrets.ACCESS_KEY }}
+        secret_key: ${{ secrets.SECRET_KEY }}
+        bucket: ${{ secrets.BUCKET }}
+        region: ${{ secrets.REGION }}
+        local_path: dist
+        remote_path: /
+        clean: true
+        accelerate: false
+        
+    - name: Refresh DogeCloud CDN Cache
+      env:
+        ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DOMAIN: ${{ secrets.DOMAIN }}
+      run: |
+        python3 << 'EOF'
+        import hmac
+        import hashlib
+        import requests
+        import json
+        import urllib.parse
+        import os
+        
+        # 配置
+        access_key = os.environ['ACCESS_KEY']
+        secret_key = os.environ['SECRET_KEY']
+        domain = os.environ['DOMAIN']
+        
+        # API调用函数
+        def dogecloud_api(api_path, data={}):
+            body = urllib.parse.urlencode(data)
+            sign_str = api_path + "\n" + body
+            sign = hmac.new(
+                secret_key.encode('utf-8'),
+                sign_str.encode('utf-8'),
+                hashlib.sha1
+            ).hexdigest()
+            
+            headers = {
+                'Authorization': f"TOKEN {access_key}:{sign}",
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+            
+            response = requests.post(
+                f"https://api.dogecloud.com{api_path}",
+                data=body,
+                headers=headers
+            )
+            return response.json()
+        
+        # 刷新CDN缓存
+        print(f"🔄 刷新域名 {domain} 的CDN缓存...")
+        result = dogecloud_api('/cdn/refresh/add.json', {
+            'rtype': 'path',
+            'urls': f"{domain}/*"
+        })
+        
+        if result.get('code') == 200:
+            print(f"✅ CDN缓存刷新成功，任务ID: {result.get('data', {}).get('task_id', 'N/A')}")
+        else:
+            print(f"❌ CDN缓存刷新失败: {result.get('msg', '未知错误')}")
+            exit(1)
+        EOF
+        
+    - name: Deployment Complete
+      run: echo "🎉 部署完成！"

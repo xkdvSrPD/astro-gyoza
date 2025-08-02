@@ -1,6 +1,6 @@
 import { author, site } from '@/config.json'
 import { getFormattedDateTime } from '@/utils/date'
-import { AnimatedSignature } from '../AnimatedSignature'
+// import { AnimatedSignature } from '../AnimatedSignature'
 import { useEffect, useState } from 'react'
 import { toast } from "react-toastify";
 
