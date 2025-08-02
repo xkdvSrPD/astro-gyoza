@@ -6,9 +6,9 @@ comments: true
 
 ## 怎么申请友链？
 
-想要交换友链的小伙伴们，欢迎去本站的 [Github 仓库](https://github.com/lxchapu/astro-gyoza/tree/main/src/content/friends)提交一个 PR。审核通过后，就可以在这里展示啦。
+评论即可！
 
-请在`/src/content/friends/`目录下添加一个`<short-name>.yaml`文件，参考格式：
+会检查你的网站[是否在线](https://uptime.vio.vin/)，挂了会被删嗷！
 
 ```yml
 title: 网站名称

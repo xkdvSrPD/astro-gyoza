@@ -1,43 +1,37 @@
 {
   "site": {
-    "url": "https://gyoza.lxchapu.com",
-    "title": "Gyoza",
-    "description": "这是一个使用 Astro 和 React 开发的博客主题。",
-    "keywords": "Gyoza,blog,Astro,theme,lxchapu,博客主题",
+    "url": "https://www.vio.vin",
+    "title": "薇尔薇",
+    "description": "Go to work only for getting off work",
+    "keywords": "violet,vio.vin,薇尔薇,blog,博客",
     "lang": "zh-CN",
     "favicon": "/favicon.ico",
     "appleTouchIcon": "/apple-touch-icon.png"
   },
   "author": {
-    "name": "lxchapu",
-    "twitterId": "@lxchapu",
-    "avatar": "https://s2.loli.net/2024/04/30/ozsnuS5Ihf3xMBG.webp"
+    "name": "violet",
+    "twitterId": "",
+    "avatar": "/apple-touch-icon.png"
   },
   "hero": {
-    "name": "Gyoza",
-    "bio": "A static blog template build with Astro and React.",
-    "description": "Clean, Cute, Fast.",
+    "name": "violet",
+    "bio": "Go to work only for getting off work",
+    "description": "Nothing is more important than getting off work",
     "socials": [
       {
         "name": "Github",
         "icon": "icon-github",
-        "url": "https://github.com/lxchapu/astro-gyoza",
+        "url": "https://github.com/xkdvSrPD",
         "color": "rgb(24, 23, 23)"
-      },
-      {
-        "name": "X",
-        "icon": "icon-x",
-        "url": "https://twitter.com/lxchapu",
-        "color": "rgb(36, 46, 54)"
       },
       {
         "name": "Email",
         "icon": "icon-mail",
-        "url": "mailto:lxchapu@outlook.com",
+        "url": "mailto:hi@vio.vin",
         "color": "rgb(212, 70, 56)"
       }
     ],
-    "yiyan": "当第一颗卫星飞向大气层外，我们便以为自己终有一日会征服宇宙。"
+    "yiyan": "Nothing Here!"
   },
   "color": {
     "accent": [
@@ -76,11 +70,6 @@
       "icon": "icon-archive"
     },
     {
-      "name": "项目",
-      "link": "/projects",
-      "icon": "icon-flask"
-    },
-    {
       "name": "关于",
       "link": "/about",
       "icon": "icon-ghost"
@@ -95,13 +84,13 @@
     "perPage": 10
   },
   "footer": {
-    "startTime": "2024-04-14T00:00:00Z"
+    "startTime": "2025-08-02T00:00:00Z"
   },
   "waline": {
-    "serverURL": "https://waline.lxchapu.com"
+    "serverURL": "https://waline.vio.vin"
   },
   "sponsor": {
-    "wechat": "https://object.lxchapu.com/bed%2F2024%2F0507_6e3e8f73df2d4e6d.webp"
+    "wechat": ""
   },
   "analytics": {
     "enable": false,

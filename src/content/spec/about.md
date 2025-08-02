@@ -4,27 +4,20 @@ description: 这是一份站长的自述报告，请查收。
 comments: false
 ---
 
-## 关于 Gyoza
+## whoami
 
-Gyoza 是一个使用 Astro 和 React 开发的博客主题。Gyoza 借鉴了 [Shiro](https://github.com/innei/Shiro) 和一些网站的设计。
+Hello! I'm Violet.
 
-Gyoza 的核心理念是简洁，快速，可爱。
+Major in computer science. A Java programmer based in Xi’an. I have a passion for exploring everything interesting, ranging from peculiar gadgets like charger,NAS and routers. Additionally, I find great joy in delving into the world of frontend development. Currently residing and working in Xi’an, I document my professional and learning journey through work and study notes, which you can find on this website. Feel free to reach out and connect!
 
-- 在 [Markdown 示例](/posts/markdown) 中展示了 Markdown 的渲染样式
-- 可以前往 [Gyoza 使用指南](/posts/guide) 了解 Gyoza 的使用方法
+## Tools
 
-Gyoza 是开源的，如果你对这个项目感兴趣，欢迎前往 Gyoza 的 [Github 仓库](https://github.com/lxchapu/astro-gyoza) 来提 Issue 或者 PR。
+- Language: Java、JavaScript、TypeScript
+- Framework: Spring & SpringCloud、Vue、Nuxt
+- Databases: MySQL、PostgreSQL、MongoDB
+- Middleware: Redis、Elasticsearch、Zookeeper、Kafka、RabbitMQ、Nginx
+- Ops: Docker、Centos、Ubuntu、Debian
 
-## 关于作者
+## About Blog
 
-我是 lxchapu，是一名前端开发者，喜欢各种有趣的东西。欢迎访问我的个人网站 [www.lxchapu.com](https://www.lxchapu.com)，了解关于我更多的信息。
-
-## 致谢
-
-感谢以下项目：
-
-- [Astro](https://astro.build/)
-- [React](https://reactjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [Jotai](https://jotai.org/)
+I used this [template](https://github.com/lxchapu/astro-gyoza), thanks to the author for opening source
