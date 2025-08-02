@@ -45,6 +45,8 @@ html.gray {
 
 * {
   scrollbar-width: thin;
+  /* 为所有元素添加边框颜色过渡效果 */
+  transition: border-color 0.2s ease;
 }
 
 /* 为主要元素添加主题切换过渡效果 */
