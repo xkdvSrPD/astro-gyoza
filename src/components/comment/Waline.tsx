@@ -10,9 +10,11 @@ export function Waline({ serverURL }: { serverURL: string }) {
       el: ref.current,
       serverURL,
       dark: "[data-theme='dark']",
-      login: 'force',
+      login: 'enable',
+      requiredMeta: ['nick', 'mail'],
       imageUploader: false,
       search: false,
+      wordLimit: 1000,
       locale: {
         placeholder: '发条友善的评论吧（支持 Markdown 语法）…',
       },
