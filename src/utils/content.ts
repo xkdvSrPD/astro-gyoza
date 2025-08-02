@@ -14,7 +14,7 @@ async function getNewestPosts() {
   const allPosts = await getAllPosts()
 
   return allPosts.sort((a, b) => {
-    return a.data.date.valueOf() - b.data.date.valueOf()
+    return a.data.createAt.valueOf() - b.data.createAt.valueOf()
   })
 }
 
@@ -23,7 +23,7 @@ export async function getOldestPosts() {
   const allPosts = await getAllPosts()
 
   return allPosts.sort((a, b) => {
-    return b.data.date.valueOf() - a.data.date.valueOf()
+    return b.data.createAt.valueOf() - a.data.createAt.valueOf()
   })
 }
 
@@ -35,7 +35,7 @@ export async function getSortedPosts() {
     if (a.data.sticky !== b.data.sticky) {
       return b.data.sticky - a.data.sticky
     } else {
-      return b.data.date.valueOf() - a.data.date.valueOf()
+      return b.data.createAt.valueOf() - a.data.createAt.valueOf()
     }
   })
 }

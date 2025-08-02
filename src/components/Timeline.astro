@@ -14,7 +14,7 @@ const groupedPosts = posts.reduce<
     posts: CollectionEntry<'posts'>[]
   }[]
 >((acc, cur) => {
-  const year = cur.data.date.getFullYear()
+  const year = cur.data.createAt.getFullYear()
   const lastYearGroup = acc[acc.length - 1]
   if (lastYearGroup && lastYearGroup.year === year) {
     lastYearGroup.posts.push(cur)
@@ -42,7 +42,7 @@ const groupedPosts = posts.reduce<
           {year.posts.map((post) => (
             <li class="flex items-baseline space-x-2">
               <span class="shrink-0 text-gray-600 dark:text-gray-300 text-sm">
-                {getShortDate(post.data.date)}
+                {getShortDate(post.data.createAt)}
               </span>
               <a
                 class="hover:text-accent/80 hover:underline underline-offset-2"

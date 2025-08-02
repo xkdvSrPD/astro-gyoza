@@ -49,7 +49,7 @@ function concat(str1: string, str2: string, sep = ' / ') {
   return ''
 }
 
-const lastMod = current.data.lastMod || current.data.date
+const lastMod = current.data.updateAt || current.data.createAt
 ---
 
 <MarkdownLayout
@@ -71,8 +71,8 @@ const lastMod = current.data.lastMod || current.data.date
         </h1>
         <PostMetaInfo
           class="justify-center"
-          date={current.data.date}
-          lastMod={current.data.lastMod}
+          createAt={current.data.createAt}
+          updateAt={current.data.updateAt}
           words={remarkPluginFrontmatter.words}
           readingMinutes={remarkPluginFrontmatter.readingMinutes}
         />
