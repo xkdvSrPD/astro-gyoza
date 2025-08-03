@@ -82,7 +82,7 @@ const lastMod = current.data.updateAt || current.data.createAt
           tags={current.data.tags}
         />
         <div>
-          <Outdate lastMod={lastMod} client:idle />
+          <Outdate lastMod={current.data.createAt} client:idle />
         </div>
       </header>
     </div>
