@@ -98,7 +98,7 @@
       "measurementId": ""
     },
     "umami": {
-      "serverUrl": "https://analysis.vio.vin/script.js",
+      "serverUrl": "https://analysis.vio.vin",
       "websiteId": "b09903f6-8b1b-47f3-a0a4-d5feb24304e0"
     },
     "microsoftClarity": {
