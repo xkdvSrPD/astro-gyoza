@@ -1,15 +1,32 @@
+<!-- 防止路由切换时的白屏闪烁 -->
+<style>
+  html {
+    background-color: #ffffff;
+    color: #373a3c;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    html {
+      background-color: #1c1c1e;
+      color: #ffffff;
+    }
+  }
+  
+  /* 为已设置暗色主题的用户提供支持 */
+  html[data-theme="dark"] {
+    background-color: #1c1c1e !important;
+    color: #ffffff !important;
+  }
+  
+  html[data-theme="light"] {
+    background-color: #ffffff !important;
+    color: #373a3c !important;
+  }
+</style>
+
 <script>
   import { getLocalTheme, getSystemTheme, changePageTheme } from '@/utils/theme'
-
-  // 哀悼日
-  // const MOURNING_DAYS = ['4-4', '5-12', '7-7', '9-18', '12-13']
-
-  // function isMourningDay() {
-  //   const today = new Date()
-  //   const dateStr = `${today.getMonth() + 1}-${today.getDate()}`
-  //   return MOURNING_DAYS.includes(dateStr)
-  // }
-
+  
   function load() {
     const localTheme = getLocalTheme()
     const systemTheme = getSystemTheme()
@@ -18,20 +35,8 @@
     } else {
       changePageTheme(localTheme)
     }
-    // if (isMourningDay()) {
-    //   document.documentElement.classList.add('gray')
-    // }
   }
 
   // 立即执行主题加载
   load()
-
-  // 监听swup路由切换事件，确保主题状态保持
-  document.addEventListener('swup:content:replace', load)
-  
-  // 监听swup页面准备事件，在内容替换前预设主题
-  document.addEventListener('swup:page:view', load)
-  
-  // 监听swup开始切换事件，提前设置主题
-  document.addEventListener('swup:visit:start', load)
 </script>
