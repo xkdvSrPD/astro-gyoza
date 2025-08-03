@@ -1,0 +1,39 @@
+<!-- 路由切换滚动控制器 -->
+<script>
+  function handleRouteChange() {
+    // 路由切换时立即滚动到顶部，无动画
+    window.scrollTo(0, 0)
+  }
+
+  function handleAnchorClick(event: Event) {
+    if (!event.target) return
+    const target = (event.target as Element).closest('a')
+    if (!target) return
+    
+    const href = target.getAttribute('href')
+    if (!href || !href.startsWith('#')) return
+    
+    // 如果是锚点链接，阻止默认行为并使用平滑滚动
+    event.preventDefault()
+    
+    const targetElement = document.querySelector(href)
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+      
+      // 更新URL但不触发页面跳转
+      history.pushState(null, '', href)
+    }
+  }
+
+  // 监听swup路由切换事件
+  document.addEventListener('swup:content:replace', handleRouteChange)
+  
+  // 监听锚点点击事件
+  document.addEventListener('click', handleAnchorClick)
+  
+  // 页面加载时也执行一次
+  handleRouteChange()
+</script>
