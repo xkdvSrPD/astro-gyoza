@@ -59,11 +59,48 @@
 }
 
 .markdown .lang-tag {
-  @apply absolute right-6 -top-6 h-6 px-4 flex items-center rounded-t-lg bg-inherit text-sm;
+  @apply absolute right-6 -top-6 h-6 px-4 flex items-center rounded-t-lg bg-inherit text-sm cursor-pointer border-none outline-none transition-all duration-200;
 }
 
 .markdown pre {
   @apply px-6 py-4 max-h-[450px] text-sm leading-relaxed overflow-auto;
+}
+
+/* 代码块滚动条样式 */
+.markdown pre::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.markdown pre::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.markdown pre::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-full;
+}
+
+.markdown pre::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* 暗色模式下的滚动条样式 */
+[data-theme='dark'] .markdown pre::-webkit-scrollbar-thumb {
+  @apply bg-gray-600;
+}
+
+[data-theme='dark'] .markdown pre::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* Firefox 滚动条样式 */
+.markdown pre {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(156 163 175) transparent;
+}
+
+[data-theme='dark'] .markdown pre {
+  scrollbar-color: rgb(75 85 99) transparent;
 }
 
 .markdown .table-wrapper {

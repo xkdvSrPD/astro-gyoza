@@ -24,7 +24,18 @@ export function rehypeCodeBlock() {
         {
           class: 'code-block',
         },
-        [h('span', { class: 'lang-tag' }, lang), node],
+        [
+          h(
+            'button',
+            {
+              class: 'lang-tag copy-code-btn',
+              'data-lang': lang,
+              title: `复制 ${lang} 代码`,
+            },
+            lang,
+          ),
+          node,
+        ],
       )
 
       parent.children[index] = codeBlock
