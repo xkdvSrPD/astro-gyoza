@@ -1,38 +1,25 @@
 <!-- 代码复制功能处理器 -->
 <script>
-  function copyCodeToClipboard(code: string, lang: string) {
+  function copyCodeToClipboard(code: string) {
     navigator.clipboard.writeText(code).then(() => {
-      // 显示复制成功提示
-      // showToast(`${lang} 代码已复制到剪贴板`)
     }).catch(() => {
-      // 降级方案：使用传统方法复制
-      const textArea = document.createElement('textarea')
-      textArea.value = code
-      document.body.appendChild(textArea)
-      textArea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textArea)
-      
-      // showToast(`${lang} 代码已复制到剪贴板`)
+      showToast(`复制失败！`)
     })
   }
 
-  // function showToast(message: string) {
-  //   // 通过全局事件触发toast
-  //   const event = new CustomEvent('code-copy-success', {
-  //     detail: { message }
-  //   })
-  //   window.dispatchEvent(event)
-  // }
+  function showToast(message: string) {
+    // 通过全局事件触发toast
+    const event = new CustomEvent('code-copy-fail', {
+      detail: { message }
+    })
+    window.dispatchEvent(event)
+  }
 
   function handleCopyClick(event: Event) {
     const target = event.target as HTMLElement
     if (!target.classList.contains('copy-code-btn')) return
     
     event.preventDefault()
-    
-    // 获取语言信息
-    const lang = target.getAttribute('data-lang') || 'code'
     
     // 找到对应的代码块
     const codeBlock = target.parentElement?.querySelector('pre code')
@@ -42,7 +29,7 @@
     const code = codeBlock.textContent || ''
     
     // 复制到剪贴板
-    copyCodeToClipboard(code, lang)
+    copyCodeToClipboard(code)
     
     // 添加视觉反馈
     const originalText = target.textContent

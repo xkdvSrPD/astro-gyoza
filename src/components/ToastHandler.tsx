@@ -3,16 +3,16 @@ import { toast } from 'react-toastify'
 
 export function ToastHandler() {
   useEffect(() => {
-    const handleCodeCopySuccess = (event: CustomEvent) => {
+    const handleCodeCopyFail = (event: CustomEvent) => {
       const { message } = event.detail
-      toast.success(message)
+      toast.error(message)
     }
 
     // 监听代码复制成功事件
-    window.addEventListener('code-copy-success', handleCodeCopySuccess as EventListener)
+    window.addEventListener('code-copy-fail', handleCodeCopyFail as EventListener)
 
     return () => {
-      window.removeEventListener('code-copy-success', handleCodeCopySuccess as EventListener)
+      window.removeEventListener('code-copy-fail', handleCodeCopyFail as EventListener)
     }
   }, [])
 
