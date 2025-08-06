@@ -33,9 +33,9 @@ const wordCountStr = (wordCount / 1000).toFixed(1) + 'k'
         <span>站点地图</span>
       </Link>
     </div>
-    <div>
-      <Link href="https://beian.miit.gov.cn/">陕ICP备2021015553号-2</Link>
-    </div>
+    <div id="beian-info" style="display: none;">
+        <Link href="https://beian.miit.gov.cn/">陕ICP备2021015553号-2</Link>
+      </div>
     <div>
       <RunningDays client:only="react" />
       <span class="select-none opacity-50">|</span>
@@ -46,3 +46,12 @@ const wordCountStr = (wordCount / 1000).toFixed(1) + 'k'
     <ThemeSwitch client:only="react" />
   </div>
 </footer>
+
+<script>
+  if (typeof window !== 'undefined' && window.location.hostname.includes('vio.vin')) {
+    const beianElement = document.getElementById('beian-info');
+    if (beianElement) {
+      beianElement.style.display = 'block';
+    }
+  }
+</script>
