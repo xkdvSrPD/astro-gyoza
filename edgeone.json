@@ -1,0 +1,60 @@
+{
+  "redirects": [
+    {
+      "source": "$host",
+      "destination": "$wwwhost",
+      "statusCode": 301
+    }
+  ],
+  "headers": [
+    {
+      "source": "/fonts/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "max-age=31536000"
+        }
+      ]
+    },
+    {
+      "source": "/images/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "max-age=31536000"
+        }
+      ]
+    },
+    {
+      "source": "/favicon.ico",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "max-age=31536000"
+        }
+      ]
+    }
+  ],
+  "caches": [
+    {
+      "source": "/fonts/*",
+      "cacheTtl": 864000
+    },
+    {
+      "source": "/images/*",
+      "cacheTtl": 864000
+    },
+    {
+      "source": "/rss.xml",
+      "cacheTtl": 1800
+    },
+    {
+      "source": "/sitemap-0.xml",
+      "cacheTtl": 1800
+    },
+    {
+      "source": "/sitemap-index.xml",
+      "cacheTtl": 1800
+    }
+  ]
+}
