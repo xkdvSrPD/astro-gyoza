@@ -1,8 +1,8 @@
 {
   "redirects": [
     {
-      "source": "$host",
-      "destination": "$wwwhost",
+      "source": "vio.vin",
+      "destination": "www.vio.vin",
       "statusCode": 301
     }
   ],
