@@ -1,8 +1,8 @@
 ---
-import { Waline } from './Waline'
-import { waline } from '@/config.json'
+import { Giscus } from './Giscus'
+import { giscus } from '@/config.json'
 ---
 
 <div>
-  {waline.serverURL && <Waline {...waline} client:visible />}
+  {giscus.repo && <Giscus {...giscus} client:visible />}
 </div>

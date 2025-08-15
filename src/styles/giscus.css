@@ -1,0 +1,29 @@
+/* Giscus评论系统样式 */
+.giscus-container {
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+/* 确保Giscus在不同主题下的适配 */
+[data-theme='dark'] .giscus-container {
+  color-scheme: dark;
+}
+
+[data-theme='light'] .giscus-container {
+  color-scheme: light;
+}
+
+/* Giscus iframe样式调整 */
+.giscus-frame {
+  width: 100%;
+  border: none;
+  color-scheme: inherit;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .giscus-container {
+    margin-top: 1.5rem;
+    padding: 0.75rem 0;
+  }
+}

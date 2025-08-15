@@ -86,8 +86,19 @@
   "footer": {
     "startTime": "2025-08-02T00:00:00Z"
   },
-  "waline": {
-    "serverURL": "https://waline.vio.vin"
+  "giscus": {
+    "repo": "xkdvSrPD/astro-gyoza",
+    "repoId": "R_kgDOPW4tbw",
+    "category": "Announcements",
+    "categoryId": "DIC_kwDOPW4tb84Ctvvm",
+    "mapping": "title",
+    "strict": "0",
+    "reactionsEnabled": "1",
+    "emitMetadata": "0",
+    "inputPosition": "top",
+    "theme": "preferred_color_scheme",
+    "lang": "zh-CN",
+    "loading": "lazy"
   },
   "sponsor": {
     "wechat": ""
