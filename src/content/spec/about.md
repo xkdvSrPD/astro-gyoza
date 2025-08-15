@@ -4,20 +4,27 @@ description: 这是一份站长的自述报告，请查收。
 comments: false
 ---
 
-## whoami
+## 关于我
 
-Hello! I'm violet.
+你好！我是 violet。
 
-Major in computer science. A Java programmer based in Xi'an. I have a passion for exploring everything interesting, ranging from peculiar gadgets like charger,NAS and routers. Additionally, I find great joy in delving into the world of frontend development. I document my professional and learning journey through work and study notes, which you can find on this website. Feel free to reach out and connect!
+计算机科学专业毕业。喜欢干一些奇奇怪怪的事情，我对以下这些事情都有一定的兴趣，欢迎交流
 
-## Tools
+- 路由器：N100用户，4H8H 120GB
+- NAS：自组I9-12900HK，16H20T 32GB DDR4，500GB SSD，4 + 4 + 16 + 8 T HDD
+- 服务器：一堆服务器，成都、北京、上海、深圳、香港、日本、美西、荷兰、新加坡都有我的鸡
+- 网络：极致的网络体验，一定要“极致”
+- 路由：不是CN2GIA我不用
+- DNS：一定得是自建的
 
-- Language: Java、JavaScript、TypeScript
-- Framework: Spring & SpringCloud、Vue、Nuxt
-- Databases: MySQL、PostgreSQL、MongoDB
-- Middleware: Redis、Elasticsearch、Zookeeper、Kafka、RabbitMQ、Nginx
-- Ops: Docker、Centos、Ubuntu、Debian
+## 技术栈
 
-## About Blog
+- 编程语言：Java、JavaScript、TypeScript、Go
+- 框架：Spring & SpringCloud、Vue、Nuxt
+- 数据库：MySQL、PostgreSQL、MongoDB
+- 中间件：Redis、Elasticsearch、Zookeeper、Kafka、RabbitMQ、Nginx
+- 操作系统：Windows、MacOS、Debian/Ubuntu
 
-I used this [template](https://github.com/lxchapu/astro-gyoza), thanks to the author for opening source.
+## 关于博客
+
+本站从这个[Astro模板](https://github.com/lxchapu/astro-gyoza)的基础上修改而来，感谢[原作者@lxchapu](https://github.com/lxchapu)开源。
