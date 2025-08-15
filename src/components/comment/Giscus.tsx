@@ -36,7 +36,7 @@ export function Giscus({
     // 检查当前主题
     if (typeof window !== 'undefined') {
       const currentTheme = document.documentElement.getAttribute('data-theme')
-      return currentTheme === 'dark' ? 'dark' : 'light'
+      return currentTheme === 'dark' ? 'transparent_dark' : 'light'
     }
     return 'light'
   })
@@ -47,7 +47,7 @@ export function Giscus({
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
           const newTheme = document.documentElement.getAttribute('data-theme')
-          setTheme(newTheme === 'dark' ? 'dark' : 'light')
+          setTheme(newTheme === 'dark' ? 'transparent_dark' : 'light')
         }
       })
     })
@@ -68,9 +68,9 @@ export function Giscus({
         category={category}
         categoryId={categoryId}
         mapping={mapping as any}
-        strict={strict}
-        reactionsEnabled={reactionsEnabled}
-        emitMetadata={emitMetadata}
+        strict={strict as '0' | '1'}
+        reactionsEnabled={reactionsEnabled as '0' | '1'}
+        emitMetadata={emitMetadata as '0' | '1'}
         inputPosition={inputPosition as any}
         theme={theme}
         lang={lang}
