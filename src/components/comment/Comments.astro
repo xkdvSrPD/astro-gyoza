@@ -1,8 +1,25 @@
 ---
 import { Giscus } from './Giscus'
 import { giscus } from '@/config.json'
+
+// 检查是否应该显示评论（域名不包含 vio.vin）
+const shouldShowComments = () => {
+  if (typeof window !== 'undefined') {
+    return !window.location.hostname.includes('vio.vin')
+  }
+  // 服务端渲染时，通过 Astro.url 检查
+  return !Astro.url.hostname.includes('vio.vin')
+}
 ---
 
 <div>
-  {giscus.repo && <Giscus {...giscus} client:visible />}
+  {giscus.repo && shouldShowComments() && <Giscus {...giscus} client:visible />}
+  <script define:vars={{ giscusConfig: giscus, showComments: shouldShowComments() }}>
+    console.log('Comments.astro Debug:', {
+      hasGiscusRepo: !!giscusConfig?.repo,
+      giscusConfig: giscusConfig,
+      shouldShowComments: showComments,
+      currentHostname: window.location.hostname
+    });
+  </script>
 </div>
