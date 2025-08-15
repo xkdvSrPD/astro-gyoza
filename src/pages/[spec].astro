@@ -90,8 +90,12 @@ const isMdContentEmpty = md.body.trim().length === 0
             </SectionBlock>
           </aside>
         </div>
-        {md.data.comments && <Comments />}
       </div>
+      {md.data.comments && (
+        <div class="max-w-[1100px] mx-auto px-4 md:px-8 pb-16">
+          <Comments />
+        </div>
+      )}
     </MarkdownLayout>
   )
 }

@@ -32,6 +32,7 @@ export function Giscus({
   lang,
   loading,
 }: GiscusProps) {
+  const [shouldShowComments, setShouldShowComments] = useState(true)
   const [theme, setTheme] = useState<Theme>(() => {
     // 检查当前主题
     if (typeof window !== 'undefined') {
@@ -40,6 +41,17 @@ export function Giscus({
     }
     return 'light'
   })
+
+  useEffect(() => {
+    const currentHost = window.location.hostname;
+    // 如果域名包含 vio.vin 则不显示评论
+    const shouldShow = !currentHost.includes('vio.vin');
+    console.log('Giscus Debug:', {
+      currentHost,
+      shouldShowComments: shouldShow
+    });
+    setShouldShowComments(shouldShow);
+  }, []);
 
   useEffect(() => {
     // 监听主题变化
@@ -59,6 +71,10 @@ export function Giscus({
 
     return () => observer.disconnect()
   }, [])
+
+  if (!shouldShowComments) {
+    return null
+  }
 
   return (
     <div className="giscus-container">
