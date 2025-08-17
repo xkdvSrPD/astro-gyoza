@@ -3,9 +3,6 @@ name: Trigger Obsidian Build
 on:
   push:
     branches: [ main ]
-  pull_request:
-    types: [closed]
-    branches: [ main ]
 
 jobs:
   trigger-obsidian-build:
