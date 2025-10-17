@@ -43,3 +43,6 @@ html.gray {
   scrollbar-width: thin;
   transition: border-color 0.2s ease;
 }
+
+:root { text-autospace: normal; }
+
