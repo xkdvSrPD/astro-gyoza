@@ -12,7 +12,7 @@ comments: true
 
 ```yaml
 title: 薇尔薇
-description: Go to work only for getting off work
+description: Only the paranoid survive
 link: https://www.vio.vin
 avatar: https://www.vio.vin/favicon.ico
 ```
