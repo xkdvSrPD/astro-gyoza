@@ -9,6 +9,8 @@
   text-autospace: normal;
   --font-base: 'Atkinson', 'Noto Sans SC', sans-serif;
   --font-mono: 'Maple Mono', 'Noto Sans SC', monospace;
+  --header-height: 64px;
+  --header-offset: calc(var(--header-height) + 16px);
 }
 
 ::selection {
@@ -24,7 +26,7 @@ html {
   font-family: var(--font-base);
   color: theme('textColor.primary');
   background-color: theme('backgroundColor.root');
-  scroll-padding-top: 64px;
+  scroll-padding-top: var(--header-offset);
 }
 
 html.gray {

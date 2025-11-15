@@ -19,6 +19,7 @@
   font-family: var(--font-base);
   font-weight: 600;
   line-height: 1.25;
+  scroll-margin-top: var(--header-offset);
 }
 
 .markdown h1 {

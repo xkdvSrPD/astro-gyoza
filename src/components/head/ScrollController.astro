@@ -1,18 +1,24 @@
 <!-- 路由切换滚动控制器 -->
 <script>
-  const HEADER_OFFSET_FALLBACK = 76
-  const EXTRA_SCROLL_GAP = 12
+  const HEADER_HEIGHT_DEFAULT = 64
+  const EXTRA_SCROLL_GAP = 16
 
   if (window.location.hash) {
     window.scrollTo(0, 0)
   }
 
+  function getCssHeaderHeight() {
+    const root = document.documentElement
+    const value = getComputedStyle(root).getPropertyValue('--header-height')
+    const parsed = parseFloat(value)
+    return Number.isFinite(parsed) ? parsed : HEADER_HEIGHT_DEFAULT
+  }
+
   function getHeaderOffset() {
     const header = document.querySelector('[data-site-header]')
-    if (header instanceof HTMLElement) {
-      return header.getBoundingClientRect().height + EXTRA_SCROLL_GAP
-    }
-    return HEADER_OFFSET_FALLBACK
+    const headerHeight =
+      header instanceof HTMLElement ? header.getBoundingClientRect().height : getCssHeaderHeight()
+    return headerHeight + EXTRA_SCROLL_GAP
   }
 
   function getTargetFromHash(hash: string | null) {
