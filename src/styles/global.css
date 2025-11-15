@@ -33,7 +33,10 @@ html.gray {
   filter: grayscale(1);
 }
 
-* {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   scrollbar-width: thin;
   transition: border-color 0.2s ease;
 }
