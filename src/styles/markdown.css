@@ -17,7 +17,7 @@
 .markdown h5,
 .markdown h6 {
   font-family: var(--font-base);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.25;
   scroll-margin-top: var(--header-offset);
 }
@@ -72,7 +72,7 @@
 
 .markdown :not(pre) > code {
   font-family: var(--font-mono);
-  @apply px-2 py-1 rounded bg-secondary text-sm font-semibold;
+  @apply px-2 py-1 rounded bg-secondary text-sm;
 }
 
 .markdown .code-block {

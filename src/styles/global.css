@@ -7,8 +7,8 @@
 
 :root {
   text-autospace: normal;
-  --font-base: 'Atkinson', 'Noto Sans SC', sans-serif;
-  --font-mono: 'Maple Mono', 'Noto Sans SC', monospace;
+  --font-base: sans-serif, 'Atkinson', 'Noto Sans SC';
+  --font-mono: 'Maple Mono', monospace, 'Noto Sans SC';
   --header-height: 64px;
   --header-offset: calc(var(--header-height) + 16px);
 }
