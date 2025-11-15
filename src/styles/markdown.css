@@ -51,6 +51,7 @@
 }
 
 .markdown :not(pre) > code {
+  font-family: 'Maple Mono', 'JetBrains Mono', 'Fira Code', Consolas, monospace;
   @apply px-2 py-1 rounded bg-secondary text-sm font-semibold;
 }
 
@@ -63,6 +64,7 @@
 }
 
 .markdown pre {
+  font-family: 'Maple Mono', 'JetBrains Mono', 'Fira Code', Consolas, monospace;
   @apply px-6 py-4 max-h-[450px] text-sm leading-relaxed overflow-auto w-full;
 }
 
