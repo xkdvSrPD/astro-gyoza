@@ -29,6 +29,7 @@ html {
   scroll-padding-top: var(--header-offset);
   width: 100%;
   min-width: 0;
+  height: 100%;
 }
 
 html.gray {
@@ -60,7 +61,9 @@ body {
   margin: 0;
   width: 100%;
   min-width: 0;
+  height: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 code,
