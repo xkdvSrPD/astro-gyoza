@@ -12,6 +12,7 @@ import { BackToTopFAB } from '@/components/BackToTopFAB'
 import { ToastContainer } from '@/components/ToastContainer'
 import { ToastHandler } from '@/components/ToastHandler'
 import { ModalStack } from '@/components/ui/modal'
+import { AnimatedBackground } from '@/components/AnimatedBackground'
 import { site } from '@/config.json'
 import '@/styles/global.css'
 
@@ -35,12 +36,15 @@ const { title, description, image } = Astro.props
     <ScrollController />
     <CodeCopyHandler />
   </head>
-  <body>
-    <slot />
+  <body class="relative min-h-screen">
+    <AnimatedBackground client:only="react" />
+    <div class="relative z-10 flex min-h-screen flex-col">
+      <slot />
 
-    <BackToTopFAB client:only="react" />
-    <ToastContainer client:only="react" />
-    <ToastHandler client:only="react" />
-    <ModalStack client:only="react" />
+      <BackToTopFAB client:only="react" />
+      <ToastContainer client:only="react" />
+      <ToastHandler client:only="react" />
+      <ModalStack client:only="react" />
+    </div>
   </body>
 </html>
