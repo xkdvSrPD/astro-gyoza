@@ -12,11 +12,14 @@
   function triggerButtonFeedback(button: HTMLElement) {
     button.classList.add('copy-code-btn--copied')
 
+    const baseShadow = 'rgb(var(--color-accent) / 0.4)'
+    const intenseShadow = 'rgb(var(--color-accent) / 0.5)'
+
     button.animate(
       [
-        { transform: 'scale(1)', boxShadow: '0 7px 18px rgba(22, 163, 74, 0.35)' },
-        { transform: 'scale(1.12)', boxShadow: '0 18px 36px rgba(22, 163, 74, 0.45)' },
-        { transform: 'scale(1)', boxShadow: '0 7px 18px rgba(22, 163, 74, 0.35)' },
+        { transform: 'scale(1)', boxShadow: `0 7px 18px ${baseShadow}` },
+        { transform: 'scale(1.12)', boxShadow: `0 18px 36px ${intenseShadow}` },
+        { transform: 'scale(1)', boxShadow: `0 7px 18px ${baseShadow}` },
       ],
       { duration: 450, easing: 'ease-out' },
     )
