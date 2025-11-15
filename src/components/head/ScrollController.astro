@@ -1,39 +1,95 @@
 <!-- 路由切换滚动控制器 -->
 <script>
-  function handleRouteChange() {
-    // 路由切换时立即滚动到顶部，无动画
+  const HEADER_OFFSET_FALLBACK = 76
+  const EXTRA_SCROLL_GAP = 12
+
+  if (window.location.hash) {
     window.scrollTo(0, 0)
+  }
+
+  function getHeaderOffset() {
+    const header = document.querySelector('[data-site-header]')
+    if (header instanceof HTMLElement) {
+      return header.getBoundingClientRect().height + EXTRA_SCROLL_GAP
+    }
+    return HEADER_OFFSET_FALLBACK
+  }
+
+  function getTargetFromHash(hash: string | null) {
+    if (!hash) return null
+    const normalized = hash.startsWith('#') ? hash.slice(1) : hash
+    if (!normalized) return null
+
+    let decoded = normalized
+    try {
+      decoded = decodeURIComponent(normalized)
+    } catch (error) {
+      // ignore decode errors and fall back to original value
+    }
+
+    return document.getElementById(decoded) ?? (decoded !== normalized ? document.getElementById(normalized) : null)
+  }
+
+  function scrollToTarget(target: HTMLElement, smooth = true) {
+    const destination =
+      target.getBoundingClientRect().top + window.scrollY - Math.max(getHeaderOffset(), 0)
+
+    window.scrollTo({
+      top: Math.max(destination, 0),
+      behavior: smooth ? 'smooth' : 'auto',
+    })
+  }
+
+  function handleAnchorNavigation(hash: string, smooth = true) {
+    const target = getTargetFromHash(hash)
+    if (!target) return false
+    scrollToTarget(target, smooth)
+    return true
   }
 
   function handleAnchorClick(event: Event) {
     if (!event.target) return
+
     const target = (event.target as Element).closest('a')
     if (!target) return
-    
+
     const href = target.getAttribute('href')
     if (!href || !href.startsWith('#')) return
-    
-    // 如果是锚点链接，阻止默认行为并使用平滑滚动
+
     event.preventDefault()
-    
-    const targetElement = document.querySelector(href)
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
-      
-      // 更新URL但不触发页面跳转
+    if (handleAnchorNavigation(href, true)) {
       history.pushState(null, '', href)
     }
   }
 
+  function handleHashOnLoad() {
+    const { hash } = window.location
+    if (!hash) return
+    requestAnimationFrame(() => {
+      handleAnchorNavigation(hash, false)
+    })
+  }
+
+  function handleRouteChange() {
+    // 路由切换时立即滚动到顶部，无动画
+    window.scrollTo(0, 0)
+    handleHashOnLoad()
+  }
+
+  function initScrollHandlers() {
+    handleRouteChange()
+  }
+
   // 监听swup路由切换事件
   document.addEventListener('swup:content:replace', handleRouteChange)
-  
+
   // 监听锚点点击事件
   document.addEventListener('click', handleAnchorClick)
-  
-  // 页面加载时也执行一次
-  handleRouteChange()
+
+  // 页面加载完毕后执行初始化，确保锚点元素已渲染
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollHandlers, { once: true })
+  } else {
+    initScrollHandlers()
+  }
 </script>

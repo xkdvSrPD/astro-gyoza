@@ -10,20 +10,39 @@
   @apply mb-5;
 }
 
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-family: var(--font-base);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
 .markdown h1 {
-  @apply text-4xl font-extrabold mb-8;
+  @apply text-4xl mb-8;
 }
 
 .markdown h2 {
-  @apply text-2xl font-bold mt-12 mb-6;
+  @apply text-2xl mt-12 mb-6;
 }
 
 .markdown h3 {
-  @apply text-xl font-semibold mt-8 mb-3;
+  @apply text-xl mt-8 mb-3;
 }
 
 .markdown h4 {
-  @apply font-semibold mt-6 mb-2;
+  @apply mt-6 mb-2;
+}
+
+.markdown h5 {
+  @apply text-base mt-4 mb-2 uppercase tracking-wide text-secondary;
+}
+
+.markdown h6 {
+  @apply text-sm mt-3 mb-2 uppercase tracking-wider text-secondary;
 }
 
 .markdown a {

@@ -10,7 +10,7 @@ export function Header() {
   const isMobile = useIsMobile()
 
   return (
-    <header className="fixed top-0 inset-x-0 h-[64px] z-10 overflow-hidden">
+    <header className="fixed top-0 inset-x-0 h-[64px] z-10 overflow-hidden" data-site-header>
       <BluredBackground />
       <div className="max-w-[1100px] h-full md:px-4 mx-auto grid grid-cols-[64px_auto_64px]">
         <div className="flex items-center justify-center">
