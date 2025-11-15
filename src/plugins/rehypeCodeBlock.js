@@ -19,24 +19,24 @@ export function rehypeCodeBlock() {
         lang = classes[0].slice(9)
       }
 
-      const codeBlock = h(
-        'div',
-        {
-          class: 'code-block',
-        },
-        [
-          h(
-            'button',
-            {
-              class: 'lang-tag copy-code-btn',
-              'data-lang': lang,
-              title: `复制 ${lang} 代码`,
-            },
-            lang,
-          ),
-          node,
-        ],
-      )
+      const codeBlock = h('div', { class: 'code-block' }, [
+        h(
+          'button',
+          {
+            class: 'copy-code-btn',
+            'data-lang': lang,
+            'data-label': '复制',
+            title: `复制 ${lang} 代码`,
+            type: 'button',
+          },
+          [
+            h('span', { class: 'copy-code-btn__icon', 'aria-hidden': 'true' }),
+            h('span', { class: 'copy-code-btn__text' }, lang.toUpperCase()),
+            h('span', { class: 'sr-only' }, '复制代码'),
+          ],
+        ),
+        node,
+      ])
 
       parent.children[index] = codeBlock
     })

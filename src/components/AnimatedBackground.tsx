@@ -71,6 +71,7 @@ const useReducedMotion = () => {
 export function AnimatedBackground() {
   const [palette, setPalette] = useState<Palette>(DEFAULT_PALETTE)
   const [ready, setReady] = useState(false)
+  const [isDensePage, setIsDensePage] = useState(false)
   const reduceMotion = useReducedMotion()
 
   useEffect(() => {
@@ -116,6 +117,32 @@ export function AnimatedBackground() {
     }
   }, [reduceMotion])
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    let raf: number | null = null
+    const evaluateDensity = () => {
+      raf = null
+      const scrollRoom = document.documentElement.scrollHeight - window.innerHeight
+      setIsDensePage(scrollRoom > 3600)
+    }
+
+    const scheduleEvaluation = () => {
+      if (raf) window.cancelAnimationFrame(raf)
+      raf = window.requestAnimationFrame(evaluateDensity)
+    }
+
+    scheduleEvaluation()
+    window.addEventListener('resize', scheduleEvaluation)
+    document.addEventListener('swup:content:replace', scheduleEvaluation)
+
+    return () => {
+      if (raf) window.cancelAnimationFrame(raf)
+      window.removeEventListener('resize', scheduleEvaluation)
+      document.removeEventListener('swup:content:replace', scheduleEvaluation)
+    }
+  }, [])
+
   const particlesOptions = useMemo<ISourceOptions>(
     () => ({
       background: {
@@ -123,32 +150,32 @@ export function AnimatedBackground() {
       },
       detectRetina: true,
       fullScreen: { enable: false },
-      fpsLimit: 60,
+      fpsLimit: isDensePage ? 40 : 55,
       particles: {
         color: { value: [tripletToRgb(palette.accent), tripletToRgb(palette.neutral)] },
         number: {
-          value: 35,
-          density: { enable: true, area: 950 },
+          value: isDensePage ? 18 : 26,
+          density: { enable: true, area: isDensePage ? 1400 : 950 },
         },
         move: {
           enable: true,
-          speed: { min: 0.1, max: 0.6 },
+          speed: isDensePage ? { min: 0.05, max: 0.25 } : { min: 0.08, max: 0.45 },
           outModes: { default: 'out' },
         },
         opacity: {
-          value: { min: 0.08, max: 0.25 },
+          value: isDensePage ? { min: 0.08, max: 0.22 } : { min: 0.1, max: 0.28 },
           animation: { enable: true, speed: 0.2, sync: false },
         },
         size: {
-          value: { min: 0.6, max: 2.8 },
-          animation: { enable: true, speed: 4, minimumValue: 0.4 },
+          value: isDensePage ? { min: 0.5, max: 2 } : { min: 0.7, max: 2.6 },
+          animation: { enable: true, speed: 3, minimumValue: 0.4 },
         },
         links: {
           enable: true,
           color: tripletToRgb(palette.neutral),
-          distance: 130,
-          opacity: 0.15,
-          width: 0.6,
+          distance: isDensePage ? 110 : 140,
+          opacity: isDensePage ? 0.08 : 0.15,
+          width: isDensePage ? 0.45 : 0.6,
         },
       },
       interactivity: {
@@ -159,7 +186,7 @@ export function AnimatedBackground() {
         modes: { attract: { distance: 140, duration: 0.3, factor: 2 } },
       },
     }),
-    [palette],
+    [palette, isDensePage],
   )
 
   const gradientStyle = useMemo(

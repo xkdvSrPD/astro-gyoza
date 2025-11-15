@@ -1,55 +1,92 @@
 <!-- 代码复制功能处理器 -->
 <script>
-  function copyCodeToClipboard(code: string) {
-    navigator.clipboard.writeText(code).then(() => {
-    }).catch(() => {
-      showToast(`复制失败！`)
-    })
+  function copyCodeToClipboard(code: string, target: HTMLElement) {
+    navigator.clipboard
+      .writeText(code)
+      .then(() => triggerButtonFeedback(target))
+      .catch(() => {
+        showToast(`复制失败！`)
+      })
+  }
+
+  function triggerButtonFeedback(button: HTMLElement) {
+    button.classList.add('copy-code-btn--copied')
+
+    button.animate(
+      [
+        { transform: 'scale(1)', boxShadow: '0 7px 18px rgba(22, 163, 74, 0.35)' },
+        { transform: 'scale(1.12)', boxShadow: '0 18px 36px rgba(22, 163, 74, 0.45)' },
+        { transform: 'scale(1)', boxShadow: '0 7px 18px rgba(22, 163, 74, 0.35)' },
+      ],
+      { duration: 450, easing: 'ease-out' },
+    )
+
+    setTimeout(() => {
+      button.classList.remove('copy-code-btn--copied')
+    }, 1600)
   }
 
   function showToast(message: string) {
     // 通过全局事件触发toast
     const event = new CustomEvent('code-copy-fail', {
-      detail: { message }
+      detail: { message },
     })
     window.dispatchEvent(event)
   }
 
-  function handleCopyClick(event: Event) {
-    const target = event.target as HTMLElement
-    if (!target.classList.contains('copy-code-btn')) return
-    
-    event.preventDefault()
-    
-    // 找到对应的代码块
-    const codeBlock = target.parentElement?.querySelector('pre code')
-    if (!codeBlock) return
-    
-    // 获取代码内容（去除语法高亮的HTML标签）
-    const code = codeBlock.textContent || ''
-    
-    // 复制到剪贴板
-    copyCodeToClipboard(code)
-    
-    // 添加视觉反馈
-    const originalText = target.textContent
-    target.textContent = '已复制!'
-    target.style.backgroundColor = 'rgb(34 197 94)' // green-500
-    target.style.color = 'white'
-    
-    setTimeout(() => {
-      target.textContent = originalText
-      target.style.backgroundColor = ''
-      target.style.color = ''
-    }, 1500)
+  function getCopyButton(target?: EventTarget | null) {
+    if (!(target instanceof HTMLElement)) return null
+    if (target.classList.contains('copy-code-btn')) return target
+    return target.closest('.copy-code-btn')
   }
 
-  // 监听点击事件
+  function handleCopyClick(event: Event) {
+    const button = getCopyButton(event.target)
+    if (!button) return
+
+    event.preventDefault()
+
+    const codeBlock = button.closest('.code-block')
+    const codeElement = codeBlock?.querySelector('pre code')
+    if (!codeElement) return
+
+    const code = codeElement.textContent || ''
+    copyCodeToClipboard(code, button as HTMLElement)
+  }
+
+  function updateHoverHighlight(event: MouseEvent) {
+    const block = (event.target as HTMLElement).closest('.code-block') as HTMLElement | null
+    if (!block) return
+    const rect = block.getBoundingClientRect()
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
+    block.style.setProperty('--code-hover-x', `${x}px`)
+    block.style.setProperty('--code-hover-y', `${y}px`)
+  }
+
+  function handleCodeHover(event: Event) {
+    const block = (event.target as HTMLElement).closest('.code-block') as HTMLElement | null
+    if (!block) return
+
+    if (event.type === 'mouseenter') {
+      block.classList.add('is-hovered')
+      updateHoverHighlight(event as MouseEvent)
+    } else if (event.type === 'mousemove') {
+      updateHoverHighlight(event as MouseEvent)
+    } else {
+      block.classList.remove('is-hovered')
+    }
+  }
+
   document.addEventListener('click', handleCopyClick)
-  
-  // 监听路由切换事件，重新绑定事件
+  document.addEventListener('mouseenter', handleCodeHover, true)
+  document.addEventListener('mousemove', handleCodeHover, true)
+  document.addEventListener('mouseleave', handleCodeHover, true)
+
   document.addEventListener('swup:content:replace', () => {
-    // swup会替换内容，需要重新绑定事件监听器
     document.addEventListener('click', handleCopyClick)
+    document.addEventListener('mouseenter', handleCodeHover, true)
+    document.addEventListener('mousemove', handleCodeHover, true)
+    document.addEventListener('mouseleave', handleCodeHover, true)
   })
 </script>
