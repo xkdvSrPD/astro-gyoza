@@ -1,0 +1,29 @@
+<!-- 禁止图片被拖拽 -->
+<script>
+  const preventImageDrag = (event: DragEvent) => {
+    event.preventDefault()
+  }
+
+  function disableImageDragging(root: ParentNode = document) {
+    root.querySelectorAll<HTMLImageElement>('img').forEach((img) => {
+      if (img.dataset.dragDisabled === 'true') return
+      img.setAttribute('draggable', 'false')
+      img.addEventListener('dragstart', preventImageDrag)
+      img.dataset.dragDisabled = 'true'
+    })
+  }
+
+  function initImageDragGuard() {
+    disableImageDragging()
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initImageDragGuard, { once: true })
+  } else {
+    initImageDragGuard()
+  }
+
+  document.addEventListener('swup:content:replace', () => {
+    initImageDragGuard()
+  })
+</script>
