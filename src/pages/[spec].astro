@@ -69,20 +69,20 @@ const isMdContentEmpty = mdBody.trim().length === 0
       <div
         class={
           isAboutPage
-            ? 'max-w-3xl mx-auto px-4 md:px-8 py-16 space-y-10 text-center'
-            : 'max-w-[1100px] mx-auto px-4 md:px-8 py-16 grid lg:grid-cols-[minmax(0,1fr)_260px] gap-8'
+            ? 'w-full max-w-full lg:max-w-[800px] mx-auto px-4 py-16 space-y-10'
+            : 'w-full max-w-full lg:max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px] gap-8 px-4 md:px-8 py-16'
         }
         data-pagefind-body
       >
         {isAboutPage ? (
           <>
-            <header class="space-y-4 max-w-2xl mx-auto">
+            <header class="space-y-4 text-left">
               <h1 class="text-4xl font-bold">
                 <Highlight>{md.data.title}</Highlight>
               </h1>
               <p>{md.data.description}</p>
             </header>
-            <div class="mx-auto max-w-2xl text-left">
+            <div class="text-left">
               <MarkdownWrapper>
                 <Content />
               </MarkdownWrapper>
@@ -119,8 +119,8 @@ const isMdContentEmpty = mdBody.trim().length === 0
         <div
           class={
             isAboutPage
-              ? 'max-w-3xl mx-auto px-4 md:px-8 pb-16'
-              : 'max-w-[1100px] mx-auto px-4 md:px-8 pb-16'
+              ? 'w-full max-w-full lg:max-w-[800px] mx-auto px-4 pb-16'
+              : 'w-full max-w-full lg:max-w-[1100px] mx-auto px-4 md:px-8 pb-16'
           }
         >
           <Comments />
