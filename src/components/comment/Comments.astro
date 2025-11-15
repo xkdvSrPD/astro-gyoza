@@ -5,7 +5,7 @@ import { giscus } from '@/config.json'
 
 <div>
   {giscus.repo && <Giscus {...giscus} client:visible />}
-  <script define:vars={{ giscusConfig: giscus }}>
+  <script define:vars={{ giscusConfig: giscus }} is:inline>
     console.log('Comments Debug:', {
       hasGiscusRepo: !!giscusConfig.repo,
       giscusConfig: giscusConfig,

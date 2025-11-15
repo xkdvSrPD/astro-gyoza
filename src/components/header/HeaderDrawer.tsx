@@ -1,15 +1,17 @@
 import { menus } from '@/config.json'
 import { createContext, useContext, useState, forwardRef } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import clsx from 'clsx'
 
-const contentVariants = {
+const easeOutExpo: [number, number, number, number] = [0.19, 1, 0.22, 1]
+
+const contentVariants: Variants = {
   hidden: {
     x: '-100%',
     transition: {
       duration: 0.2,
-      ease: 'easeOut',
+      ease: easeOutExpo,
     },
   },
   visible: {
@@ -18,7 +20,7 @@ const contentVariants = {
       staggerChildren: 0.1,
       delayChildren: 0.1,
       duration: 0.2,
-      ease: 'easeOut',
+      ease: easeOutExpo,
     },
   },
 }

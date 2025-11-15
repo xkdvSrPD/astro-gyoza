@@ -61,7 +61,8 @@ function CountUp({
     const control = animate(prev.current, to, {
       duration,
       onUpdate: (value) => {
-        node.current!.textContent = value.toFixed(decimals)
+        if (!node.current) return
+        node.current.textContent = value.toFixed(decimals)
       },
     })
     prev.current = to

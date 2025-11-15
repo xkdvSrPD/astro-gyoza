@@ -33,13 +33,14 @@ export function Giscus({
   loading,
 }: GiscusProps) {
   const [shouldShowComments, setShouldShowComments] = useState(true)
+  const fallbackTheme = (defaultTheme as Theme) || 'light'
   const [theme, setTheme] = useState<Theme>(() => {
     // 检查当前主题
     if (typeof window !== 'undefined') {
       const currentTheme = document.documentElement.getAttribute('data-theme')
       return currentTheme === 'dark' ? 'transparent_dark' : 'light'
     }
-    return 'light'
+    return fallbackTheme
   })
 
   useEffect(() => {
