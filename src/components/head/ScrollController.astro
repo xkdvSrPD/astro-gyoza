@@ -14,13 +14,16 @@
     return Number.isFinite(parsed) ? parsed : HEADER_HEIGHT_DEFAULT
   }
 
+  let currentHeaderOffset = HEADER_HEIGHT_DEFAULT + EXTRA_SCROLL_GAP
+
   function updateHeaderOffset() {
     const header = document.querySelector('[data-site-header]')
     const headerHeight =
       header instanceof HTMLElement ? header.getBoundingClientRect().height : getCssHeaderHeight()
+    currentHeaderOffset = headerHeight + EXTRA_SCROLL_GAP
     const root = document.documentElement
     root.style.setProperty('--header-height', `${headerHeight}px`)
-    root.style.setProperty('--header-offset', `${headerHeight + EXTRA_SCROLL_GAP}px`)
+    root.style.setProperty('--header-offset', `${currentHeaderOffset}px`)
   }
 
   function getTargetFromHash(hash: string | null) {
@@ -39,9 +42,12 @@
   }
 
   function scrollToTarget(target: HTMLElement, smooth = true) {
-    target.scrollIntoView({
+    const destination =
+      target.getBoundingClientRect().top + window.scrollY - Math.max(currentHeaderOffset, 0)
+
+    window.scrollTo({
+      top: Math.max(destination, 0),
       behavior: smooth ? 'smooth' : 'auto',
-      block: 'start',
     })
   }
 
