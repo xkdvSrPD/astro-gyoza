@@ -10,7 +10,7 @@ export function HeaderMeta() {
     <AnimatePresence>
       {shouldShow && (
         <motion.div
-          className="absolute inset-0 z-1 flex items-center justify-between md:px-10 pointer-events-none"
+          className="absolute inset-0 z-1 flex items-center justify-between md:px-5 pointer-events-none"
           initial={{
             opacity: 0,
             y: 20,
