@@ -63,7 +63,7 @@
 }
 
 .markdown pre {
-  @apply px-6 py-4 max-h-[450px] text-sm leading-relaxed overflow-auto;
+  @apply px-6 py-4 max-h-[450px] text-sm leading-relaxed overflow-auto w-full;
 }
 
 /* 代码块滚动条样式 */
