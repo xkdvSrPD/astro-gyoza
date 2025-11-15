@@ -54,39 +54,9 @@
     copyCodeToClipboard(code, button as HTMLElement)
   }
 
-  function updateHoverHighlight(event: MouseEvent) {
-    const block = (event.target as HTMLElement).closest('.code-block') as HTMLElement | null
-    if (!block) return
-    const rect = block.getBoundingClientRect()
-    const x = event.clientX - rect.left
-    const y = event.clientY - rect.top
-    block.style.setProperty('--code-hover-x', `${x}px`)
-    block.style.setProperty('--code-hover-y', `${y}px`)
-  }
-
-  function handleCodeHover(event: Event) {
-    const block = (event.target as HTMLElement).closest('.code-block') as HTMLElement | null
-    if (!block) return
-
-    if (event.type === 'mouseenter') {
-      block.classList.add('is-hovered')
-      updateHoverHighlight(event as MouseEvent)
-    } else if (event.type === 'mousemove') {
-      updateHoverHighlight(event as MouseEvent)
-    } else {
-      block.classList.remove('is-hovered')
-    }
-  }
-
   document.addEventListener('click', handleCopyClick)
-  document.addEventListener('mouseenter', handleCodeHover, true)
-  document.addEventListener('mousemove', handleCodeHover, true)
-  document.addEventListener('mouseleave', handleCodeHover, true)
 
   document.addEventListener('swup:content:replace', () => {
     document.addEventListener('click', handleCopyClick)
-    document.addEventListener('mouseenter', handleCodeHover, true)
-    document.addEventListener('mousemove', handleCodeHover, true)
-    document.addEventListener('mouseleave', handleCodeHover, true)
   })
 </script>
