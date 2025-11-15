@@ -5,6 +5,12 @@
 @import './signature.css';
 @import './swup.css';
 
+:root {
+  text-autospace: normal;
+  --font-base: 'Atkinson', 'Noto Sans SC', sans-serif;
+  --font-mono: 'Maple Mono', 'Noto Sans SC', monospace;
+}
+
 ::selection {
   background-color: theme('colors.accent');
   color: white;
@@ -15,6 +21,7 @@
 }
 
 html {
+  font-family: var(--font-base);
   color: theme('textColor.primary');
   background-color: theme('backgroundColor.root');
   scroll-padding-top: 64px;
@@ -29,10 +36,6 @@ html.gray {
   transition: border-color 0.2s ease;
 }
 
-:root {
-  text-autospace: normal;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -43,6 +46,17 @@ html.gray {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+body {
+  font-family: var(--font-base);
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--font-mono);
 }
 @media print {
   #site-animated-background-root {

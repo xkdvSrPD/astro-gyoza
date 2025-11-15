@@ -33,6 +33,7 @@ const { md } = Astro.props
 const { headings, Content } = await md.render()
 
 const isPageLayout = ['friends', 'projects'].includes(md.slug)
+const isAboutPage = md.slug === 'about'
 const mdBody = md.body ?? ''
 const isMdContentEmpty = mdBody.trim().length === 0
 ---
@@ -66,34 +67,62 @@ const isMdContentEmpty = mdBody.trim().length === 0
       mdSlug={md.slug}
     >
       <div
-        class="max-w-[1100px] mx-auto px-4 md:px-8 py-16 grid lg:grid-cols-[minmax(0,1fr)_260px] gap-8"
+        class={
+          isAboutPage
+            ? 'max-w-3xl mx-auto px-4 md:px-8 py-16 space-y-10 text-center'
+            : 'max-w-[1100px] mx-auto px-4 md:px-8 py-16 grid lg:grid-cols-[minmax(0,1fr)_260px] gap-8'
+        }
         data-pagefind-body
       >
-        <div>
-          <header class="space-y-4">
-            <h1 class="text-4xl font-bold">
-              <Highlight>{md.data.title}</Highlight>
-            </h1>
-            <p>{md.data.description}</p>
-          </header>
-        </div>
-        <div class="col-start-1 min-w-0">
-          <MarkdownWrapper>
-            <Content />
-          </MarkdownWrapper>
-        </div>
-        <div class="hidden lg:block" data-pagefind-ignore>
-          <aside class="sticky top-20">
-            <SectionBlock title="目录">
-              <PostToc headings={headings} client:idle />
-              <hr class="my-2 border-primary max-w-[100px]" />
-              <ReadingProgress client:idle />
-            </SectionBlock>
-          </aside>
-        </div>
+        {isAboutPage ? (
+          <>
+            <header class="space-y-4 max-w-2xl mx-auto">
+              <h1 class="text-4xl font-bold">
+                <Highlight>{md.data.title}</Highlight>
+              </h1>
+              <p>{md.data.description}</p>
+            </header>
+            <div class="mx-auto max-w-2xl text-left">
+              <MarkdownWrapper>
+                <Content />
+              </MarkdownWrapper>
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <header class="space-y-4">
+                <h1 class="text-4xl font-bold">
+                  <Highlight>{md.data.title}</Highlight>
+                </h1>
+                <p>{md.data.description}</p>
+              </header>
+            </div>
+            <div class="col-start-1 min-w-0">
+              <MarkdownWrapper>
+                <Content />
+              </MarkdownWrapper>
+            </div>
+            <div class="hidden lg:block" data-pagefind-ignore>
+              <aside class="sticky top-20">
+                <SectionBlock title="目录">
+                  <PostToc headings={headings} client:idle />
+                  <hr class="my-2 border-primary max-w-[100px]" />
+                  <ReadingProgress client:idle />
+                </SectionBlock>
+              </aside>
+            </div>
+          </>
+        )}
       </div>
       {md.data.comments && (
-        <div class="max-w-[1100px] mx-auto px-4 md:px-8 pb-16">
+        <div
+          class={
+            isAboutPage
+              ? 'max-w-3xl mx-auto px-4 md:px-8 pb-16'
+              : 'max-w-[1100px] mx-auto px-4 md:px-8 pb-16'
+          }
+        >
           <Comments />
         </div>
       )}
