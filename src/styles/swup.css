@@ -5,6 +5,9 @@
     transform 0.28s ease,
     filter 0.28s ease;
   will-change: opacity, transform, filter;
+
+  min-height: 100vh;
+  width: 100%;
 }
 
 html.is-changing .swup-transition-fade {
@@ -15,4 +18,9 @@ html.is-animating .swup-transition-fade {
   opacity: 0;
   transform: translate3d(0, 8px, 0);
   filter: blur(2px);
+}
+
+html.is-changing,
+html.is-animating {
+  overflow-y: hidden;
 }
