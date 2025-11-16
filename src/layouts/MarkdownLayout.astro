@@ -28,11 +28,9 @@ const { title, description, image, mdTitle, mdDescription, mdSlug } = Astro.prop
   />
 
   <Header client:only="react" />
-  <main class="glass-surface relative z-1 pt-16 min-h-main overflow-hidden">
+  <main class="glass-surface relative z-1 pt-16 min-h-main">
     <HeadGradient client:idle />
-    <div class="swup-transition-fade">
-      <slot />
-    </div>
+    <slot />
   </main>
   <Footer />
 </Layout>

@@ -41,21 +41,23 @@ const isMdContentEmpty = mdBody.trim().length === 0
 {
   isPageLayout ? (
     <PageLayout title={md.data.title} description={md.data.description}>
-      <div class="max-w-[800px] mx-auto px-4 py-16 space-y-8" data-pagefind-body>
-        <header class="space-y-4">
-          <h1 class="text-4xl font-bold">
-            <Highlight>{md.data.title}</Highlight>
-          </h1>
-          <p>{md.data.description}</p>
-        </header>
-        {md.slug === 'friends' && <FriendList />}
-        {md.slug === 'projects' && <ProjectList />}
-        {!isMdContentEmpty && (
-          <MarkdownWrapper>
-            <Content />
-          </MarkdownWrapper>
-        )}
-        {md.data.comments && <Comments />}
+      <div class="swup-transition-fade">
+        <div class="max-w-[800px] mx-auto px-4 py-16 space-y-8" data-pagefind-body>
+          <header class="space-y-4">
+            <h1 class="text-4xl font-bold">
+              <Highlight>{md.data.title}</Highlight>
+            </h1>
+            <p>{md.data.description}</p>
+          </header>
+          {md.slug === 'friends' && <FriendList />}
+          {md.slug === 'projects' && <ProjectList />}
+          {!isMdContentEmpty && (
+            <MarkdownWrapper>
+              <Content />
+            </MarkdownWrapper>
+          )}
+          {md.data.comments && <Comments />}
+        </div>
       </div>
     </PageLayout>
   ) : (
@@ -66,16 +68,12 @@ const isMdContentEmpty = mdBody.trim().length === 0
       mdDescription={md.data.description}
       mdSlug={md.slug}
     >
-      <div
-        class={
-          isAboutPage
-            ? 'w-full max-w-full lg:max-w-[800px] mx-auto px-4 py-16 space-y-10'
-            : 'w-full max-w-full lg:max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px] gap-8 px-4 md:px-8 py-16'
-        }
-        data-pagefind-body
-      >
-        {isAboutPage ? (
-          <>
+      {isAboutPage ? (
+        <div class="swup-transition-fade">
+          <div
+            class="w-full max-w-full lg:max-w-[800px] mx-auto px-4 py-16 space-y-10"
+            data-pagefind-body
+          >
             <header class="space-y-4 text-left">
               <h1 class="text-4xl font-bold">
                 <Highlight>{md.data.title}</Highlight>
@@ -87,22 +85,39 @@ const isMdContentEmpty = mdBody.trim().length === 0
                 <Content />
               </MarkdownWrapper>
             </div>
-          </>
-        ) : (
-          <>
-            <div>
+          </div>
+          {md.data.comments && (
+            <div class="w-full max-w-full lg:max-w-[800px] mx-auto px-4 pb-16">
+              <Comments />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div class="w-full max-w-full lg:max-w-[1100px] mx-auto px-4 md:px-8 py-16">
+          <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px] gap-8">
+            <!-- Main content with swup transition -->
+            <div class="swup-transition-fade" data-pagefind-body>
               <header class="space-y-4">
                 <h1 class="text-4xl font-bold">
                   <Highlight>{md.data.title}</Highlight>
                 </h1>
                 <p>{md.data.description}</p>
               </header>
+
+              <div class="mt-8">
+                <MarkdownWrapper>
+                  <Content />
+                </MarkdownWrapper>
+              </div>
+
+              {md.data.comments && (
+                <div class="mt-12">
+                  <Comments />
+                </div>
+              )}
             </div>
-            <div class="col-start-1 min-w-0">
-              <MarkdownWrapper>
-                <Content />
-              </MarkdownWrapper>
-            </div>
+
+            <!-- Sticky sidebar - outside swup transition -->
             <div class="hidden lg:block" data-pagefind-ignore>
               <aside class="sticky top-20">
                 <SectionBlock title="目录">
@@ -112,18 +127,7 @@ const isMdContentEmpty = mdBody.trim().length === 0
                 </SectionBlock>
               </aside>
             </div>
-          </>
-        )}
-      </div>
-      {md.data.comments && (
-        <div
-          class={
-            isAboutPage
-              ? 'w-full max-w-full lg:max-w-[800px] mx-auto px-4 pb-16'
-              : 'w-full max-w-full lg:max-w-[1100px] mx-auto px-4 md:px-8 pb-16'
-          }
-        >
-          <Comments />
+          </div>
         </div>
       )}
     </MarkdownLayout>
