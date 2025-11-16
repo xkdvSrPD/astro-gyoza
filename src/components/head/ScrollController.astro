@@ -106,7 +106,7 @@
 
   /**
    * Handle anchor link clicks
-   * Prevents default behavior and implements custom smooth scroll
+   * Prevents default behavior and implements custom smooth scroll with header offset
    */
   function handleAnchorClick(event: Event): void {
     const anchor = (event.target as Element)?.closest('a')
@@ -115,12 +115,28 @@
     const href = anchor.getAttribute('href')
     if (!href || !href.startsWith('#')) return
 
-    event.preventDefault()
+    const target = getTargetFromHash(href)
+    if (!target) return
 
-    if (navigateToAnchor(href, true)) {
-      // Update URL hash without jumping
-      history.pushState(null, '', href)
-    }
+    // Prevent default behavior and stop event propagation
+    event.preventDefault()
+    event.stopPropagation()
+    event.stopImmediatePropagation()
+
+    // Immediately scroll to current position to cancel any browser default scroll
+    // This prevents the browser from jumping to the anchor
+    const currentScroll = window.scrollY
+    window.scrollTo(0, currentScroll)
+
+    // Then perform our custom smooth scroll with offset
+    requestAnimationFrame(() => {
+      scrollToTarget(target, true)
+
+      // Update URL after scrolling starts
+      setTimeout(() => {
+        window.history.replaceState(null, '', href)
+      }, 50)
+    })
   }
 
   /**
@@ -172,8 +188,8 @@
     // Update offset on resize
     window.addEventListener('resize', updateHeaderOffset, { passive: true })
 
-    // Handle anchor clicks
-    document.addEventListener('click', handleAnchorClick)
+    // Handle anchor clicks - use capture phase to intercept before other handlers
+    document.addEventListener('click', handleAnchorClick, { capture: true })
 
     // Handle swup route changes
     document.addEventListener('swup:content:replace', () => {
