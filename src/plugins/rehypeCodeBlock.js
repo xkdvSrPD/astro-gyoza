@@ -19,7 +19,7 @@ export function rehypeCodeBlock() {
         lang = classes[0].slice(9)
       }
 
-      const codeBlock = h('div', { class: 'code-block' }, [
+      parent.children[index] = h('div', { class: 'code-block' }, [
         h(
           'button',
           {
@@ -37,8 +37,6 @@ export function rehypeCodeBlock() {
         ),
         node,
       ])
-
-      parent.children[index] = codeBlock
     })
   }
 }
