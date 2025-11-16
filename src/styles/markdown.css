@@ -99,7 +99,6 @@
   background: transparent;
   backdrop-filter: none;
   color: rgb(var(--color-text-secondary) / 0.7);
-  gap: 0.3rem;
   transition:
     background 0.25s ease,
     border-color 0.25s ease,
@@ -137,52 +136,16 @@
   transform: scale(0.98);
 }
 
-.markdown .copy-code-btn__icon {
-  position: relative;
-  width: 0.75rem;
-  height: 0.75rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.markdown .code-block:hover .copy-code-btn__icon {
-  opacity: 1;
-}
-
-.markdown .copy-code-btn__icon::before,
-.markdown .copy-code-btn__icon::after {
-  content: '';
-  position: absolute;
-  width: 0.625rem;
-  height: 0.625rem;
-  border-radius: 0.0625rem;
-  border: 1.5px solid currentColor;
-  transition:
-    opacity 0.2s ease,
-    background 0.2s ease;
-}
-
-.markdown .copy-code-btn__icon::before {
-  background: transparent;
-  opacity: 1;
-}
-
-.markdown .copy-code-btn__icon::after {
-  background: transparent;
-  opacity: 0;
-}
-
 .markdown .copy-code-btn__text {
   letter-spacing: 0.05em;
   font-size: 0.625rem;
   line-height: 1;
 }
 
-.markdown .copy-code-btn.copy-code-btn--copied {
+/* Copied state - must come after hover states to override */
+.markdown .copy-code-btn.copy-code-btn--copied,
+.markdown .copy-code-btn.copy-code-btn--copied:hover,
+.markdown .code-block:hover .copy-code-btn.copy-code-btn--copied {
   background: linear-gradient(
     135deg,
     rgb(var(--color-accent) / 0.15),
@@ -192,19 +155,6 @@
   color: rgb(var(--color-accent));
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 16px rgb(var(--color-accent) / 0.25);
-}
-
-.markdown .copy-code-btn.copy-code-btn--copied .copy-code-btn__icon {
-  opacity: 1;
-}
-
-.markdown .copy-code-btn.copy-code-btn--copied .copy-code-btn__icon::before {
-  opacity: 0;
-}
-
-.markdown .copy-code-btn.copy-code-btn--copied .copy-code-btn__icon::after {
-  background: currentColor;
-  opacity: 1;
 }
 
 .markdown pre {

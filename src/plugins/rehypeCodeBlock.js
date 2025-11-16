@@ -25,12 +25,10 @@ export function rehypeCodeBlock() {
           {
             class: 'copy-code-btn',
             'data-lang': lang,
-            'data-label': '复制',
             title: `复制 ${lang} 代码`,
             type: 'button',
           },
           [
-            h('span', { class: 'copy-code-btn__icon', 'aria-hidden': 'true' }),
             h('span', { class: 'copy-code-btn__text' }, lang.toUpperCase()),
             h('span', { class: 'sr-only' }, '复制代码'),
           ],
