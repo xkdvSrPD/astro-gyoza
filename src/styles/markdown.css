@@ -89,44 +89,72 @@
 }
 
 .markdown .copy-code-btn {
-  @apply absolute inline-flex items-center text-xs font-semibold uppercase;
-  top: 0.85rem;
-  right: 0.8rem;
-  padding: 0.25rem 0.9rem;
-  border-radius: 999px;
-  border: 1px solid rgb(var(--color-border-primary) / 0.4);
-  background-color: rgb(var(--color-bg-root) / 0.15);
-  color: rgb(var(--color-text-primary) / 0.65);
-  opacity: 0.1;
-  gap: 0.45rem;
+  @apply absolute inline-flex items-center justify-center text-xs font-semibold uppercase;
+  top: 0.75rem;
+  right: 0.75rem;
+  min-width: 4.5rem;
+  height: 2rem;
+  padding: 0 0.875rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(var(--color-border-primary) / 0.3);
+  background: linear-gradient(
+    135deg,
+    rgb(var(--color-bg-secondary) / 0.6),
+    rgb(var(--color-bg-primary) / 0.4)
+  );
+  backdrop-filter: blur(8px);
+  color: rgb(var(--color-text-secondary));
+  opacity: 0;
+  gap: 0.5rem;
   transition:
     opacity 0.2s ease,
-    background-color 0.25s ease,
+    background 0.25s ease,
     border-color 0.25s ease,
-    color 0.25s ease;
+    color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgb(var(--color-bg-root) / 0.15);
 }
 
 .markdown .code-block:hover .copy-code-btn,
 .markdown .code-block:focus-within .copy-code-btn {
-  opacity: 0.85;
+  opacity: 1;
+}
+
+.markdown .copy-code-btn:hover {
+  background: linear-gradient(
+    135deg,
+    rgb(var(--color-bg-secondary) / 0.8),
+    rgb(var(--color-bg-primary) / 0.6)
+  );
+  border-color: rgb(var(--color-border-primary) / 0.5);
+  color: rgb(var(--color-text-primary));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgb(var(--color-bg-root) / 0.25);
+}
+
+.markdown .copy-code-btn:active {
+  transform: translateY(0);
 }
 
 .markdown .copy-code-btn__icon {
   position: relative;
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 1rem;
+  height: 1rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .markdown .copy-code-btn__icon::before,
 .markdown .copy-code-btn__icon::after {
   content: '';
   position: absolute;
-  width: 0.85rem;
-  height: 0.85rem;
-  border-radius: 0.18rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 0.15rem;
   border: 1.5px solid currentColor;
   transition:
     opacity 0.2s ease,
@@ -135,32 +163,45 @@
 
 .markdown .copy-code-btn__icon::before {
   background: transparent;
-  opacity: 0.8;
+  opacity: 1;
+  transform: translate(-1.5px, -1.5px);
 }
 
 .markdown .copy-code-btn__icon::after {
-  background: currentColor;
-  opacity: 0;
+  background: transparent;
+  opacity: 1;
+  transform: translate(1.5px, 1.5px);
 }
 
 .markdown .copy-code-btn__text {
-  letter-spacing: 0.15em;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .markdown .copy-code-btn.copy-code-btn--copied {
-  background-color: rgb(var(--color-accent) / 0.2);
-  border-color: rgb(var(--color-accent) / 0.85);
+  background: linear-gradient(
+    135deg,
+    rgb(var(--color-accent) / 0.15),
+    rgb(var(--color-accent) / 0.08)
+  );
+  border-color: rgb(var(--color-accent) / 0.6);
   color: rgb(var(--color-accent));
   opacity: 1;
+  box-shadow: 0 4px 16px rgb(var(--color-accent) / 0.25);
 }
 
 .markdown .copy-code-btn.copy-code-btn--copied .copy-code-btn__icon::before {
   opacity: 0;
-  transform: scale(0.9);
+  transform: translate(-1.5px, -1.5px) scale(0.8);
 }
 
 .markdown .copy-code-btn.copy-code-btn--copied .copy-code-btn__icon::after {
-  opacity: 0.85;
+  background: currentColor;
+  opacity: 1;
+  transform: translate(1.5px, 1.5px) scale(1);
 }
 
 .markdown pre {

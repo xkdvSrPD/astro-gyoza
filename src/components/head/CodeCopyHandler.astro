@@ -1,65 +1,111 @@
-<!-- 代码复制功能处理器 -->
+<!-- Code Copy Handler - Manages code block copy functionality -->
 <script>
-  function copyCodeToClipboard(code: string, target: HTMLElement) {
+  /**
+   * Copy code to clipboard and trigger visual feedback
+   */
+  function copyCodeToClipboard(code: string, button: HTMLElement): void {
     navigator.clipboard
       .writeText(code)
-      .then(() => triggerButtonFeedback(target))
+      .then(() => {
+        triggerSuccessFeedback(button)
+      })
       .catch(() => {
-        showToast(`复制失败！`)
+        showToast('复制失败！')
       })
   }
 
-  function triggerButtonFeedback(button: HTMLElement) {
+  /**
+   * Trigger visual feedback when copy succeeds
+   */
+  function triggerSuccessFeedback(button: HTMLElement): void {
+    // Add copied state class
     button.classList.add('copy-code-btn--copied')
 
-    const baseShadow = 'rgb(var(--color-accent) / 0.4)'
-    const intenseShadow = 'rgb(var(--color-accent) / 0.5)'
+    // Define animation shadow colors
+    const baseShadow = 'rgb(var(--color-accent) / 0.25)'
+    const intenseShadow = 'rgb(var(--color-accent) / 0.4)'
 
+    // Animate button with scale and shadow
     button.animate(
       [
-        { transform: 'scale(1)', boxShadow: `0 7px 18px ${baseShadow}` },
-        { transform: 'scale(1.12)', boxShadow: `0 18px 36px ${intenseShadow}` },
-        { transform: 'scale(1)', boxShadow: `0 7px 18px ${baseShadow}` },
+        {
+          transform: 'scale(1) translateY(-1px)',
+          boxShadow: `0 4px 12px ${baseShadow}`,
+        },
+        {
+          transform: 'scale(1.08) translateY(-2px)',
+          boxShadow: `0 8px 24px ${intenseShadow}`,
+        },
+        {
+          transform: 'scale(1) translateY(-1px)',
+          boxShadow: `0 4px 16px ${baseShadow}`,
+        },
       ],
-      { duration: 450, easing: 'ease-out' },
+      {
+        duration: 400,
+        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+      },
     )
 
+    // Remove copied state after delay
     setTimeout(() => {
       button.classList.remove('copy-code-btn--copied')
-    }, 1600)
+    }, 1800)
   }
 
-  function showToast(message: string) {
-    // 通过全局事件触发toast
+  /**
+   * Show error toast notification
+   */
+  function showToast(message: string): void {
     const event = new CustomEvent('code-copy-fail', {
       detail: { message },
     })
     window.dispatchEvent(event)
   }
 
-  function getCopyButton(target?: EventTarget | null) {
+  /**
+   * Get the copy button element from event target
+   */
+  function getCopyButton(target?: EventTarget | null): HTMLElement | null {
     if (!(target instanceof HTMLElement)) return null
     if (target.classList.contains('copy-code-btn')) return target
     return target.closest('.copy-code-btn')
   }
 
-  function handleCopyClick(event: Event) {
+  /**
+   * Handle copy button click events
+   */
+  function handleCopyClick(event: Event): void {
     const button = getCopyButton(event.target)
     if (!button) return
 
     event.preventDefault()
 
+    // Find the code block and code element
     const codeBlock = button.closest('.code-block')
     const codeElement = codeBlock?.querySelector('pre code')
     if (!codeElement) return
 
+    // Extract and copy code text
     const code = codeElement.textContent || ''
-    copyCodeToClipboard(code, button as HTMLElement)
+    copyCodeToClipboard(code, button)
   }
 
-  document.addEventListener('click', handleCopyClick)
-
-  document.addEventListener('swup:content:replace', () => {
+  /**
+   * Initialize event listeners
+   */
+  function initialize(): void {
     document.addEventListener('click', handleCopyClick)
-  })
+  }
+
+  /**
+   * Re-initialize on swup navigation
+   */
+  function reinitializeOnNavigation(): void {
+    document.addEventListener('swup:content:replace', initialize)
+  }
+
+  // Start initialization
+  initialize()
+  reinitializeOnNavigation()
 </script>
