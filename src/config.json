@@ -15,8 +15,8 @@
   },
   "hero": {
     "name": "violet",
-    "bio": "Only the paranoid survive",
-    "description": "We're not exactly in a position to be trusted with secrets, are we?",
+    "bio": "We're not exactly in a position to be trusted with secrets, are we?",
+    "description": "Only the paranoid survive.",
     "socials": [
       {
         "name": "Github",
@@ -27,7 +27,7 @@
       {
         "name": "Email",
         "icon": "icon-mail",
-        "url": "mailto:hi@vio.vin",
+        "url": "pgp.fountain964@aleeas.com",
         "color": "rgb(212, 70, 56)"
       }
     ],
