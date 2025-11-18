@@ -12,6 +12,7 @@ import ProjectList from '@/components/ProjectList.astro'
 import { ReadingProgress } from '@/components/post/ReadingProgress'
 import { PostToc } from '@/components/post/PostToc'
 import { Comments } from '@/components/comment'
+import { generateSpecOgImage } from '@/utils/ogImage'
 
 export const getStaticPaths = (async () => {
   const specList = await getCollection('spec')
@@ -36,11 +37,14 @@ const isPageLayout = ['friends', 'projects'].includes(md.slug)
 const isAboutPage = md.slug === 'about'
 const mdBody = md.body ?? ''
 const isMdContentEmpty = mdBody.trim().length === 0
+
+// Generate OG image at build time
+const ogImage = await generateSpecOgImage(md)
 ---
 
 {
   isPageLayout ? (
-    <PageLayout title={md.data.title} description={md.data.description}>
+    <PageLayout title={md.data.title} description={md.data.description} image={ogImage}>
       <div class="swup-transition-fade">
         <div class="max-w-[800px] mx-auto px-4 py-16 space-y-8" data-pagefind-body>
           <header class="space-y-4">
@@ -64,6 +68,7 @@ const isMdContentEmpty = mdBody.trim().length === 0
     <MarkdownLayout
       title={md.data.title}
       description={md.data.description}
+      image={ogImage}
       mdTitle={md.data.title}
       mdDescription={md.data.description}
       mdSlug={md.slug}

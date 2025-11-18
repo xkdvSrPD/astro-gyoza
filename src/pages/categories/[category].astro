@@ -4,6 +4,7 @@ import PageLayout from '@/layouts/PageLayout.astro'
 import { getAllCategories, getOldestPosts, slugify } from '@/utils/content'
 import Highlight from '@/components/Highlight.astro'
 import Timeline from '@/components/Timeline.astro'
+import { generatePageOgImage } from '@/utils/ogImage'
 
 export const getStaticPaths = (async () => {
   const allCategories = await getAllCategories()
@@ -31,9 +32,15 @@ const { category } = Astro.props
 const oldestPosts = await getOldestPosts().then((posts) => {
   return posts.filter((post) => post.data.category && slugify(post.data.category) === category.slug)
 })
+
+const ogImage = await generatePageOgImage(
+  `category-${category.slug}`,
+  `分类 · ${category.name}`,
+  `共有 ${category.count} 篇文章`
+)
 ---
 
-<PageLayout title={`分类 · ${category.name}`}>
+<PageLayout title={`分类 · ${category.name}`} image={ogImage}>
   <div class="max-w-[800px] mx-auto px-4 py-16">
     <header class="space-y-4 mb-8">
       <h1 class="text-4xl font-bold">

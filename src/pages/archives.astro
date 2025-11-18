@@ -4,11 +4,13 @@ import Highlight from '@/components/Highlight.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getOldestPosts } from '@/utils/content'
 import { TimelineProgress } from '@/components/TimelineProgress'
+import { generatePageOgImage } from '@/utils/ogImage'
 
 const oldestPosts = await getOldestPosts()
+const ogImage = await generatePageOgImage('archives', '归档', `共产出 ${oldestPosts.length} 篇文章，再接再厉。`)
 ---
 
-<PageLayout title="归档">
+<PageLayout title="归档" image={ogImage}>
   <div class="max-w-[800px] mx-auto px-4 py-16">
     <header class="space-y-4 mb-8">
       <h1 class="text-4xl font-bold">

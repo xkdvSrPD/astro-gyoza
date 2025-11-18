@@ -3,11 +3,13 @@ import TagList from '@/components/TagList.astro'
 import Highlight from '@/components/Highlight.astro'
 import { getAllTags } from '@/utils/content'
 import PageLayout from '@/layouts/PageLayout.astro'
+import { generatePageOgImage } from '@/utils/ogImage'
 
 const allTags = await getAllTags()
+const ogImage = await generatePageOgImage('tags', '标签云', `共有 ${allTags.length} 个标签`)
 ---
 
-<PageLayout title="标签">
+<PageLayout title="标签" image={ogImage}>
   <div class="max-w-[800px] mx-auto px-4 py-16">
     <header class="space-y-4 mb-8">
       <h1 class="text-4xl font-bold">

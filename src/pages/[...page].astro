@@ -10,6 +10,7 @@ import TagList from '@/components/TagList.astro'
 import CategoryList from '@/components/CategoryList.astro'
 import type { CollectionEntry } from 'astro:content'
 import Hero from '@/components/hero/Hero.astro'
+import { generatePageOgImage } from '@/utils/ogImage'
 
 export const getStaticPaths = (async () => {
   const sortedPosts = await getSortedPosts()
@@ -44,9 +45,15 @@ const getPageUrl = (page: number) => {
   if (page === 1) return '/'
   return `/page/${page}`
 }
+
+const ogImage = await generatePageOgImage(
+  currentPage === 1 ? 'home' : `page-${currentPage}`,
+  appConfig.site.title,
+  appConfig.site.description
+)
 ---
 
-<PageLayout>
+<PageLayout image={ogImage}>
   <div>
     {currentPage === 1 && <Hero />}
     <div class="max-w-[1100px] px-4 md:px-8 py-20 mx-auto grid lg:grid-cols-[minmax(0,1fr)_300px] gap-10">
