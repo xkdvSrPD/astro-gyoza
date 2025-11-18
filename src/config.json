@@ -27,7 +27,7 @@
       {
         "name": "Email",
         "icon": "icon-mail",
-        "url": "pgp.fountain964@aleeas.com",
+        "url": "mailto:pgp.fountain964@aleeas.com",
         "color": "rgb(212, 70, 56)"
       }
     ],
