@@ -259,7 +259,7 @@ export async function generateOgImage(
     .toBuffer()
 
   // Ensure directory exists
-  const outputDir = join(process.cwd(), 'public/og')
+  const outputDir = join(process.cwd(), 'dist/og')
   if (!existsSync(outputDir)) {
     mkdirSync(outputDir, { recursive: true })
   }
