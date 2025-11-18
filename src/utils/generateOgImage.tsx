@@ -15,12 +15,10 @@ interface OgImageOptions {
 }
 
 // Load fonts
-const atkinsonRegularFont = readFileSync(
-  join(process.cwd(), 'public/fonts/atkinson-regular.woff')
+const notoSansRegularFont = readFileSync(
+  join(process.cwd(), 'public/fonts/noto-sans-sc-400.woff')
 )
-const atkinsonBoldFont = readFileSync(
-  join(process.cwd(), 'public/fonts/atkinson-bold.woff')
-)
+const notoSansBoldFont = readFileSync(join(process.cwd(), 'public/fonts/noto-sans-sc-700.woff'))
 
 export async function generateOgImage(
   slug: string,
@@ -114,6 +112,7 @@ export async function generateOgImage(
                   fontSize: 28,
                   color: accentColor,
                   fontWeight: 600,
+                  fontFamily: 'Noto Sans SC',
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase',
                 }}
@@ -129,6 +128,7 @@ export async function generateOgImage(
               fontSize: title.length > 50 ? 56 : 72,
               color: textPrimary,
               fontWeight: 700,
+              fontFamily: 'Noto Sans SC',
               lineHeight: 1.1,
               maxWidth: '90%',
               display: '-webkit-box',
@@ -146,6 +146,7 @@ export async function generateOgImage(
               style={{
                 fontSize: 32,
                 color: textSecondary,
+                fontFamily: 'Noto Sans SC',
                 lineHeight: 1.5,
                 maxWidth: '85%',
                 marginTop: 20,
@@ -182,6 +183,7 @@ export async function generateOgImage(
                 fontSize: 36,
                 color: textPrimary,
                 fontWeight: 700,
+                fontFamily: 'Noto Sans SC',
               }}
             >
               {config.site.title}
@@ -190,6 +192,7 @@ export async function generateOgImage(
               style={{
                 fontSize: 24,
                 color: textSecondary,
+                fontFamily: 'Noto Sans SC',
               }}
             >
               {config.site.url.replace(/^https?:\/\//, '')}
@@ -202,6 +205,7 @@ export async function generateOgImage(
               style={{
                 fontSize: 24,
                 color: textSecondary,
+                fontFamily: 'Noto Sans SC',
               }}
             >
               {new Date(date).toLocaleDateString('zh-CN', {
@@ -219,14 +223,14 @@ export async function generateOgImage(
       height: 630,
       fonts: [
         {
-          name: 'Atkinson',
-          data: atkinsonRegularFont,
+          name: 'Noto Sans SC',
+          data: notoSansRegularFont,
           weight: 400,
           style: 'normal',
         },
         {
-          name: 'Atkinson',
-          data: atkinsonBoldFont,
+          name: 'Noto Sans SC',
+          data: notoSansBoldFont,
           weight: 700,
           style: 'normal',
         },
