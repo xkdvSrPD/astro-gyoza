@@ -1,9 +1,9 @@
 .swup-transition-fade {
   opacity: 1;
   transition:
-    opacity 0.28s ease,
-    transform 0.28s ease,
-    filter 0.28s ease;
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    filter 0.2s ease;
   will-change: opacity, transform, filter;
 }
 

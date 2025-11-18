@@ -19,7 +19,12 @@ export function rehypeImage() {
 function buildImage(node) {
   const imgProps = node.properties
 
-  return h('img', { ...imgProps, loading: 'lazy' })
+  return h('img', {
+    ...imgProps,
+    loading: 'lazy',
+    'data-image-loading': 'true',
+    class: 'markdown-image',
+  })
 }
 
 function buildFigure(node) {

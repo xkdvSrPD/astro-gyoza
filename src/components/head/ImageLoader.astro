@@ -1,0 +1,87 @@
+<!-- Image Loader - Handles image loading states and animations -->
+<script>
+  /**
+   * Handle image load event - trigger fade-in animation
+   */
+  function handleImageLoad(img: HTMLImageElement): void {
+    if (img.dataset.imageLoading !== 'true') return
+
+    // Mark as loaded to trigger fade-in animation
+    img.dataset.imageLoaded = 'true'
+    img.removeAttribute('data-image-loading')
+  }
+
+  /**
+   * Handle image error - show error state
+   */
+  function handleImageError(img: HTMLImageElement): void {
+    if (img.dataset.imageLoading !== 'true') return
+
+    // Remove loading state and mark as error
+    img.removeAttribute('data-image-loading')
+    img.dataset.imageError = 'true'
+    img.style.opacity = '1'
+  }
+
+  /**
+   * Setup image loading handlers for all images
+   */
+  function setupImageLoaders(root: ParentNode = document): void {
+    const images = root.querySelectorAll<HTMLImageElement>('img[data-image-loading="true"]')
+
+    images.forEach((img) => {
+      // If image is already loaded (from cache), trigger immediately
+      if (img.complete && img.naturalHeight !== 0) {
+        handleImageLoad(img)
+        return
+      }
+
+      // Setup event listeners for loading images
+      const onLoad = () => {
+        handleImageLoad(img)
+        cleanup()
+      }
+
+      const onError = () => {
+        handleImageError(img)
+        cleanup()
+      }
+
+      const cleanup = () => {
+        img.removeEventListener('load', onLoad)
+        img.removeEventListener('error', onError)
+      }
+
+      img.addEventListener('load', onLoad, { once: true })
+      img.addEventListener('error', onError, { once: true })
+    })
+  }
+
+  /**
+   * Initialize image loaders
+   */
+  function initialize(): void {
+    setupImageLoaders()
+  }
+
+  /**
+   * Re-initialize on swup navigation
+   */
+  function reinitializeOnNavigation(): void {
+    document.addEventListener('swup:content:replace', () => {
+      // Use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        setupImageLoaders()
+      })
+    })
+  }
+
+  // Start initialization
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize, { once: true })
+  } else {
+    initialize()
+  }
+
+  reinitializeOnNavigation()
+</script>

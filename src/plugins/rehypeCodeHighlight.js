@@ -8,5 +8,7 @@ export const rehypeCodeHighlight = [
       dark: 'github-dark',
     },
     defaultColor: false,
+    defaultLanguage: 'text',
+    fallbackLanguage: 'text',
   },
 ]

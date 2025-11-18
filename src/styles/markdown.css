@@ -238,6 +238,88 @@
 
 .markdown img {
   @apply rounded-lg bg-secondary min-h-[80px] min-w-[80px];
+  position: relative;
+}
+
+/* Image loading states */
+.markdown img[data-image-loading='true'] {
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+.markdown img[data-image-loading='true']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--color-bg-secondary) / 0.4) 0%,
+    rgb(var(--color-bg-secondary) / 0.7) 50%,
+    rgb(var(--color-bg-secondary) / 0.4) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.markdown img[data-image-loaded='true'] {
+  opacity: 1;
+  animation: fadeInImage 0.5s ease-out;
+}
+
+/* Image error state */
+.markdown img[data-image-error='true'] {
+  @apply min-h-[200px] flex items-center justify-center;
+  background: rgb(var(--color-bg-secondary) / 0.5);
+  border: 2px dashed rgb(var(--color-border-primary) / 0.4);
+}
+
+.markdown img[data-image-error='true']::before {
+  content: '\e83a';
+  font-family: 'iconfont';
+  font-size: 3rem;
+  color: rgb(var(--color-text-secondary) / 0.4);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.markdown img[data-image-error='true']::after {
+  content: '图片加载失败';
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  color: rgb(var(--color-text-secondary) / 0.5);
+  font-size: 0.875rem;
+  font-family: var(--font-base);
+  white-space: nowrap;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes fadeInImage {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
 }
 
 .markdown figure {
