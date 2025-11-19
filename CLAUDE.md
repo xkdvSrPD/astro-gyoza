@@ -17,6 +17,28 @@ Astro Gyoza is a static blog template built with Astro and React. It features a 
 - `pnpm new-friend` - Interactive CLI to create a new friend link
 - `pnpm new-project` - Interactive CLI to create a new project entry
 
+### Multi-domain Deployment
+
+The site URL can be overridden at build time to support deploying to multiple domains:
+
+```bash
+SITE_URL=https://example.com pnpm build
+```
+
+This overrides the default `site.url` from `src/config.json`. The override affects:
+
+- Sitemap generation
+- RSS feed links
+- Open Graph meta tags
+- Canonical URLs
+- All absolute URLs in generated HTML
+
+The site URL configuration is managed through:
+
+- `astro.config.js` - Reads from `SITE_URL` environment variable
+- `src/config.ts` - Exports merged config with env override support
+- Components can access via `Astro.site` which reflects the configured URL
+
 ## Git Workflow
 
 - Commits use conventional commits format (enforced by commitlint)

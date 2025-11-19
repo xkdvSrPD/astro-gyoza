@@ -13,14 +13,18 @@ import tailwind from '@astrojs/tailwind'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
-import { site } from './src/config.json'
+import configJson from './src/config.json'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import swup from '@swup/astro'
 
+// Support overriding site URL via environment variable for multi-domain deployment
+// Usage: SITE_URL=https://example.com pnpm build
+const siteUrl = process.env.SITE_URL || configJson.site.url
+
 // https://astro.build/config
 export default defineConfig({
-  site: site.url,
+  site: siteUrl,
   integrations: [
     tailwind(),
     react(),

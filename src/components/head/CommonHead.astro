@@ -11,9 +11,10 @@ const { title = site.title, description = site.description, image } = Astro.prop
 
 const titleWithSiteSuffix = title === site.title ? title : `${title} - ${site.title}`
 
-// Build absolute URLs for OG tags
-const canonicalUrl = new URL(Astro.url.pathname, site.url)
-const ogImageUrl = image ? new URL(image, site.url).toString() : new URL(site.appleTouchIcon, site.url).toString()
+// Build absolute URLs for OG tags using Astro.site (supports env override)
+const siteUrl = Astro.site?.toString() || site.url
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl)
+const ogImageUrl = image ? new URL(image, siteUrl).toString() : new URL(site.appleTouchIcon, siteUrl).toString()
 ---
 
 <meta charset="utf-8" />
@@ -57,5 +58,5 @@ const ogImageUrl = image ? new URL(image, site.url).toString() : new URL(site.ap
   rel="alternate"
   type="application/rss+xml"
   title={site.title}
-  href={new URL('/rss.xml', site.url)}
+  href={new URL('/rss.xml', siteUrl)}
 />
