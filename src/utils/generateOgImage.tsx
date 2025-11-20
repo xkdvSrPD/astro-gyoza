@@ -3,7 +3,7 @@ import { Resvg } from '@resvg/resvg-js'
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { join } from 'path'
 import sharp from 'sharp'
-import config from '@/config.json'
+import config from '@/config'
 import type { ReactElement } from 'react'
 
 interface OgImageOptions {
