@@ -58,6 +58,20 @@ export default defineConfig({
         external: ['/pagefind/pagefind.js'],
       },
     },
+    optimizeDeps: {
+      exclude: [
+        '@resvg/resvg-js',
+        '@resvg/resvg-js-linux-x64-gnu',
+        '@resvg/resvg-js-linux-x64-musl',
+      ],
+    },
+    ssr: {
+      external: [
+        '@resvg/resvg-js',
+        '@resvg/resvg-js-linux-x64-gnu',
+        '@resvg/resvg-js-linux-x64-musl',
+      ],
+    },
   },
   output: 'static',
 })
