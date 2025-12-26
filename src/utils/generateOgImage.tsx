@@ -1,5 +1,4 @@
 import satori from 'satori'
-import { Resvg } from '@resvg/resvg-js'
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { join } from 'path'
 import sharp from 'sharp'
@@ -14,6 +13,9 @@ interface OgImageOptions {
   date?: Date
 }
 
+// Skip OG image generation in dev mode to avoid native module issues
+const isDev = import.meta.env.DEV
+
 // Load fonts
 const notoSansRegularFont = readFileSync(
   join(process.cwd(), 'public/fonts/noto-sans-sc-400.woff')
@@ -25,6 +27,17 @@ export async function generateOgImage(
   options: OgImageOptions
 ): Promise<string> {
   const { title, description, type = 'page', category, date } = options
+
+  // Generate filename from slug
+  const filename = `${slug.replace(/\//g, '-')}.png`
+
+  // In dev mode, return placeholder path without generating
+  if (isDev) {
+    return `/og/${filename}`
+  }
+
+  // Dynamic import to avoid loading native module in dev
+  const { Resvg } = await import('@resvg/resvg-js')
 
   // Select accent color (use first one for consistency, or could randomize)
   const accentColor = config.color.accent[0].light
@@ -264,8 +277,6 @@ export async function generateOgImage(
     mkdirSync(outputDir, { recursive: true })
   }
 
-  // Generate filename from slug
-  const filename = `${slug.replace(/\//g, '-')}.png`
   const outputPath = join(outputDir, filename)
 
   // Write file
