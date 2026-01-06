@@ -68,6 +68,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      fooldevs:
+        specifier: ^0.1.1
+        version: 0.1.1
       framer-motion:
         specifier: ^12.23.24
         version: 12.23.24(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -2982,6 +2985,9 @@ packages:
 
   fontkit@2.0.4:
     resolution: {integrity: sha512-syetQadaUEDNdxdugga9CpEYVaQIxOwk7GlwZWWZ19//qW4zE5bknOKeMBDYAASwnpaSHKJITRLMF9m1fp3s6g==}
+
+  fooldevs@0.1.1:
+    resolution: {integrity: sha512-PJHmqrikSW3sbbGfsIq+vCTHz1lj/KQzYHD57ret3ttIq5ikac2rfQXh1iDBBVjoXLOjfNBCHkma78w1gNI6Ww==}
 
   for-each@0.3.5:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
@@ -8661,6 +8667,8 @@ snapshots:
       tiny-inflate: 1.0.3
       unicode-properties: 1.4.1
       unicode-trie: 2.0.0
+
+  fooldevs@0.1.1: {}
 
   for-each@0.3.5:
     dependencies:

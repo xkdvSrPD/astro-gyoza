@@ -88,4 +88,31 @@ const ogImage = await generatePageOgImage(
       </div>
     </div>
   </div>
+  {currentPage === 1 && (
+    <>
+      <script src="/vendor/fooldevs/index.umd.min.js" is:inline></script>
+      <script is:inline>
+        {`
+          (() => {
+            const run = () => {
+              if (!window.fooldevs) {
+                console.warn('fooldevs is not available on window');
+                return;
+              }
+
+              const cleanup = window.fooldevs.enable(window.fooldevs.allModules.react);
+              cleanup();
+              window.fooldevs.enableAll();
+            };
+
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+              run();
+            } else {
+              document.addEventListener('DOMContentLoaded', run, { once: true });
+            }
+          })();
+        `}
+      </script>
+    </>
+  )}
 </PageLayout>
