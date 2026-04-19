@@ -1,0 +1,98 @@
+<script>
+  const PREFETCH_SELECTOR = 'a[href]'
+  const prefetchedUrls = new Set<string>()
+  const preconnectOrigins = new Set<string>()
+
+  function isModifiedEvent(event: MouseEvent | PointerEvent) {
+    return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0
+  }
+
+  function isPrefetchableLink(anchor: HTMLAnchorElement) {
+    const href = anchor.getAttribute('href')
+    if (!href || href.startsWith('#')) return false
+    if (anchor.target && anchor.target !== '_self') return false
+    if (anchor.hasAttribute('download') || anchor.dataset.noSwup !== undefined) return false
+
+    const url = new URL(anchor.href, window.location.href)
+    if (url.origin !== window.location.origin) return false
+    if (url.pathname === window.location.pathname && url.hash) return false
+    if (url.pathname === window.location.pathname && url.search === window.location.search) return false
+    if (/\.(xml|json|txt|pdf|zip|rar|7z|docx?|xlsx?|pptx?)$/i.test(url.pathname)) return false
+
+    return true
+  }
+
+  function warmOrigin(url: URL) {
+    if (preconnectOrigins.has(url.origin)) return
+    const link = document.createElement('link')
+    link.rel = 'preconnect'
+    link.href = url.origin
+    document.head.appendChild(link)
+    preconnectOrigins.add(url.origin)
+  }
+
+  function prefetchUrl(url: URL) {
+    const key = url.pathname + url.search
+    if (prefetchedUrls.has(key)) return
+
+    const link = document.createElement('link')
+    link.rel = 'prefetch'
+    link.href = url.toString()
+    link.as = 'document'
+    document.head.appendChild(link)
+    prefetchedUrls.add(key)
+  }
+
+  function warmLink(anchor: HTMLAnchorElement) {
+    if (!isPrefetchableLink(anchor)) return
+
+    const url = new URL(anchor.href, window.location.href)
+    warmOrigin(url)
+    prefetchUrl(url)
+  }
+
+  function handlePointerEnter(event: PointerEvent) {
+    const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>(PREFETCH_SELECTOR)
+    if (!anchor) return
+    warmLink(anchor)
+  }
+
+  function handleFocusIn(event: FocusEvent) {
+    const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>(PREFETCH_SELECTOR)
+    if (!anchor) return
+    warmLink(anchor)
+  }
+
+  function handlePointerDown(event: PointerEvent) {
+    const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>(PREFETCH_SELECTOR)
+    if (!anchor || isModifiedEvent(event)) return
+    warmLink(anchor)
+  }
+
+  function prefetchVisibleLinks() {
+    const anchors = Array.from(document.querySelectorAll<HTMLAnchorElement>(PREFETCH_SELECTOR)).filter(
+      isPrefetchableLink,
+    )
+
+    const visibleLinks = anchors.slice(0, 12)
+    visibleLinks.forEach((anchor) => warmLink(anchor))
+  }
+
+  function initializeRouteEnhancer() {
+    document.addEventListener('pointerenter', handlePointerEnter, true)
+    document.addEventListener('focusin', handleFocusIn)
+    document.addEventListener('pointerdown', handlePointerDown, true)
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => prefetchVisibleLinks(), { timeout: 1200 })
+    } else {
+      setTimeout(prefetchVisibleLinks, 600)
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeRouteEnhancer, { once: true })
+  } else {
+    initializeRouteEnhancer()
+  }
+</script>

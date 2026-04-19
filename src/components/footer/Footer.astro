@@ -38,16 +38,16 @@ const wordCountStr = (wordCount / 1000).toFixed(1) + 'k'
         <Link href="https://beian.miit.gov.cn/">陕ICP备2021015553号-2</Link>
       </div>
     <div>
-      <RunningDays client:only="react" />
+      <RunningDays client:idle />
       <span class="select-none opacity-50">|</span>
       <span>共嘚嘚了 {wordCountStr} 字</span>
     </div>
     <div>
-      <BuildInfo client:only="react" />
+      <BuildInfo client:idle />
     </div>
   </div>
   <div class="mt-4 flex justify-center">
-    <ThemeSwitch client:only="react" />
+    <ThemeSwitch client:load />
   </div>
 </footer>
 

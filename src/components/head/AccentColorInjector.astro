@@ -12,6 +12,8 @@
   }
 
   function injectColor() {
+    if (document.head.querySelector('style[data-accent-color-style="true"]')) return
+
     const accentColor = pickRandomAccent()
 
     const rootBgColor = {
@@ -20,6 +22,7 @@
     }
 
     const $style = document.createElement('style')
+    $style.dataset.accentColorStyle = 'true'
     $style.textContent = `html {
   --color-accent: ${getRgbVal(chroma(accentColor.light))};
   --color-bg-root: ${getRgbVal(rootBgColor.light)};
@@ -42,6 +45,4 @@
   }
 
   injectColor()
-
-  document.addEventListener('swup:content:replace', injectColor)
 </script>

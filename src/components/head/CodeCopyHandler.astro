@@ -1,9 +1,8 @@
 <!-- Code Copy Handler - Manages code block copy functionality -->
 <script>
-  /**
-   * Copy code to clipboard and trigger visual feedback
-   */
-  function copyCodeToClipboard(code: string, button: HTMLElement): void {
+  let initialized = false
+
+  function copyCodeToClipboard(code: string, button: HTMLElement) {
     navigator.clipboard
       .writeText(code)
       .then(() => {
@@ -14,18 +13,12 @@
       })
   }
 
-  /**
-   * Trigger visual feedback when copy succeeds
-   */
-  function triggerSuccessFeedback(button: HTMLElement): void {
-    // Add copied state class
+  function triggerSuccessFeedback(button: HTMLElement) {
     button.classList.add('copy-code-btn--copied')
 
-    // Define animation shadow colors
     const baseShadow = 'rgb(var(--color-accent) / 0.25)'
     const intenseShadow = 'rgb(var(--color-accent) / 0.4)'
 
-    // Animate button with scale and shadow
     button.animate(
       [
         {
@@ -47,65 +40,43 @@
       },
     )
 
-    // Remove copied state after delay
     setTimeout(() => {
       button.classList.remove('copy-code-btn--copied')
     }, 1800)
   }
 
-  /**
-   * Show error toast notification
-   */
-  function showToast(message: string): void {
+  function showToast(message: string) {
     const event = new CustomEvent('code-copy-fail', {
       detail: { message },
     })
     window.dispatchEvent(event)
   }
 
-  /**
-   * Get the copy button element from event target
-   */
-  function getCopyButton(target?: EventTarget | null): HTMLElement | null {
+  function getCopyButton(target: EventTarget | null): HTMLElement | null {
     if (!(target instanceof HTMLElement)) return null
     if (target.classList.contains('copy-code-btn')) return target
     return target.closest('.copy-code-btn')
   }
 
-  /**
-   * Handle copy button click events
-   */
-  function handleCopyClick(event: Event): void {
+  function handleCopyClick(event: MouseEvent) {
     const button = getCopyButton(event.target)
     if (!button) return
 
     event.preventDefault()
 
-    // Find the code block and code element
     const codeBlock = button.closest('.code-block')
     const codeElement = codeBlock?.querySelector('pre code')
     if (!codeElement) return
 
-    // Extract and copy code text
     const code = codeElement.textContent || ''
     copyCodeToClipboard(code, button)
   }
 
-  /**
-   * Initialize event listeners
-   */
-  function initialize(): void {
+  function initialize() {
+    if (initialized) return
+    initialized = true
     document.addEventListener('click', handleCopyClick)
   }
 
-  /**
-   * Re-initialize on swup navigation
-   */
-  function reinitializeOnNavigation(): void {
-    document.addEventListener('swup:content:replace', initialize)
-  }
-
-  // Start initialization
   initialize()
-  reinitializeOnNavigation()
 </script>

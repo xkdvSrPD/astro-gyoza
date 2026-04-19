@@ -14,9 +14,9 @@ const { title, description, image } = Astro.props
 ---
 
 <Layout title={title} description={description} image={image}>
-  <Provider pathName={Astro.url.pathname} client:only="react" />
+  <Provider pathName={Astro.url.pathname} client:load />
 
-  <Header client:only="react" />
+  <Header client:load />
   <main class="glass-surface relative z-1 pt-16 min-h-main">
     <div class="swup-transition-fade">
       <slot />

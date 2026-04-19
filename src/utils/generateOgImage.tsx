@@ -1,5 +1,5 @@
 import satori from 'satori'
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { join } from 'path'
 import sharp from 'sharp'
 import config from '@/config'
@@ -280,7 +280,12 @@ export async function generateOgImage(
   const outputPath = join(outputDir, filename)
 
   // Write file
-  writeFileSync(outputPath, optimizedBuffer)
+  const outputBytes = new Uint8Array(
+    optimizedBuffer.buffer,
+    optimizedBuffer.byteOffset,
+    optimizedBuffer.byteLength
+  )
+  writeFileSync(outputPath, outputBytes)
 
   // Return the public URL path
   return `/og/${filename}`

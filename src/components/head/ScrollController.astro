@@ -1,31 +1,20 @@
 <!-- Scroll Controller - Handles anchor navigation and page scroll behavior -->
 <script>
-  /**
-   * Constants for header height calculation
-   */
   const HEADER_HEIGHT_DEFAULT = 64
   const EXTRA_SCROLL_GAP = 16
 
-  /**
-   * Global state
-   */
   let currentHeaderOffset = HEADER_HEIGHT_DEFAULT + EXTRA_SCROLL_GAP
+  let initialized = false
+  let isHistoryNavigation = false
 
-  /**
-   * Get CSS header height from custom property
-   */
-  function getCssHeaderHeight(): number {
+  function getCssHeaderHeight() {
     const root = document.documentElement
     const value = getComputedStyle(root).getPropertyValue('--header-height')
     const parsed = parseFloat(value)
     return Number.isFinite(parsed) ? parsed : HEADER_HEIGHT_DEFAULT
   }
 
-  /**
-   * Update header offset based on actual header element dimensions
-   * Sets CSS custom properties for use in scroll-margin-top
-   */
-  function updateHeaderOffset(): void {
+  function updateHeaderOffset() {
     const header = document.querySelector('[data-site-header]')
     const headerHeight =
       header instanceof HTMLElement ? header.getBoundingClientRect().height : getCssHeaderHeight()
@@ -36,17 +25,12 @@
     root.style.setProperty('--header-offset', `${currentHeaderOffset}px`)
   }
 
-  /**
-   * Get target element from hash string
-   * Handles URL encoding and returns null if target not found
-   */
-  function getTargetFromHash(hash: string | null): HTMLElement | null {
+  function getTargetFromHash(hash: string): HTMLElement | null {
     if (!hash) return null
 
     const normalized = hash.startsWith('#') ? hash.slice(1) : hash
     if (!normalized) return null
 
-    // Try to decode URI component, fall back to original if it fails
     let decoded = normalized
     try {
       decoded = decodeURIComponent(normalized)
@@ -54,49 +38,34 @@
       // Ignore decode errors
     }
 
-    // Try decoded version first, then original if different
     return (
       document.getElementById(decoded) ??
       (decoded !== normalized ? document.getElementById(normalized) : null)
     )
   }
 
-  /**
-   * Calculate scroll position for a target element with header offset
-   */
   function calculateScrollPosition(target: HTMLElement): number {
     const targetTop = target.getBoundingClientRect().top + window.scrollY
     const destination = targetTop - currentHeaderOffset
     return Math.max(destination, 0)
   }
 
-  /**
-   * Scroll to a target element with optional smooth behavior
-   */
-  function scrollToTarget(target: HTMLElement, smooth: boolean = true): void {
+  function scrollToTarget(target: HTMLElement, smooth = true) {
     const destination = calculateScrollPosition(target)
-
     window.scrollTo({
       top: destination,
       behavior: smooth ? 'smooth' : 'auto',
     })
   }
 
-  /**
-   * Scroll to top of the page
-   */
-  function scrollToTop(smooth: boolean = false): void {
+  function scrollToTop(smooth = false) {
     window.scrollTo({
       top: 0,
       behavior: smooth ? 'smooth' : 'auto',
     })
   }
 
-  /**
-   * Handle navigation to an anchor
-   * Returns true if anchor was found and scrolled to
-   */
-  function navigateToAnchor(hash: string, smooth: boolean = true): boolean {
+  function navigateToAnchor(hash: string, smooth = true) {
     const target = getTargetFromHash(hash)
     if (!target) return false
 
@@ -104,12 +73,8 @@
     return true
   }
 
-  /**
-   * Handle anchor link clicks
-   * Prevents default behavior and implements custom smooth scroll with header offset
-   */
-  function handleAnchorClick(event: Event): void {
-    const anchor = (event.target as Element)?.closest('a')
+  function handleAnchorClick(event: MouseEvent) {
+    const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>('a')
     if (!anchor) return
 
     const href = anchor.getAttribute('href')
@@ -118,89 +83,60 @@
     const target = getTargetFromHash(href)
     if (!target) return
 
-    // Prevent default behavior and stop event propagation
     event.preventDefault()
     event.stopPropagation()
     event.stopImmediatePropagation()
 
-    // Immediately scroll to current position to cancel any browser default scroll
-    // This prevents the browser from jumping to the anchor
-    const currentScroll = window.scrollY
-    window.scrollTo(0, currentScroll)
-
-    // Then perform our custom smooth scroll with offset
     requestAnimationFrame(() => {
       scrollToTarget(target, true)
-
-      // Update URL after scrolling starts
-      setTimeout(() => {
-        window.history.replaceState(null, '', href)
-      }, 50)
+      window.history.replaceState(window.history.state, '', href)
     })
   }
 
-  /**
-   * Handle hash on initial page load
-   * Scrolls to top first, then smoothly scrolls to anchor after a short delay
-   */
-  function handleInitialHash(): void {
-    const { hash } = window.location
-    if (!hash) return
-
-    // Ensure we start at the top
-    scrollToTop(false)
-
-    // Wait for layout to settle, then smoothly scroll to anchor
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        navigateToAnchor(hash, true)
-      }, 100) // Small delay for smooth transition
-    })
-  }
-
-  /**
-   * Handle route changes (swup navigation)
-   * Scrolls to top and handles hash if present
-   */
-  function handleRouteChange(): void {
+  function handleRouteChange() {
     const { hash } = window.location
 
-    // Always start at the top
-    scrollToTop(false)
-
-    // If there's a hash, scroll to it smoothly after a delay
-    if (hash) {
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          navigateToAnchor(hash, true)
-        }, 100)
-      })
+    if (isHistoryNavigation) {
+      isHistoryNavigation = false
+      if (hash) {
+        requestAnimationFrame(() => navigateToAnchor(hash, false))
+      }
+      return
     }
+
+    if (!hash) {
+      scrollToTop(false)
+      return
+    }
+
+    requestAnimationFrame(() => {
+      navigateToAnchor(hash, false)
+    })
   }
 
-  /**
-   * Initialize scroll handlers and set up event listeners
-   */
-  function initialize(): void {
+  function initialize() {
+    if (initialized) return
+    initialized = true
+
     updateHeaderOffset()
-    handleInitialHash()
 
-    // Update offset on resize
+    window.history.scrollRestoration = 'manual'
     window.addEventListener('resize', updateHeaderOffset, { passive: true })
+    window.addEventListener('popstate', () => {
+      isHistoryNavigation = true
+    })
 
-    // Handle anchor clicks - use capture phase to intercept before other handlers
     document.addEventListener('click', handleAnchorClick, { capture: true })
-
-    // Handle swup route changes
     document.addEventListener('swup:content:replace', () => {
       updateHeaderOffset()
       handleRouteChange()
     })
+
+    if (window.location.hash) {
+      requestAnimationFrame(() => navigateToAnchor(window.location.hash, false))
+    }
   }
 
-  /**
-   * Start initialization when DOM is ready
-   */
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initialize, { once: true })
   } else {
