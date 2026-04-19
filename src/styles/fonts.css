@@ -4,6 +4,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+1E00-1EFF, U+2000-206F;
 }
 
 @font-face {
@@ -12,12 +13,21 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+1E00-1EFF, U+2000-206F;
 }
 
 @font-face {
-  font-family: 'Maple Mono';
-  src: url('/fonts/maple-mono-latin-400-normal.woff2') format('woff2');
+  font-family: 'Noto Sans SC';
+  src: url('/fonts/noto-sans-sc-400.woff') format('woff');
   font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans SC';
+  src: url('/fonts/noto-sans-sc-700.woff') format('woff');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }

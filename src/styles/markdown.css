@@ -1,3 +1,11 @@
+.markdown {
+  font-family: var(--font-base);
+  line-height: 1.9;
+  letter-spacing: 0.015em;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
 .markdown > :first-child {
   @apply mt-0;
 }
@@ -8,6 +16,7 @@
 
 .markdown p {
   @apply mb-5;
+  text-wrap: pretty;
 }
 
 .markdown h1,
@@ -16,9 +25,11 @@
 .markdown h4,
 .markdown h5,
 .markdown h6 {
-  font-family: var(--font-base);
+  font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.25;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
   scroll-margin-top: var(--header-offset);
 }
 
@@ -55,7 +66,8 @@
 }
 
 .markdown blockquote {
-  @apply my-5 pl-4 border-l-2 border-accent/80 text-secondary italic;
+  @apply my-5 pl-4 border-l-2 border-accent/80 text-secondary;
+  line-height: 1.95;
 }
 
 .markdown blockquote::before {
@@ -73,6 +85,8 @@
 .markdown :not(pre) > code {
   font-family: var(--font-mono);
   @apply px-2 py-1 rounded bg-secondary text-sm;
+  border: 1px solid rgb(var(--color-border-primary) / 0.3);
+  line-height: 1.6;
 }
 
 .markdown .code-block {
@@ -159,10 +173,17 @@
 
 .markdown pre {
   font-family: var(--font-mono);
-  @apply px-5 py-4 max-h-[450px] text-sm leading-relaxed overflow-auto w-full;
+  @apply px-5 py-4 max-h-[450px] text-sm overflow-auto w-full;
   background: transparent;
+  line-height: 1.75;
+  tab-size: 2;
   scrollbar-width: thin;
   scrollbar-color: rgb(var(--color-border-primary) / 0.65) transparent;
+}
+
+.markdown pre code,
+.markdown .shiki {
+  font-family: inherit !important;
 }
 
 /* 代码块滚动条样式 */
@@ -230,6 +251,7 @@
 .markdown th,
 .markdown td {
   @apply p-2;
+  line-height: 1.8;
 }
 
 .markdown td {
@@ -328,6 +350,7 @@
 
 .markdown figcaption {
   @apply mt-3 text-secondary text-sm;
+  line-height: 1.8;
 }
 
 .markdown .heading-anchor {
@@ -366,6 +389,7 @@
 .markdown ol,
 .markdown ul {
   @apply my-5 pl-6 space-y-2;
+  line-height: 1.85;
 }
 
 .markdown ul ul,

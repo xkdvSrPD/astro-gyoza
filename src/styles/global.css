@@ -7,8 +7,16 @@
 
 :root {
   text-autospace: normal;
-  --font-base: sans-serif, 'Atkinson', 'Noto Sans SC';
-  --font-mono: 'Maple Mono', monospace, 'Noto Sans SC';
+  --font-base:
+    'Atkinson', 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    'Source Han Sans SC', system-ui, sans-serif;
+  --font-heading:
+    'Atkinson', 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    'Source Han Sans SC', system-ui, sans-serif;
+  --font-mono:
+    'Cascadia Code', 'JetBrains Mono', 'SFMono-Regular', 'IBM Plex Mono', 'Fira Code',
+    'Roboto Mono', 'Source Code Pro', Menlo, Monaco, Consolas, 'Liberation Mono', 'Noto Sans SC',
+    monospace;
   --header-height: 64px;
   --header-offset: calc(var(--header-height) + 16px);
 }
@@ -27,6 +35,10 @@ html {
   color: theme('textColor.primary');
   background-color: theme('backgroundColor.root');
   scroll-padding-top: var(--header-offset);
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html.gray {
@@ -55,6 +67,18 @@ html.gray {
 
 body {
   font-family: var(--font-base);
+  line-height: 1.75;
+  letter-spacing: 0.012em;
+  font-synthesis: none;
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-heading);
+  font-synthesis: none;
+}
+
+:where(p, li, figcaption, blockquote) {
+  text-wrap: pretty;
 }
 
 code,
@@ -62,6 +86,11 @@ pre,
 kbd,
 samp {
   font-family: var(--font-mono);
+  letter-spacing: 0;
+  font-variant-ligatures: none;
+  font-feature-settings:
+    'liga' 0,
+    'calt' 0;
 }
 @media print {
   #site-animated-background-root {
