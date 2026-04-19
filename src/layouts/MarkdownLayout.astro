@@ -1,6 +1,6 @@
 ---
 import Layout from './Layout.astro'
-import { HeadGradient } from '@/components/head-gradient'
+import HeadGradient from '@/components/head-gradient/HeadGradient.astro'
 import Footer from '@/components/footer/Footer.astro'
 import { Header } from '@/components/header/Header'
 import { Provider } from '@/components/provider/Provider'
@@ -29,7 +29,7 @@ const { title, description, image, mdTitle, mdDescription, mdSlug } = Astro.prop
 
   <Header client:only="react" />
   <main class="glass-surface relative z-1 pt-16 min-h-main">
-    <HeadGradient client:idle />
+    <HeadGradient />
     <slot />
   </main>
   <Footer />

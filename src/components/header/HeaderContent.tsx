@@ -1,7 +1,5 @@
-import { useState } from 'react'
 import { menus } from '@/config.json'
 import { clsx } from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
 import {
   usePathName,
   useShouldAccessibleMenuShow,
@@ -24,13 +22,15 @@ function AnimatedMenu() {
   const shouldHeaderMetaShow = useShouldHeaderMetaShow()
 
   return (
-    <AnimatePresence>
-      {!shouldHeaderMetaShow && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <HeaderMenu isBgShow={shouldBgShow} />
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div
+      className={`transition-all duration-150 ${
+        shouldHeaderMetaShow
+          ? 'pointer-events-none translate-y-1 opacity-0'
+          : 'translate-y-0 opacity-100'
+      }`}
+    >
+      <HeaderMenu isBgShow={shouldBgShow} />
+    </div>
   )
 }
 
@@ -39,36 +39,19 @@ function AccessibleMenu() {
 
   return (
     <RootPortal>
-      <AnimatePresence>
-        {shouldShow && (
-          <motion.div
-            className="fixed z-10 top-12 inset-x-0 flex justify-center pointer-events-none"
-            initial={{ y: -20 }}
-            animate={{ y: 0 }}
-            exit={{ y: -20, opacity: 0 }}
-          >
-            <HeaderMenu isBgShow />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        className={`fixed z-10 top-12 inset-x-0 flex justify-center transition-all duration-150 ${
+          shouldShow ? 'opacity-100 translate-y-0' : 'pointer-events-none opacity-0 -translate-y-2'
+        }`}
+      >
+        <HeaderMenu isBgShow />
+      </div>
     </RootPortal>
   )
 }
 
 function HeaderMenu({ isBgShow }: { isBgShow: boolean }) {
   const pathName = usePathName()
-  const [mouseX, setMouseX] = useState(0)
-  const [mouseY, setMouseY] = useState(0)
-  const [radius, setRadius] = useState(0)
-
-  const background = `radial-gradient(${radius}px circle at ${mouseX}px ${mouseY}px, rgb(var(--color-accent) / 0.12) 0%, transparent 65%)`
-
-  const handleMouseMove = ({ clientX, clientY, currentTarget }: React.MouseEvent) => {
-    const bounds = currentTarget.getBoundingClientRect()
-    setMouseX(clientX - bounds.left)
-    setMouseY(clientY - bounds.top)
-    setRadius(Math.sqrt(bounds.width ** 2 + bounds.height ** 2) / 2.5)
-  }
 
   return (
     <nav
@@ -76,13 +59,7 @@ function HeaderMenu({ isBgShow }: { isBgShow: boolean }) {
         'bg-gradient-to-b from-zinc-50/70 to-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10':
           isBgShow,
       })}
-      onMouseMove={handleMouseMove}
     >
-      <div
-        className="absolute -z-1 -inset-px rounded-full opacity-0 group-hover:opacity-100 duration-500"
-        style={{ background }}
-        aria-hidden
-      ></div>
       <div className="text-sm px-4 flex">
         {menus.map((menu) => (
           <HeaderMenuItem
@@ -115,13 +92,7 @@ function HeaderMenuItem({
       href={href}
     >
       <div className="flex space-x-2">
-        {isActive && (
-          <motion.i
-            className={clsx('iconfont', icon)}
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-          ></motion.i>
-        )}
+        {isActive && <i className={clsx('iconfont', icon)}></i>}
         <span>{title}</span>
       </div>
       {isActive && (

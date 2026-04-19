@@ -1,10 +1,6 @@
 .swup-transition-fade {
   opacity: 1;
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease,
-    filter 0.2s ease;
-  will-change: opacity, transform, filter;
+  transition: opacity 0.14s ease-out;
 }
 
 html.is-changing .swup-transition-fade {
@@ -13,6 +9,10 @@ html.is-changing .swup-transition-fade {
 
 html.is-animating .swup-transition-fade {
   opacity: 0;
-  transform: translate3d(0, 8px, 0);
-  filter: blur(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swup-transition-fade {
+    transition: none;
+  }
 }

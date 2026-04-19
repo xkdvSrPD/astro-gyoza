@@ -1,6 +1,6 @@
 ---
 import { hero, author } from '@/config.json'
-import { SocialList } from './SocialList'
+import SocialList from './SocialList.astro'
 import Highlight from '@/components/Highlight.astro'
 ---
 
@@ -13,7 +13,7 @@ import Highlight from '@/components/Highlight.astro'
         Hi there, I'm <Highlight class="font-bold">{hero.name}</Highlight>👋<br />{hero.bio}
       </h1>
       <div class="text-sm text-secondary mt-3 text-center lg:text-left">{hero.description}</div>
-      <SocialList className="mt-[60px]" client:load />
+      <SocialList className="mt-[60px]" />
     </div>
     <div class="mt-20 lg:mt-0">
       <div
@@ -27,7 +27,7 @@ import Highlight from '@/components/Highlight.astro'
       <p class="text-xs text-center text-balance text-secondary">
         {hero.yiyan}
       </p>
-      <div class="mt-7 text-xl animate-bounce">
+      <div class="mt-7 text-xl opacity-60">
         <i class="iconfont icon-down"></i>
       </div>
     </div>

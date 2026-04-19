@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from 'framer-motion'
 import { useShouldHeaderMetaShow, useIsMobile } from './hooks'
 import { site } from '@/config.json'
 
@@ -11,13 +10,15 @@ export function AnimatedLogo() {
   }
 
   return (
-    <AnimatePresence>
-      {!shouldHeaderMetaShow && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <Logo />
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div
+      className={`transition-all duration-150 ${
+        shouldHeaderMetaShow
+          ? 'pointer-events-none translate-y-1 opacity-0'
+          : 'translate-y-0 opacity-100'
+      }`}
+    >
+      <Logo />
+    </div>
   )
 }
 

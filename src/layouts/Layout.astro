@@ -14,7 +14,7 @@ import { BackToTopFAB } from '@/components/BackToTopFAB'
 import { ToastContainer } from '@/components/ToastContainer'
 import { ToastHandler } from '@/components/ToastHandler'
 import { ModalStack } from '@/components/ui/modal'
-import { AnimatedBackground } from '@/components/AnimatedBackground'
+import AnimatedBackground from '@/components/AnimatedBackground.astro'
 import { site } from '@/config.json'
 import '@/styles/global.css'
 
@@ -41,7 +41,7 @@ const { title, description, image } = Astro.props
     <ImageLoader />
   </head>
   <body class="relative min-h-screen">
-    <AnimatedBackground client:only="react" />
+    <AnimatedBackground />
     <div class="relative z-10 flex min-h-screen flex-col">
       <slot />
 

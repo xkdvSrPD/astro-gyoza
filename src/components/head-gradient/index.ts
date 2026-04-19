@@ -1,1 +1,0 @@
-export { HeadGradient } from './HeadGradient'
