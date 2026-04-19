@@ -83,8 +83,13 @@
 }
 
 .markdown :not(pre) > code {
-  font-family: var(--font-mono);
-  @apply px-2 py-1 rounded bg-secondary text-sm;
+  font-family: inherit;
+  font-size: 0.95em;
+  font-weight: 600;
+  letter-spacing: inherit;
+  font-variant-ligatures: normal;
+  font-feature-settings: normal;
+  @apply px-2 py-1 rounded bg-secondary;
   border: 1px solid rgb(var(--color-border-primary) / 0.3);
   line-height: 1.6;
 }
@@ -144,10 +149,6 @@
   border-color: rgb(var(--color-border-primary) / 0.5);
   color: rgb(var(--color-text-primary));
   box-shadow: 0 4px 12px rgb(var(--color-bg-root) / 0.25);
-}
-
-.markdown .copy-code-btn:active {
-  transform: scale(0.98);
 }
 
 .markdown .copy-code-btn__text {
