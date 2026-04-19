@@ -183,8 +183,15 @@
 }
 
 .markdown pre code,
-.markdown .shiki {
-  font-family: inherit !important;
+.markdown .shiki,
+.markdown .shiki code,
+.markdown .shiki span {
+  font-family: var(--font-mono) !important;
+  letter-spacing: 0;
+  font-variant-ligatures: none;
+  font-feature-settings:
+    'liga' 0,
+    'calt' 0;
 }
 
 /* 代码块滚动条样式 */

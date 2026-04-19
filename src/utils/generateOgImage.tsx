@@ -40,7 +40,7 @@ export async function generateOgImage(
   const { Resvg } = await import('@resvg/resvg-js')
 
   // Select accent color (use first one for consistency, or could randomize)
-  const accentColor = config.color.accent[0].light
+  const accentColor = '#A78BFA'
   const bgColor = '#ffffff'
   const textPrimary = '#373a3c'
   const textSecondary = '#71717a'

@@ -1,4 +1,3 @@
-export { default as AccentColorInjector } from './AccentColorInjector.astro'
 export { default as CodeCopyHandler } from './CodeCopyHandler.astro'
 export { default as CommonHead } from './CommonHead.astro'
 export { default as ImageDragGuard } from './ImageDragGuard.astro'

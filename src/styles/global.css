@@ -7,6 +7,7 @@
 
 :root {
   text-autospace: normal;
+  --color-accent: 167 139 250;
   --font-base:
     'Atkinson', 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
     'Source Han Sans SC', system-ui, sans-serif;
