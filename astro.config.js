@@ -31,9 +31,12 @@ export default defineConfig({
     sitemap(),
     swup({
       theme: false,
-      animationClass: 'swup-transition-',
+      animationClass: false,
       containers: ['main'],
-      morph: ['[component-export="Provider"]'],
+      morph: false,
+      preload: false,
+      smoothScrolling: false,
+      reloadScripts: false,
     }),
   ],
   markdown: {

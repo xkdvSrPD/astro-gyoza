@@ -1,7 +1,26 @@
 <script>
+  interface RouteEnhancerState {
+    initialized: boolean
+    prefetchedUrls: Set<string>
+    preconnectOrigins: Set<string>
+  }
+
+  interface RouteEnhancerWindow extends Window {
+    __routeEnhancerState?: RouteEnhancerState
+  }
+
+  const routeEnhancerWindow = window as RouteEnhancerWindow
+  const routeEnhancerState =
+    routeEnhancerWindow.__routeEnhancerState ??
+    (routeEnhancerWindow.__routeEnhancerState = {
+      initialized: false,
+      prefetchedUrls: new Set<string>(),
+      preconnectOrigins: new Set<string>(),
+    })
+
   const PREFETCH_SELECTOR = 'a[href]'
-  const prefetchedUrls = new Set<string>()
-  const preconnectOrigins = new Set<string>()
+  const prefetchedUrls = routeEnhancerState.prefetchedUrls
+  const preconnectOrigins = routeEnhancerState.preconnectOrigins
 
   function isModifiedEvent(event: MouseEvent | PointerEvent) {
     return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0
@@ -79,6 +98,9 @@
   }
 
   function initializeRouteEnhancer() {
+    if (routeEnhancerState.initialized) return
+    routeEnhancerState.initialized = true
+
     document.addEventListener('pointerenter', handlePointerEnter, true)
     document.addEventListener('focusin', handleFocusIn)
     document.addEventListener('pointerdown', handlePointerDown, true)
