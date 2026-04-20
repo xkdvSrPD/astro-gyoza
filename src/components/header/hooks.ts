@@ -1,4 +1,5 @@
 import { useAtomValue } from 'jotai'
+import { useEffect, useState } from 'react'
 import {
   pathNameAtom,
   metaTitleAtom,
@@ -57,6 +58,37 @@ export function useHeaderMetaInfo() {
 
 export function usePathName() {
   return useAtomValue(pathNameAtom)
+}
+
+function normalizePathname(pathname: string) {
+  if (pathname !== '/' && pathname.endsWith('/')) {
+    return pathname.slice(0, -1)
+  }
+  return pathname
+}
+
+export function useCurrentPathname() {
+  const [pathname, setPathname] = useState(() => {
+    if (typeof window === 'undefined') return ''
+    return normalizePathname(window.location.pathname)
+  })
+
+  useEffect(() => {
+    const syncPathname = () => {
+      setPathname(normalizePathname(window.location.pathname))
+    }
+
+    syncPathname()
+    window.addEventListener('popstate', syncPathname)
+    document.addEventListener('swup:content:replace', syncPathname)
+
+    return () => {
+      window.removeEventListener('popstate', syncPathname)
+      document.removeEventListener('swup:content:replace', syncPathname)
+    }
+  }, [])
+
+  return pathname
 }
 
 export function useShouldAccessibleMenuShow() {

@@ -18,6 +18,7 @@ const { title, description, image } = Astro.props
 
   <Header client:load />
   <main class="glass-surface relative z-1 pt-16 min-h-main">
+    <div data-header-meta data-title="" data-description="" data-slug="" hidden aria-hidden="true"></div>
     <div class="swup-transition-fade">
       <slot />
     </div>

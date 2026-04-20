@@ -29,6 +29,14 @@ const { title, description, image, mdTitle, mdDescription, mdSlug } = Astro.prop
 
   <Header client:load />
   <main class="glass-surface relative z-1 pt-16 min-h-main">
+    <div
+      data-header-meta
+      data-title={mdTitle}
+      data-description={mdDescription}
+      data-slug={mdSlug}
+      hidden
+      aria-hidden="true"
+    ></div>
     <HeadGradient />
     <slot />
   </main>

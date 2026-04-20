@@ -1,7 +1,7 @@
 import { menus } from '@/config.json'
 import { clsx } from 'clsx'
 import {
-  usePathName,
+  useCurrentPathname,
   useShouldAccessibleMenuShow,
   useShouldHeaderMenuBgShow,
   useShouldHeaderMetaShow,
@@ -40,8 +40,8 @@ function AccessibleMenu() {
   return (
     <RootPortal>
       <div
-        className={`fixed z-10 top-12 inset-x-0 flex justify-center transition-all duration-150 ${
-          shouldShow ? 'opacity-100 translate-y-0' : 'pointer-events-none opacity-0 -translate-y-2'
+        className={`fixed inset-x-0 top-16 z-10 flex -translate-y-1/2 justify-center transition-all duration-150 ${
+          shouldShow ? 'opacity-100' : 'pointer-events-none -translate-y-[calc(50%+8px)] opacity-0'
         }`}
       >
         <HeaderMenu isBgShow />
@@ -51,7 +51,7 @@ function AccessibleMenu() {
 }
 
 function HeaderMenu({ isBgShow }: { isBgShow: boolean }) {
-  const pathName = usePathName()
+  const pathName = useCurrentPathname()
 
   return (
     <nav
@@ -60,7 +60,7 @@ function HeaderMenu({ isBgShow }: { isBgShow: boolean }) {
           isBgShow,
       })}
     >
-      <div className="text-sm px-4 flex">
+      <div className="flex items-center px-4 text-sm">
         {menus.map((menu) => (
           <HeaderMenuItem
             key={menu.name}
@@ -88,12 +88,15 @@ function HeaderMenuItem({
 }) {
   return (
     <a
-      className={clsx('relative block px-4 py-1.5', isActive ? 'text-accent' : 'hover:text-accent')}
+      className={clsx(
+        'relative flex h-10 items-center px-4 leading-none',
+        isActive ? 'text-accent' : 'hover:text-accent',
+      )}
       href={href}
     >
-      <div className="flex space-x-2">
-        {isActive && <i className={clsx('iconfont', icon)}></i>}
-        <span>{title}</span>
+      <div className="flex h-full items-center space-x-2">
+        {isActive && <i className={clsx('iconfont inline-flex items-center leading-none', icon)}></i>}
+        <span className="leading-none">{title}</span>
       </div>
       {isActive && (
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent"></div>

@@ -1,6 +1,7 @@
 import satori from 'satori'
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { join } from 'path'
+import { createHash } from 'node:crypto'
 import sharp from 'sharp'
 import config from '@/config'
 import type { ReactElement } from 'react'
@@ -28,11 +29,33 @@ export async function generateOgImage(
 ): Promise<string> {
   const { title, description, type = 'page', category, date } = options
 
-  // Generate filename from slug
-  const filename = `${slug.replace(/\//g, '-')}.png`
+  const normalizedSlug = slug.replace(/\//g, '-')
+  const cacheKey = JSON.stringify({
+    slug: normalizedSlug,
+    title,
+    description: description || '',
+    type,
+    category: category || '',
+    date: date ? new Date(date).toISOString() : '',
+    siteTitle: config.site.title,
+    siteUrl: config.site.url,
+    version: 1,
+  })
+  const hash = createHash('sha1').update(cacheKey).digest('hex').slice(0, 10)
+  const filename = `${normalizedSlug}-${hash}.png`
 
   // In dev mode, return placeholder path without generating
   if (isDev) {
+    return `/og/${filename}`
+  }
+
+  const outputDir = join(process.cwd(), 'public/og')
+  if (!existsSync(outputDir)) {
+    mkdirSync(outputDir, { recursive: true })
+  }
+
+  const outputPath = join(outputDir, filename)
+  if (existsSync(outputPath)) {
     return `/og/${filename}`
   }
 
@@ -270,14 +293,6 @@ export async function generateOgImage(
       adaptiveFiltering: true,
     })
     .toBuffer()
-
-  // Ensure directory exists
-  const outputDir = join(process.cwd(), 'dist/og')
-  if (!existsSync(outputDir)) {
-    mkdirSync(outputDir, { recursive: true })
-  }
-
-  const outputPath = join(outputDir, filename)
 
   // Write file
   const outputBytes = new Uint8Array(
