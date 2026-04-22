@@ -34,6 +34,17 @@ export function rehypeCodeBlock() {
           ],
         ),
         node,
+        h(
+          'button',
+          {
+            class: 'toggle-code-btn',
+            type: 'button',
+            'aria-expanded': 'false',
+            'aria-label': '展开代码',
+            title: '展开代码',
+          },
+          [h('span', { class: 'toggle-code-btn__arrow', 'aria-hidden': 'true' }, '⌄')],
+        ),
       ])
     })
   }

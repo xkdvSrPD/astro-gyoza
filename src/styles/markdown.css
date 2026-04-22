@@ -105,6 +105,7 @@
     ),
     radial-gradient(circle at 8% 0%, rgb(var(--color-accent) / 0.18), transparent 55%);
   box-shadow: 0 18px 35px rgb(var(--color-bg-root) / 0.22);
+  padding-bottom: 1.75rem;
 }
 
 .markdown .copy-code-btn {
@@ -180,6 +181,76 @@
   tab-size: 2;
   scrollbar-width: thin;
   scrollbar-color: rgb(var(--color-border-primary) / 0.65) transparent;
+}
+
+.markdown .code-block.code-block--expanded pre {
+  max-height: none;
+  overflow: visible;
+}
+
+.markdown .toggle-code-btn {
+  @apply absolute inline-flex items-center justify-center;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2.8rem;
+  border-radius: 0;
+  border: 0;
+  background: transparent;
+  color: rgb(var(--color-text-secondary) / 0);
+  opacity: 0;
+  transform: none;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease,
+    backdrop-filter 0.2s ease;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.markdown .code-block.code-block--collapsible .toggle-code-btn {
+  pointer-events: auto;
+}
+
+.markdown .code-block.code-block--collapsible:hover .toggle-code-btn {
+  opacity: 1;
+  color: rgb(var(--color-text-secondary) / 0.75);
+  background: linear-gradient(
+    to top,
+    rgb(var(--color-accent) / 0.3) 0%,
+    rgb(var(--color-accent) / 0.2) 30%,
+    rgb(var(--color-accent) / 0.12) 52%,
+    rgb(var(--color-accent) / 0.06) 72%,
+    rgb(var(--color-accent) / 0.025) 86%,
+    transparent 100%
+  );
+  backdrop-filter: blur(6px);
+}
+
+.markdown .toggle-code-btn:hover {
+  color: rgb(var(--color-text-primary));
+  background: linear-gradient(
+    to top,
+    rgb(var(--color-accent) / 0.4) 0%,
+    rgb(var(--color-accent) / 0.28) 30%,
+    rgb(var(--color-accent) / 0.16) 52%,
+    rgb(var(--color-accent) / 0.08) 72%,
+    rgb(var(--color-accent) / 0.035) 86%,
+    transparent 100%
+  );
+  backdrop-filter: blur(8px);
+}
+
+.markdown .toggle-code-btn__arrow {
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.markdown .code-block.code-block--expanded .toggle-code-btn__arrow {
+  transform: rotate(180deg);
 }
 
 .markdown pre code,
