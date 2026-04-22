@@ -89,7 +89,7 @@ function HeaderMenuItem({
   return (
     <a
       className={clsx(
-        'relative flex h-10 items-center px-4 leading-none',
+        'relative flex h-[34px] items-center px-4 leading-none',
         isActive ? 'text-accent' : 'hover:text-accent',
       )}
       href={href}

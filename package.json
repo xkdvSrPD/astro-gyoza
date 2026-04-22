@@ -30,8 +30,8 @@
     "@tsparticles/slim": "^3.9.1",
     "@types/chroma-js": "^3.1.2",
     "@types/lodash-es": "^4.17.12",
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
     "astro": "^5.15.8",
     "chroma-js": "^3.1.2",
     "clsx": "^2.1.1",
@@ -44,15 +44,14 @@
     "mdast-util-to-string": "^4.0.0",
     "pagefind": "^1.4.0",
     "qrcode.react": "^4.2.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-toastify": "^11.0.5",
     "reading-time": "^1.5.0",
     "rehype-katex": "^7.0.1",
     "remark-directive": "^4.0.0",
     "remark-math": "^6.0.0",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.9.3",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
@@ -67,7 +66,8 @@
     "prettier-plugin-astro": "^0.14.1",
     "satori": "^0.18.3",
     "sharp": "^0.34.5",
-    "simple-git-hooks": "^2.13.1"
+    "simple-git-hooks": "^2.13.1",
+    "typescript": "^5.9.3"
   },
   "simple-git-hooks": {
     "commit-msg": "pnpm exec commitlint --edit $1",
@@ -75,5 +75,13 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx.astro,md,css,json}": "prettier --write"
+  },
+  "pnpm": {
+    "overrides": {
+      "react": "18.3.1",
+      "react-dom": "18.3.1",
+      "@types/react": "18.3.28",
+      "@types/react-dom": "18.3.7"
+    }
   }
 }

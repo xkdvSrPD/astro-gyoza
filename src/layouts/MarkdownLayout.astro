@@ -24,7 +24,7 @@ const { title, description, image, mdTitle, mdDescription, mdSlug } = Astro.prop
     title={mdTitle}
     description={mdDescription}
     slug={mdSlug}
-    client:load
+    client:only="react"
   />
 
   <Header client:load />
