@@ -5,7 +5,7 @@
   "scripts": {
     "prepare": "pnpm exec simple-git-hooks",
     "dev": "astro dev",
-    "build": "node scripts/generate-build-info.js && astro check && astro build && pagefind --site dist",
+    "build": "astro check && astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "prettier --write .",

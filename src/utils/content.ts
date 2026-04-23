@@ -1,128 +1,185 @@
-import { getCollection } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
 
-// 获取所有文章
-async function getAllPosts() {
-  const allPosts = await getCollection('posts', ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true
-  })
+type PostEntry = CollectionEntry<'posts'>
 
-  return allPosts
+interface CountedItem {
+  slug: string
+  name: string
+  count: number
 }
 
-// 获取所有文章，发布日期升序
-async function getNewestPosts() {
-  const allPosts = await getAllPosts()
-
-  return allPosts.sort((a, b) => {
-    return a.data.createAt.valueOf() - b.data.createAt.valueOf()
-  })
+interface PostMetrics {
+  words: number
+  readingMinutes: number
 }
 
-// 获取所有文章，发布日期降序
-export async function getOldestPosts() {
-  const allPosts = await getAllPosts()
+interface ContentStats {
+  categories: CountedItem[]
+  tags: CountedItem[]
+  totalWordCount: number
+  metricsById: Map<string, PostMetrics>
+}
 
-  return allPosts.sort((a, b) => {
+let allPostsPromise: Promise<PostEntry[]> | undefined
+let oldestPostsPromise: Promise<PostEntry[]> | undefined
+let sortedPostsPromise: Promise<PostEntry[]> | undefined
+let contentStatsPromise: Promise<ContentStats> | undefined
+
+function clonePosts(posts: PostEntry[]) {
+  return [...posts]
+}
+
+function cloneCountedItems(items: CountedItem[]) {
+  return items.map((item) => ({ ...item }))
+}
+
+async function loadAllPosts() {
+  if (!allPostsPromise) {
+    allPostsPromise = getCollection('posts', ({ data }) => {
+      return import.meta.env.PROD ? data.draft !== true : true
+    })
+  }
+
+  return allPostsPromise
+}
+
+function sortByCreateAtAsc(posts: PostEntry[]) {
+  return clonePosts(posts).sort((a, b) => a.data.createAt.valueOf() - b.data.createAt.valueOf())
+}
+
+function sortByCreateAtDesc(posts: PostEntry[]) {
+  return clonePosts(posts).sort((a, b) => b.data.createAt.valueOf() - a.data.createAt.valueOf())
+}
+
+function sortByStickyAndCreateAtDesc(posts: PostEntry[]) {
+  return clonePosts(posts).sort((a, b) => {
+    if (a.data.sticky !== b.data.sticky) {
+      return b.data.sticky - a.data.sticky
+    }
+
     return b.data.createAt.valueOf() - a.data.createAt.valueOf()
   })
 }
 
-// 获取所有文章，置顶优先，发布日期降序
+function increaseCount(items: CountedItem[], indexBySlug: Map<string, number>, name: string) {
+  const slug = slugify(name)
+  const index = indexBySlug.get(slug)
+
+  if (index === undefined) {
+    indexBySlug.set(slug, items.length)
+    items.push({
+      slug,
+      name,
+      count: 1,
+    })
+    return
+  }
+
+  items[index].count += 1
+}
+
+async function loadContentStats() {
+  if (!contentStatsPromise) {
+    contentStatsPromise = (async () => {
+      const posts = await loadAllPosts()
+      const orderedPosts = sortByCreateAtAsc(posts)
+      const categories: CountedItem[] = []
+      const categoryIndexBySlug = new Map<string, number>()
+      const tags: CountedItem[] = []
+      const tagIndexBySlug = new Map<string, number>()
+
+      const renderedMetrics = await Promise.all(
+        posts.map(async (post) => {
+          const { remarkPluginFrontmatter } = await post.render()
+
+          return [
+            post.id,
+            {
+              words: Number(remarkPluginFrontmatter.words) || 0,
+              readingMinutes: Number(remarkPluginFrontmatter.readingMinutes) || 0,
+            },
+          ] as const
+        }),
+      )
+
+      const metricsById = new Map<string, PostMetrics>()
+      let totalWordCount = 0
+
+      for (const [postId, metrics] of renderedMetrics) {
+        metricsById.set(postId, metrics)
+        totalWordCount += metrics.words
+      }
+
+      for (const post of orderedPosts) {
+        if (post.data.category) {
+          increaseCount(categories, categoryIndexBySlug, post.data.category)
+        }
+
+        for (const tag of post.data.tags) {
+          increaseCount(tags, tagIndexBySlug, tag)
+        }
+      }
+
+      return {
+        categories,
+        tags,
+        totalWordCount,
+        metricsById,
+      }
+    })()
+  }
+
+  return contentStatsPromise
+}
+
+export async function getOldestPosts() {
+  if (!oldestPostsPromise) {
+    oldestPostsPromise = loadAllPosts().then(sortByCreateAtDesc)
+  }
+
+  return clonePosts(await oldestPostsPromise)
+}
+
 export async function getSortedPosts() {
-  const allPosts = await getAllPosts()
+  if (!sortedPostsPromise) {
+    sortedPostsPromise = loadAllPosts().then(sortByStickyAndCreateAtDesc)
+  }
 
-  return allPosts.sort((a, b) => {
-    if (a.data.sticky !== b.data.sticky) {
-      return b.data.sticky - a.data.sticky
-    } else {
-      return b.data.createAt.valueOf() - a.data.createAt.valueOf()
-    }
-  })
+  return clonePosts(await sortedPostsPromise)
 }
 
-// 获取所有文章的字数
 export async function getAllPostsWordCount() {
-  const allPosts = await getAllPosts()
-
-  const promises = allPosts.map((post) => {
-    return post.render()
-  })
-
-  const res = await Promise.all(promises)
-
-  const wordCount = res.reduce((count, cur) => {
-    return count + cur.remarkPluginFrontmatter.words
-  }, 0)
-
-  return wordCount
+  const { totalWordCount } = await loadContentStats()
+  return totalWordCount
 }
 
-// 转换为 URL 安全的 slug，删除点，空格转为短横线，大写转为小写
+export async function getPostMetrics(post: PostEntry) {
+  const { metricsById } = await loadContentStats()
+
+  return (
+    metricsById.get(post.id) ?? {
+      words: 0,
+      readingMinutes: 0,
+    }
+  )
+}
+
 export function slugify(text: string) {
   return text.replace(/\./g, '').replace(/\s/g, '-').toLowerCase()
 }
 
-// 获取所有分类
 export async function getAllCategories() {
-  const newestPosts = await getNewestPosts()
-
-  const allCategories = newestPosts.reduce<{ slug: string; name: string; count: number }[]>(
-    (acc, cur) => {
-      if (cur.data.category) {
-        const slug = slugify(cur.data.category)
-        const index = acc.findIndex((category) => category.slug === slug)
-        if (index === -1) {
-          acc.push({
-            slug,
-            name: cur.data.category,
-            count: 1,
-          })
-        } else {
-          acc[index].count += 1
-        }
-      }
-      return acc
-    },
-    [],
-  )
-
-  return allCategories
+  const { categories } = await loadContentStats()
+  return cloneCountedItems(categories)
 }
 
-// 获取所有标签
 export async function getAllTags() {
-  const newestPosts = await getNewestPosts()
-
-  const allTags = newestPosts.reduce<{ slug: string; name: string; count: number }[]>(
-    (acc, cur) => {
-      cur.data.tags.forEach((tag) => {
-        const slug = slugify(tag)
-        const index = acc.findIndex((tag) => tag.slug === slug)
-        if (index === -1) {
-          acc.push({
-            slug,
-            name: tag,
-            count: 1,
-          })
-        } else {
-          acc[index].count += 1
-        }
-      })
-      return acc
-    },
-    [],
-  )
-
-  return allTags
+  const { tags } = await loadContentStats()
+  return cloneCountedItems(tags)
 }
 
-// 获取热门标签
 export async function getHotTags(len = 5) {
   const allTags = await getAllTags()
 
-  return allTags
-    .sort((a, b) => {
-      return b.count - a.count
-    })
-    .slice(0, len)
+  return allTags.sort((a, b) => b.count - a.count).slice(0, len)
 }

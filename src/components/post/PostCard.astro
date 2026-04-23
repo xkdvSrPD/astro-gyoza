@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 import PostMetaInfo from './PostMetaInfo.astro'
+import { getPostMetrics } from '@/utils/content'
 
 interface Props {
   entry: CollectionEntry<'posts'>
@@ -8,7 +9,7 @@ interface Props {
 
 const { entry } = Astro.props
 
-const { remarkPluginFrontmatter } = await entry.render()
+const metrics = await getPostMetrics(entry)
 ---
 
 <a class="group block relative py-8 focus-visible:outline-0" href={`/posts/${entry.slug}`}>
@@ -43,8 +44,8 @@ const { remarkPluginFrontmatter } = await entry.render()
       class="grow"
       createAt={entry.data.createAt}
       updateAt={entry.data.updateAt}
-      words={remarkPluginFrontmatter.words}
-      readingMinutes={remarkPluginFrontmatter.readingMinutes}
+      words={metrics.words}
+      readingMinutes={metrics.readingMinutes}
     />
     <div class="group shrink-0 text-accent flex items-center gap-2">
       <span>继续阅读</span>

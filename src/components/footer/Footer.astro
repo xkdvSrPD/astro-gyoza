@@ -1,6 +1,6 @@
 ---
 import { ThemeSwitch } from './ThemeSwitch'
-import { BuildInfo } from './BuildInfo'
+import BuildInfo from './BuildInfo.astro'
 import { author, footer } from '@/config.json'
 import { getAllPostsWordCount } from '@/utils/content'
 import { RunningDays } from './RunningDays'
@@ -35,15 +35,15 @@ const wordCountStr = (wordCount / 1000).toFixed(1) + 'k'
       </Link>
     </div>
     <div id="beian-info" style="display: none;">
-        <Link href="https://beian.miit.gov.cn/">陕ICP备2021015553号-2</Link>
-      </div>
+      <Link href="https://beian.miit.gov.cn/">陕ICP备2021015553号-2</Link>
+    </div>
     <div>
       <RunningDays client:idle />
       <span class="select-none opacity-50">|</span>
       <span>共嘚嘚了 {wordCountStr} 字</span>
     </div>
     <div>
-      <BuildInfo client:idle />
+      <BuildInfo />
     </div>
   </div>
   <div class="mt-4 flex justify-center">
@@ -53,9 +53,9 @@ const wordCountStr = (wordCount / 1000).toFixed(1) + 'k'
 
 <script>
   if (typeof window !== 'undefined' && window.location.hostname.includes('vio.vin')) {
-    const beianElement = document.getElementById('beian-info');
+    const beianElement = document.getElementById('beian-info')
     if (beianElement) {
-      beianElement.style.display = 'block';
+      beianElement.style.display = 'block'
     }
   }
 </script>
