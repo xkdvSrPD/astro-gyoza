@@ -287,17 +287,17 @@ function mountGiscus(root: HTMLElement) {
   script.crossOrigin = 'anonymous'
 
   const attributeMap = {
-    repo: root.dataset.repo,
-    repoId: root.dataset.repoId,
-    category: root.dataset.category,
-    categoryId: root.dataset.categoryId,
-    mapping: root.dataset.mapping,
-    strict: root.dataset.strict,
-    reactionsEnabled: root.dataset.reactionsEnabled,
-    emitMetadata: root.dataset.emitMetadata,
-    inputPosition: root.dataset.inputPosition,
-    lang: root.dataset.lang,
-    loading: root.dataset.loading,
+    'data-repo': root.dataset.repo,
+    'data-repo-id': root.dataset.repoId,
+    'data-category': root.dataset.category,
+    'data-category-id': root.dataset.categoryId,
+    'data-mapping': root.dataset.mapping,
+    'data-strict': root.dataset.strict,
+    'data-reactions-enabled': root.dataset.reactionsEnabled,
+    'data-emit-metadata': root.dataset.emitMetadata,
+    'data-input-position': root.dataset.inputPosition,
+    'data-lang': root.dataset.lang,
+    'data-loading': root.dataset.loading,
   }
 
   Object.entries(attributeMap).forEach(([key, value]) => {
@@ -306,7 +306,7 @@ function mountGiscus(root: HTMLElement) {
     }
   })
 
-  script.setAttribute('theme', getGiscusTheme())
+  script.setAttribute('data-theme', getGiscusTheme())
   root.appendChild(script)
 }
 
