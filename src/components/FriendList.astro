@@ -14,7 +14,10 @@ const friends = await getCollection('friends')
               class="shrink-0 size-16 object-contain rounded-full"
               src={friend.data.avatar}
               alt={`Friend avatar: ${friend.data.title}`}
+              width="64"
+              height="64"
               loading="lazy"
+              decoding="async"
             />
             <div class="min-w-0 grow">
               <div class="truncate font-bold text-xl group-hover:text-accent">

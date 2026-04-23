@@ -27,6 +27,10 @@ import { menus, site } from '@/config.json'
           class="size-[40px] select-none rounded-2xl object-cover"
           src={site.favicon}
           alt="Site owner avatar"
+          width="40"
+          height="40"
+          loading="eager"
+          decoding="async"
         />
       </a>
     </div>
@@ -41,6 +45,10 @@ import { menus, site } from '@/config.json'
           class="size-[40px] select-none rounded-2xl object-cover"
           src={site.favicon}
           alt="Site owner avatar"
+          width="40"
+          height="40"
+          loading="eager"
+          decoding="async"
         />
       </a>
 
@@ -72,7 +80,7 @@ import { menus, site } from '@/config.json'
                   <div
                     class="absolute inset-x-0 bottom-0 hidden h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent"
                     data-nav-underline
-                  ></div>
+                  />
                 </a>
               ))
             }
@@ -131,7 +139,7 @@ import { menus, site } from '@/config.json'
               <div
                 class="absolute inset-x-0 bottom-0 hidden h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent"
                 data-nav-underline
-              ></div>
+              />
             </a>
           ))
         }

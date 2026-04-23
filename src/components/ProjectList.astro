@@ -15,7 +15,10 @@ const projects = await getCollection('projects')
                 class="size-full object-cover transition-transform group-hover:scale-110"
                 src={project.data.image}
                 alt={`Project cover: ${project.data.title}`}
+                width="1200"
+                height="675"
                 loading="lazy"
+                decoding="async"
               />
             </div>
             <div class="p-4">

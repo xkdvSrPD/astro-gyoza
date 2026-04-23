@@ -32,7 +32,10 @@ const metrics = await getPostMetrics(entry)
           class="float-right ml-3 mb-2 size-[80px] rounded-md object-cover select-none"
           src={entry.data.cover}
           alt={entry.data.title}
+          width="80"
+          height="80"
           loading="lazy"
+          decoding="async"
         />
       )
     }
