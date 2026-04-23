@@ -9,9 +9,13 @@ import {
 } from '@/store/metaInfo'
 import { pageScrollLocationAtom, pageScrollDirectionAtom } from '@/store/scrollInfo'
 import { isMobileAtom } from '@/store/viewport'
-import { floor } from 'lodash-es'
 
 const threshold = 60
+
+function floorWithPrecision(value: number, precision = 0) {
+  const factor = 10 ** precision
+  return Math.floor(value * factor) / factor
+}
 
 export function useHeaderBgOpacity() {
   const scrollY = useAtomValue(pageScrollLocationAtom)
@@ -20,7 +24,7 @@ export function useHeaderBgOpacity() {
   } else if (scrollY <= threshold) {
     return 0
   } else {
-    return floor((scrollY - threshold) / threshold, 2)
+    return floorWithPrecision((scrollY - threshold) / threshold, 2)
   }
 }
 

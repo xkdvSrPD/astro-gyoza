@@ -44,15 +44,11 @@ export function Giscus({
   })
 
   useEffect(() => {
-    const currentHost = window.location.hostname;
+    const currentHost = window.location.hostname
     // 如果域名包含 vio.vin 则不显示评论
-    const shouldShow = !currentHost.includes('vio.vin');
-    console.log('Giscus Debug:', {
-      currentHost,
-      shouldShowComments: shouldShow
-    });
-    setShouldShowComments(shouldShow);
-  }, []);
+    const shouldShow = !currentHost.includes('vio.vin')
+    setShouldShowComments(shouldShow)
+  }, [])
 
   useEffect(() => {
     // 监听主题变化
