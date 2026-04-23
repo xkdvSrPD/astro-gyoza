@@ -1,0 +1,659 @@
+---
+import { menus, site } from '@/config.json'
+---
+
+<header
+  class="fixed inset-x-0 top-0 z-10 h-[64px] overflow-hidden"
+  data-site-header
+  data-header-root
+>
+  <div
+    class="absolute inset-0 -z-1 border-b border-primary bg-white/72 backdrop-blur-md transform-gpu dark:bg-zinc-800/72"
+    data-header-backdrop
+  >
+  </div>
+  <div class="mx-auto grid h-full max-w-[1100px] grid-cols-[64px_auto_64px] md:px-4">
+    <div class="flex items-center justify-center">
+      <button
+        class="size-9 rounded-full border border-primary bg-white/50 shadow-lg shadow-zinc-800/5 backdrop-blur dark:bg-zinc-800/50 md:hidden"
+        type="button"
+        aria-label="Open menu"
+        data-drawer-open
+      >
+        <i class="iconfont icon-menu"></i>
+      </button>
+      <a class="hidden md:block" href="/" title="Nav to home">
+        <img
+          class="size-[40px] select-none rounded-2xl object-cover"
+          src={site.favicon}
+          alt="Site owner avatar"
+        />
+      </a>
+    </div>
+    <div class="relative flex items-center justify-center">
+      <a
+        class="block translate-y-0 opacity-100 transition-all duration-150 md:hidden"
+        href="/"
+        title="Nav to home"
+        data-mobile-logo
+      >
+        <img
+          class="size-[40px] select-none rounded-2xl object-cover"
+          src={site.favicon}
+          alt="Site owner avatar"
+        />
+      </a>
+
+      <nav
+        class="hidden translate-y-0 opacity-100 transition-all duration-150 md:block"
+        data-inline-menu
+      >
+        <div class="group pointer-events-auto relative rounded-full duration-200">
+          <div
+            class="absolute inset-0 rounded-full bg-gradient-to-b from-zinc-50/70 to-white/90 opacity-0 ring-1 ring-zinc-900/5 shadow-lg shadow-zinc-800/5 backdrop-blur-md transition-opacity dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10"
+            data-inline-menu-bg
+          >
+          </div>
+          <div class="relative flex items-center px-4 text-sm">
+            {
+              menus.map((menu) => (
+                <a
+                  class="relative flex h-[34px] items-center px-4 leading-none hover:text-accent"
+                  href={menu.link}
+                  data-nav-link={menu.link}
+                >
+                  <div class="flex h-full items-center space-x-2">
+                    <i
+                      class:list={['iconfont hidden items-center leading-none', menu.icon]}
+                      data-nav-icon
+                    />
+                    <span class="leading-none">{menu.name}</span>
+                  </div>
+                  <div
+                    class="absolute inset-x-0 bottom-0 hidden h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent"
+                    data-nav-underline
+                  ></div>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </nav>
+
+      <div
+        class="pointer-events-none absolute inset-0 z-1 flex translate-y-3 items-center justify-between opacity-0 transition-all duration-150 md:px-5"
+        data-header-meta-panel
+      >
+        <div class="min-w-0 grow">
+          <div class="truncate text-xs text-secondary" data-header-meta-description></div>
+          <h2 class="truncate text-lg" data-header-meta-title></h2>
+        </div>
+        <div class="hidden min-w-0 text-right md:block">
+          <div class="truncate text-xs text-secondary" data-header-meta-slug></div>
+          <div>{site.title}</div>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center justify-center">
+      <button
+        class="size-9 rounded-full border border-primary bg-white/50 shadow-lg shadow-zinc-800/5 backdrop-blur dark:bg-zinc-800/50"
+        type="button"
+        aria-label="Search"
+        data-search-open
+      >
+        <i class="iconfont icon-search"></i>
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="pointer-events-none fixed inset-x-0 top-16 z-10 hidden -translate-y-[calc(50%+8px)] justify-center opacity-0 transition-all duration-150 md:flex"
+    data-floating-menu
+  >
+    <nav
+      class="group pointer-events-auto relative rounded-full bg-gradient-to-b from-zinc-50/70 to-white/90 ring-1 ring-zinc-900/5 shadow-lg shadow-zinc-800/5 backdrop-blur-md dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10"
+    >
+      <div class="flex items-center px-4 text-sm">
+        {
+          menus.map((menu) => (
+            <a
+              class="relative flex h-[34px] items-center px-4 leading-none hover:text-accent"
+              href={menu.link}
+              data-nav-link={menu.link}
+            >
+              <div class="flex h-full items-center space-x-2">
+                <i
+                  class:list={['iconfont hidden items-center leading-none', menu.icon]}
+                  data-nav-icon
+                />
+                <span class="leading-none">{menu.name}</span>
+              </div>
+              <div
+                class="absolute inset-x-0 bottom-0 hidden h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent"
+                data-nav-underline
+              ></div>
+            </a>
+          ))
+        }
+      </div>
+    </nav>
+  </div>
+
+  <div class="hidden" aria-hidden="true" data-drawer-modal>
+    <div class="fixed inset-0 bg-gray-800/30" data-drawer-close></div>
+    <aside
+      class="fixed inset-y-0 left-0 flex h-full w-[260px] max-w-[80%] flex-col justify-center rounded-r-lg bg-primary p-4 shadow-2xl shadow-zinc-900/10"
+    >
+      <ul class="mt-8 min-h-0 overflow-x-hidden overflow-y-auto pb-8">
+        {
+          menus.map((menu) => (
+            <li>
+              <a
+                class="inline-flex items-center space-x-4 rounded-lg p-2 hover:bg-secondary/70"
+                href={menu.link}
+                data-drawer-link={menu.link}
+              >
+                <i class:list={['iconfont', menu.icon]} />
+                <span>{menu.name}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
+  </div>
+
+  <div class="hidden" aria-hidden="true" data-search-modal>
+    <div
+      class="fixed inset-0 z-[70] flex items-center justify-center bg-zinc-950/35 px-4 backdrop-blur-sm"
+    >
+      <div class="absolute inset-0" data-search-close></div>
+      <div
+        class="relative flex h-[80vh] max-h-[520px] w-[min(680px,100%)] flex-col rounded-2xl border border-primary bg-primary shadow-2xl shadow-zinc-900/10"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Search"
+      >
+        <div class="flex items-center gap-3 border-b border-primary px-4 py-3">
+          <i class="iconfont icon-search text-secondary"></i>
+          <input
+            class="min-w-0 grow bg-transparent outline-none"
+            type="text"
+            placeholder="Search..."
+            maxlength={64}
+            data-search-input
+          />
+          <button
+            class="rounded-full px-2 py-1 text-xs text-secondary transition-colors hover:bg-secondary hover:text-primary"
+            type="button"
+            data-search-close
+          >
+            Esc
+          </button>
+        </div>
+        <div class="grow overflow-y-auto px-4 py-3" data-search-results></div>
+        <div class="flex justify-end border-t border-primary px-4 py-3 text-xs text-secondary">
+          <a href="https://pagefind.app/" target="_blank" rel="noopener noreferrer">
+            Powered by Pagefind
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  interface PagefindMatch {
+    url: string
+    excerpt: string
+    meta: {
+      title: string
+    }
+  }
+
+  interface PagefindModule {
+    search: (value: string) => Promise<{
+      results: Array<{
+        data: () => Promise<PagefindMatch>
+      }>
+    }>
+  }
+
+  interface HeaderState {
+    initialized: boolean
+    drawerOpen: boolean
+    searchOpen: boolean
+    pagefindPromise?: Promise<PagefindModule | null>
+    previousOverflow: string
+    scrollFrameId: number
+    previousScrollY: number
+    scrollDirection: 'up' | 'down'
+  }
+
+  const headerWindow = window as Window & {
+    __headerState?: HeaderState
+  }
+
+  const headerState =
+    headerWindow.__headerState ??
+    (headerWindow.__headerState = {
+      initialized: false,
+      drawerOpen: false,
+      searchOpen: false,
+      previousOverflow: '',
+      scrollFrameId: 0,
+      previousScrollY: window.scrollY,
+      scrollDirection: 'down',
+    })
+
+  if (!headerState.initialized) {
+    headerState.initialized = true
+
+    const root = document.querySelector<HTMLElement>('[data-header-root]')
+
+    if (root) {
+      const headerThreshold = 60
+      const backdrop = root.querySelector<HTMLElement>('[data-header-backdrop]')
+      const inlineMenu = root.querySelector<HTMLElement>('[data-inline-menu]')
+      const inlineMenuBg = root.querySelector<HTMLElement>('[data-inline-menu-bg]')
+      const mobileLogo = root.querySelector<HTMLElement>('[data-mobile-logo]')
+      const metaPanel = root.querySelector<HTMLElement>('[data-header-meta-panel]')
+      const floatingMenu = root.querySelector<HTMLElement>('[data-floating-menu]')
+      const titleNode = root.querySelector<HTMLElement>('[data-header-meta-title]')
+      const descriptionNode = root.querySelector<HTMLElement>('[data-header-meta-description]')
+      const slugNode = root.querySelector<HTMLElement>('[data-header-meta-slug]')
+      const drawerModal = root.querySelector<HTMLElement>('[data-drawer-modal]')
+      const searchModal = root.querySelector<HTMLElement>('[data-search-modal]')
+      const searchInput = root.querySelector<HTMLInputElement>('[data-search-input]')
+      const searchResults = root.querySelector<HTMLElement>('[data-search-results]')
+      const navLinks = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-nav-link]'))
+      const drawerLinks = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-drawer-link]'))
+      const searchButtons = Array.from(root.querySelectorAll<HTMLElement>('[data-search-open]'))
+      const searchClosers = Array.from(root.querySelectorAll<HTMLElement>('[data-search-close]'))
+      const drawerOpeners = Array.from(root.querySelectorAll<HTMLElement>('[data-drawer-open]'))
+      const drawerClosers = Array.from(root.querySelectorAll<HTMLElement>('[data-drawer-close]'))
+      let searchTimer = 0
+      let hasMetaInfo = false
+
+      function normalizePathname(pathname: string) {
+        if (pathname !== '/' && pathname.endsWith('/')) {
+          return pathname.slice(0, -1)
+        }
+
+        return pathname
+      }
+
+      function escapeHtml(value: string) {
+        return value
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#39;')
+      }
+
+      function setLayerVisibility(element: HTMLElement | null, isVisible: boolean) {
+        if (!element) {
+          return
+        }
+
+        element.classList.toggle('hidden', !isVisible)
+        element.setAttribute('aria-hidden', String(!isVisible))
+      }
+
+      function updateBodyScrollLock() {
+        const shouldLock = headerState.drawerOpen || headerState.searchOpen
+
+        if (shouldLock && !document.body.dataset.headerScrollLock) {
+          document.body.dataset.headerScrollLock = 'true'
+          headerState.previousOverflow = document.body.style.overflow
+          document.body.style.overflow = 'hidden'
+          return
+        }
+
+        if (!shouldLock && document.body.dataset.headerScrollLock) {
+          delete document.body.dataset.headerScrollLock
+          document.body.style.overflow = headerState.previousOverflow
+        }
+      }
+
+      function setActiveLink(link: HTMLAnchorElement, isActive: boolean) {
+        link.classList.toggle('text-accent', isActive)
+        link.classList.toggle('hover:text-accent', !isActive)
+
+        const icon = link.querySelector<HTMLElement>('[data-nav-icon]')
+        const underline = link.querySelector<HTMLElement>('[data-nav-underline]')
+
+        icon?.classList.toggle('hidden', !isActive)
+        underline?.classList.toggle('hidden', !isActive)
+      }
+
+      function syncCurrentPath() {
+        const pathname = normalizePathname(window.location.pathname)
+
+        navLinks.forEach((link) => {
+          const target = normalizePathname(link.dataset.navLink ?? link.getAttribute('href') ?? '/')
+          setActiveLink(link, pathname === target)
+        })
+
+        drawerLinks.forEach((link) => {
+          const target = normalizePathname(
+            link.dataset.drawerLink ?? link.getAttribute('href') ?? '/',
+          )
+          const isActive = pathname === target
+          link.classList.toggle('bg-secondary/70', isActive)
+          link.classList.toggle('text-accent', isActive)
+        })
+      }
+
+      function setAnimatedVisibility(
+        element: HTMLElement | null,
+        isVisible: boolean,
+        shownClasses: string[],
+        hiddenClasses: string[],
+      ) {
+        if (!element) {
+          return
+        }
+
+        shownClasses.forEach((className) => element.classList.toggle(className, isVisible))
+        hiddenClasses.forEach((className) => element.classList.toggle(className, !isVisible))
+      }
+
+      function updateHeaderView() {
+        const scrollY = window.scrollY
+        const shouldShowMeta = hasMetaInfo && scrollY >= headerThreshold
+        const shouldShowFloatingMenu =
+          shouldShowMeta && scrollY >= 400 && headerState.scrollDirection === 'up'
+        const opacity =
+          scrollY >= headerThreshold * 2
+            ? 1
+            : scrollY <= headerThreshold
+              ? 0
+              : Math.floor(((scrollY - headerThreshold) / headerThreshold) * 100) / 100
+
+        if (backdrop) {
+          backdrop.style.opacity = String(opacity)
+        }
+
+        inlineMenuBg?.classList.toggle('opacity-100', scrollY < headerThreshold && !shouldShowMeta)
+        inlineMenuBg?.classList.toggle('opacity-0', !(scrollY < headerThreshold && !shouldShowMeta))
+
+        setAnimatedVisibility(
+          inlineMenu,
+          !shouldShowMeta,
+          ['translate-y-0', 'opacity-100'],
+          ['pointer-events-none', 'translate-y-1', 'opacity-0'],
+        )
+        setAnimatedVisibility(
+          mobileLogo,
+          !shouldShowMeta,
+          ['translate-y-0', 'opacity-100'],
+          ['pointer-events-none', 'translate-y-1', 'opacity-0'],
+        )
+        setAnimatedVisibility(
+          metaPanel,
+          shouldShowMeta,
+          ['translate-y-0', 'opacity-100'],
+          ['pointer-events-none', 'translate-y-3', 'opacity-0'],
+        )
+        setAnimatedVisibility(
+          floatingMenu,
+          shouldShowFloatingMenu,
+          ['-translate-y-1/2', 'opacity-100'],
+          ['pointer-events-none', '-translate-y-[calc(50%+8px)]', 'opacity-0'],
+        )
+
+        headerState.scrollFrameId = 0
+      }
+
+      function handleScroll() {
+        const currentScrollY = window.scrollY
+        headerState.scrollDirection = currentScrollY < headerState.previousScrollY ? 'up' : 'down'
+        headerState.previousScrollY = currentScrollY
+
+        if (headerState.scrollFrameId) {
+          return
+        }
+
+        headerState.scrollFrameId = window.requestAnimationFrame(updateHeaderView)
+      }
+
+      function syncMetaFromPage() {
+        const metaRoot = document.querySelector<HTMLElement>('[data-header-meta]')
+        const title = metaRoot?.dataset.title ?? ''
+        const description = metaRoot?.dataset.description ?? ''
+        const slug = metaRoot?.dataset.slug ?? ''
+
+        if (titleNode) {
+          titleNode.textContent = title
+        }
+
+        if (descriptionNode) {
+          descriptionNode.textContent = description
+        }
+
+        if (slugNode) {
+          slugNode.textContent = slug
+        }
+
+        hasMetaInfo = Boolean(title || description || slug)
+        syncCurrentPath()
+        handleScroll()
+      }
+
+      function closeDrawer() {
+        headerState.drawerOpen = false
+        setLayerVisibility(drawerModal, false)
+        updateBodyScrollLock()
+      }
+
+      function openDrawer() {
+        closeSearch()
+        headerState.drawerOpen = true
+        setLayerVisibility(drawerModal, true)
+        updateBodyScrollLock()
+      }
+
+      async function loadPagefind() {
+        if (import.meta.env.DEV) {
+          return null
+        }
+
+        if (!headerState.pagefindPromise) {
+          const pagefindUrl = '/pagefind/pagefind.js'
+          headerState.pagefindPromise = (
+            import(/* @vite-ignore */ pagefindUrl) as Promise<PagefindModule>
+          ).catch(() => null)
+        }
+
+        return headerState.pagefindPromise
+      }
+
+      function renderSearchState(title: string, description = '') {
+        if (!searchResults) {
+          return
+        }
+
+        searchResults.innerHTML = `
+          <div class="flex h-full flex-col items-center justify-center gap-2 text-center text-secondary">
+            <div class="text-sm font-medium text-primary">${escapeHtml(title)}</div>
+            ${description ? `<div class="max-w-sm text-sm">${escapeHtml(description)}</div>` : ''}
+          </div>
+        `
+      }
+
+      function renderLoadingState() {
+        if (!searchResults) {
+          return
+        }
+
+        searchResults.innerHTML = `
+          <div class="flex h-full items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="2em" viewBox="0 0 24 24" class="animate-spin text-secondary">
+              <path fill="currentColor" d="M12 2a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1m0 15a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1m8.66-10a1 1 0 0 1-.366 1.366l-2.598 1.5a1 1 0 1 1-1-1.732l2.598-1.5A1 1 0 0 1 20.66 7M7.67 14.5a1 1 0 0 1-.367 1.366l-2.598 1.5a1 1 0 1 1-1-1.732l2.598-1.5a1 1 0 0 1 1.366.366M20.66 17a1 1 0 0 1-1.366.366l-2.598-1.5a1 1 0 0 1 1-1.732l2.598 1.5A1 1 0 0 1 20.66 17M7.67 9.5a1 1 0 0 1-1.367.366l-2.598-1.5a1 1 0 1 1 1-1.732l2.598 1.5A1 1 0 0 1 7.67 9.5"/>
+            </svg>
+          </div>
+        `
+      }
+
+      async function runSearch(keyword: string) {
+        if (!searchResults) {
+          return
+        }
+
+        if (!keyword) {
+          renderSearchState('Start typing to search')
+          return
+        }
+
+        if (import.meta.env.DEV) {
+          renderSearchState(
+            'Search is unavailable in dev',
+            'Pagefind indexes are generated during build.',
+          )
+          return
+        }
+
+        renderLoadingState()
+
+        const pagefind = await loadPagefind()
+        if (!pagefind || !headerState.searchOpen) {
+          return
+        }
+
+        const response = await pagefind.search(keyword)
+        const results = await Promise.all(
+          response.results.map((item: { data: () => Promise<PagefindMatch> }) => item.data()),
+        )
+
+        if (!headerState.searchOpen) {
+          return
+        }
+
+        if (!results.length) {
+          renderSearchState('No results')
+          return
+        }
+
+        searchResults.innerHTML = `
+          <div class="mb-2 px-3 text-sm text-secondary">Found ${results.length} matches</div>
+          ${results
+            .map(
+              (item: PagefindMatch) => `
+                <a
+                  href="${escapeHtml(item.url)}"
+                  class="block rounded-lg px-3 py-2 transition-colors hover:bg-accent/10"
+                  data-search-result
+                >
+                  <div class="font-semibold">${escapeHtml(item.meta.title)}</div>
+                  <p class="text-sm text-secondary">${item.excerpt}</p>
+                </a>
+              `,
+            )
+            .join('')}
+        `
+      }
+
+      function closeSearch(resetKeyword = false) {
+        headerState.searchOpen = false
+        setLayerVisibility(searchModal, false)
+
+        if (resetKeyword && searchInput) {
+          searchInput.value = ''
+          renderSearchState('Start typing to search')
+        }
+
+        updateBodyScrollLock()
+      }
+
+      function openSearch() {
+        closeDrawer()
+        headerState.searchOpen = true
+        setLayerVisibility(searchModal, true)
+        updateBodyScrollLock()
+        renderSearchState('Start typing to search')
+        window.requestAnimationFrame(() => searchInput?.focus())
+      }
+
+      searchButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          openSearch()
+        })
+      })
+
+      searchClosers.forEach((button) => {
+        button.addEventListener('click', () => {
+          closeSearch()
+        })
+      })
+
+      drawerOpeners.forEach((button) => {
+        button.addEventListener('click', () => {
+          openDrawer()
+        })
+      })
+
+      drawerClosers.forEach((button) => {
+        button.addEventListener('click', () => {
+          closeDrawer()
+        })
+      })
+
+      drawerLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          closeDrawer()
+        })
+      })
+
+      searchResults?.addEventListener('click', (event) => {
+        const resultLink = (event.target as Element | null)?.closest('[data-search-result]')
+        if (resultLink) {
+          closeSearch()
+        }
+      })
+
+      searchInput?.addEventListener('input', () => {
+        window.clearTimeout(searchTimer)
+        searchTimer = window.setTimeout(() => {
+          void runSearch(searchInput.value.trim())
+        }, 350)
+      })
+
+      window.addEventListener('keydown', (event) => {
+        if (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) {
+          event.preventDefault()
+
+          if (headerState.searchOpen) {
+            closeSearch()
+          } else {
+            openSearch()
+          }
+        }
+
+        if (event.key === 'Escape') {
+          if (headerState.searchOpen) {
+            event.preventDefault()
+            closeSearch()
+          }
+
+          if (headerState.drawerOpen) {
+            event.preventDefault()
+            closeDrawer()
+          }
+        }
+      })
+
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      window.addEventListener('popstate', syncMetaFromPage)
+      document.addEventListener('swup:content:replace', () => {
+        closeDrawer()
+        closeSearch(true)
+        syncMetaFromPage()
+      })
+
+      syncMetaFromPage()
+      renderSearchState('Start typing to search')
+    }
+  }
+</script>

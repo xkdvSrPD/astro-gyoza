@@ -1,9 +1,9 @@
 ---
-import { ThemeSwitch } from './ThemeSwitch'
+import ThemeSwitch from './ThemeSwitch.astro'
 import BuildInfo from './BuildInfo.astro'
 import { author, footer } from '@/config.json'
 import { getAllPostsWordCount } from '@/utils/content'
-import { RunningDays } from './RunningDays'
+import RunningDays from './RunningDays.astro'
 import Link from './Link.astro'
 
 const sinceYear = new Date(footer.startTime).getFullYear()
@@ -38,7 +38,7 @@ const wordCountStr = (wordCount / 1000).toFixed(1) + 'k'
       <Link href="https://beian.miit.gov.cn/">陕ICP备2021015553号-2</Link>
     </div>
     <div>
-      <RunningDays client:idle />
+      <RunningDays />
       <span class="select-none opacity-50">|</span>
       <span>共嘚嘚了 {wordCountStr} 字</span>
     </div>
@@ -47,7 +47,7 @@ const wordCountStr = (wordCount / 1000).toFixed(1) + 'k'
     </div>
   </div>
   <div class="mt-4 flex justify-center">
-    <ThemeSwitch client:load />
+    <ThemeSwitch />
   </div>
 </footer>
 

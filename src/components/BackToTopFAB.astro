@@ -1,0 +1,59 @@
+<div
+  class="pointer-events-none fixed bottom-6 right-4 z-10 translate-y-2 opacity-0 transition-all duration-150"
+  data-back-to-top-root
+>
+  <button
+    class="size-10 rounded-full border border-primary bg-white/50 shadow-lg shadow-zinc-800/5 backdrop-blur dark:bg-zinc-800/50"
+    type="button"
+    aria-label="Back to top"
+    data-back-to-top-button
+  >
+    <i class="iconfont icon-rocket"></i>
+  </button>
+</div>
+
+<script>
+  const backToTopWindow = window as Window & {
+    __backToTopInitialized?: boolean
+  }
+
+  if (!backToTopWindow.__backToTopInitialized) {
+    backToTopWindow.__backToTopInitialized = true
+
+    const root = document.querySelector<HTMLElement>('[data-back-to-top-root]')
+    const button = root?.querySelector<HTMLButtonElement>('[data-back-to-top-button]')
+    let frameId = 0
+
+    if (root && button) {
+      const updateVisibility = () => {
+        const isVisible = window.scrollY > 100
+
+        root.classList.toggle('pointer-events-none', !isVisible)
+        root.classList.toggle('translate-y-2', !isVisible)
+        root.classList.toggle('opacity-0', !isVisible)
+        root.classList.toggle('translate-y-0', isVisible)
+        root.classList.toggle('opacity-100', isVisible)
+        frameId = 0
+      }
+
+      const handleScroll = () => {
+        if (frameId) {
+          return
+        }
+
+        frameId = window.requestAnimationFrame(updateVisibility)
+      }
+
+      button.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        })
+      })
+
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      document.addEventListener('swup:content:replace', handleScroll)
+      updateVisibility()
+    }
+  }
+</script>

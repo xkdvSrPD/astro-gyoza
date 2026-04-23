@@ -2,7 +2,7 @@
 import Layout from './Layout.astro'
 import HeadGradient from '@/components/head-gradient/HeadGradient.astro'
 import Footer from '@/components/footer/Footer.astro'
-import { Header } from '@/components/header/Header'
+import Header from '@/components/header/Header.astro'
 import { Provider } from '@/components/provider/Provider'
 import 'katex/dist/katex.min.css'
 
@@ -27,7 +27,7 @@ const { title, description, image, mdTitle, mdDescription, mdSlug } = Astro.prop
     client:only="react"
   />
 
-  <Header client:load />
+  <Header />
   <main class="glass-surface relative z-1 pt-16 min-h-main">
     <div
       data-header-meta
@@ -36,7 +36,8 @@ const { title, description, image, mdTitle, mdDescription, mdSlug } = Astro.prop
       data-slug={mdSlug}
       hidden
       aria-hidden="true"
-    ></div>
+    >
+    </div>
     <HeadGradient />
     <slot />
   </main>
