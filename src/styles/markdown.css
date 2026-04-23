@@ -105,6 +105,10 @@
     ),
     radial-gradient(circle at 8% 0%, rgb(var(--color-accent) / 0.18), transparent 55%);
   box-shadow: 0 18px 35px rgb(var(--color-bg-root) / 0.22);
+  padding-bottom: 0;
+}
+
+.markdown .code-block.code-block--collapsible {
   padding-bottom: 1.75rem;
 }
 
