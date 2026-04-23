@@ -9,8 +9,8 @@ import SectionBlock from '@/components/SectionBlock.astro'
 import MarkdownWrapper from '@/components/MarkdownWrapper.astro'
 import FriendList from '@/components/FriendList.astro'
 import ProjectList from '@/components/ProjectList.astro'
-import { ReadingProgress } from '@/components/post/ReadingProgress'
-import { PostToc } from '@/components/post/PostToc'
+import ReadingProgress from '@/components/post/ReadingProgress.astro'
+import PostToc from '@/components/post/PostToc.astro'
 import { Comments } from '@/components/comment'
 import { generateSpecOgImage } from '@/utils/ogImage'
 
@@ -100,7 +100,7 @@ const ogImage = await generateSpecOgImage(md)
       ) : (
         <div class="w-full max-w-full lg:max-w-[1100px] mx-auto px-4 md:px-8 py-16">
           <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px] gap-8">
-            <!-- Main content with swup transition -->
+            {/* Main content with swup transition */}
             <div class="swup-transition-fade" data-pagefind-body>
               <header class="space-y-4">
                 <h1 class="text-4xl font-bold">
@@ -122,13 +122,13 @@ const ogImage = await generateSpecOgImage(md)
               )}
             </div>
 
-            <!-- Sticky sidebar - outside swup transition -->
+            {/* Sticky sidebar - outside swup transition */}
             <div class="hidden lg:block" data-pagefind-ignore>
               <aside class="sticky top-20">
                 <SectionBlock title="目录">
-                  <PostToc headings={headings} client:idle />
+                  <PostToc headings={headings} />
                   <hr class="my-2 border-primary max-w-[100px]" />
-                  <ReadingProgress client:idle />
+                  <ReadingProgress />
                 </SectionBlock>
               </aside>
             </div>

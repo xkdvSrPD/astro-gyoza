@@ -1,0 +1,49 @@
+---
+import '@/styles/giscus.css'
+
+interface Props {
+  repo: string
+  repoId: string
+  category: string
+  categoryId: string
+  mapping: string
+  strict: string
+  reactionsEnabled: string
+  emitMetadata: string
+  inputPosition: string
+  theme: string
+  lang: string
+  loading: string
+}
+
+const {
+  repo,
+  repoId,
+  category,
+  categoryId,
+  mapping,
+  strict,
+  reactionsEnabled,
+  emitMetadata,
+  inputPosition,
+  lang,
+  loading,
+} = Astro.props
+---
+
+<div
+  class="giscus-container"
+  data-giscus-root
+  data-repo={repo}
+  data-repo-id={repoId}
+  data-category={category}
+  data-category-id={categoryId}
+  data-mapping={mapping}
+  data-strict={strict}
+  data-reactions-enabled={reactionsEnabled}
+  data-emit-metadata={emitMetadata}
+  data-input-position={inputPosition}
+  data-lang={lang}
+  data-loading={loading}
+>
+</div>

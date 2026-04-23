@@ -5,15 +5,15 @@ import MarkdownLayout from '@/layouts/MarkdownLayout.astro'
 import { getSortedPosts } from '@/utils/content'
 import MarkdownWrapper from '@/components/MarkdownWrapper.astro'
 import SectionBlock from '@/components/SectionBlock.astro'
-import { PostToc } from '@/components/post/PostToc'
+import PostToc from '@/components/post/PostToc.astro'
 import PostMetaInfo from '@/components/post/PostMetaInfo.astro'
 import PostArchiveInfo from '@/components/post/PostArchiveInfo.astro'
-import { ReadingProgress } from '@/components/post/ReadingProgress'
-import { Outdate } from '@/components/post/Outdate'
+import ReadingProgress from '@/components/post/ReadingProgress.astro'
+import Outdate from '@/components/post/Outdate.astro'
 import PostNav from '@/components/post/PostNav.astro'
 import { Comments } from '@/components/comment'
-import { ActionAside } from '@/components/post/ActionAside'
-import { PostCopyright } from '@/components/post/PostCopyright'
+import ActionAside from '@/components/post/ActionAside.astro'
+import PostCopyright from '@/components/post/PostCopyright.astro'
 import { generatePostOgImage } from '@/utils/ogImage'
 
 export const getStaticPaths = (async () => {
@@ -85,7 +85,7 @@ const ogImage = await generatePostOgImage(current)
             tags={current.data.tags}
           />
           <div>
-            <Outdate lastMod={current.data.createAt} client:idle />
+            <Outdate lastMod={current.data.createAt} />
           </div>
         </header>
 
@@ -96,7 +96,7 @@ const ogImage = await generatePostOgImage(current)
         </div>
 
         <section class="mt-12 space-y-6" data-pagefind-ignore>
-          <PostCopyright title={current.data.title} slug={mdSlug} lastMod={lastMod} client:visible />
+          <PostCopyright title={current.data.title} slug={mdSlug} lastMod={lastMod} />
           <PostNav prev={prev} next={next} />
           {current.data.comments && <Comments />}
         </section>
@@ -106,11 +106,11 @@ const ogImage = await generatePostOgImage(current)
       <div class="hidden lg:block" data-pagefind-ignore>
         <aside class="sticky top-20">
           <SectionBlock title="目录">
-            <PostToc headings={headings} client:idle />
+            <PostToc headings={headings} />
             <hr class="my-2 border-primary max-w-[100px]" />
-            <ReadingProgress client:idle />
+            <ReadingProgress />
           </SectionBlock>
-          <ActionAside client:idle />
+          <ActionAside title={current.data.title} slug={mdSlug} />
         </aside>
       </div>
     </div>

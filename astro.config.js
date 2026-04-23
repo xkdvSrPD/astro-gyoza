@@ -10,7 +10,6 @@ import remarkDirective from 'remark-directive'
 import { remarkSpoiler } from './src/plugins/remarkSpoiler'
 import { remarkEmbed } from './src/plugins/remarkEmbed'
 import tailwind from '@astrojs/tailwind'
-import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import configJson from './src/config.json'
@@ -27,7 +26,6 @@ export default defineConfig({
   site: siteUrl,
   integrations: [
     tailwind(),
-    react(),
     sitemap(),
     swup({
       theme: false,
@@ -56,9 +54,6 @@ export default defineConfig({
     remarkRehype: { footnoteLabel: '参考', footnoteBackLabel: '返回正文' },
   },
   vite: {
-    resolve: {
-      dedupe: ['react', 'react-dom'],
-    },
     build: {
       rollupOptions: {
         external: ['/pagefind/pagefind.js'],
