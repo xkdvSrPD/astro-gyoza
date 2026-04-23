@@ -23,8 +23,8 @@
   }
 
   function showToast(message: string) {
-    const event = new CustomEvent('code-copy-fail', {
-      detail: { message },
+    const event = new CustomEvent('app-toast', {
+      detail: { message, type: 'error' },
     })
     window.dispatchEvent(event)
   }
