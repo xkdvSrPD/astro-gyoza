@@ -48,7 +48,7 @@ html[data-theme='black'] {
   --pre-bg: #151515;
   --code-border: #777;
   --highlight: #514400;
-  --tag-text: #000;
+  --tag-text: #fff;
   --astro-code-foreground: #d8d8d8;
   --astro-code-background: transparent;
   --astro-code-token-constant: #e5b567;
@@ -388,6 +388,10 @@ div#cgit a.tag-annotated-deco {
   background-color: #ffcc88;
   border: solid 1px #777700;
   border-radius: 2px;
+}
+
+html[data-theme='black'] a.tag-deco {
+  filter: brightness(0.55);
 }
 
 button,
