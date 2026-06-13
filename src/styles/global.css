@@ -17,6 +17,16 @@ html[data-theme='white'] {
   --code-border: #000;
   --highlight: #ffc;
   --site-width: 100%;
+  --astro-code-foreground: #000;
+  --astro-code-background: transparent;
+  --astro-code-token-constant: #b07e00;
+  --astro-code-token-string: #bf0303;
+  --astro-code-token-comment: #838183;
+  --astro-code-token-keyword: #000;
+  --astro-code-token-function: #000;
+  --astro-code-token-parameter: #000;
+  --astro-code-token-string-expression: #818100;
+  --astro-code-token-punctuation: #000;
 }
 
 html[data-theme='black'] {
@@ -37,6 +47,16 @@ html[data-theme='black'] {
   --pre-bg: #151515;
   --code-border: #777;
   --highlight: #514400;
+  --astro-code-foreground: #d8d8d8;
+  --astro-code-background: transparent;
+  --astro-code-token-constant: #e5b567;
+  --astro-code-token-string: #f08080;
+  --astro-code-token-comment: #6a6a6a;
+  --astro-code-token-keyword: #fff;
+  --astro-code-token-function: #fff;
+  --astro-code-token-parameter: #d8d8d8;
+  --astro-code-token-string-expression: #d4d400;
+  --astro-code-token-punctuation: #d8d8d8;
 }
 
 html[data-theme='purple'] {
@@ -56,6 +76,16 @@ html[data-theme='purple'] {
   --pre-bg: #f8f2ff;
   --code-border: #624b76;
   --highlight: #f1e38f;
+  --astro-code-foreground: #2e2933;
+  --astro-code-background: transparent;
+  --astro-code-token-constant: #805300;
+  --astro-code-token-string: #8b0202;
+  --astro-code-token-comment: #7a7383;
+  --astro-code-token-keyword: #18002b;
+  --astro-code-token-function: #18002b;
+  --astro-code-token-parameter: #2e2933;
+  --astro-code-token-string-expression: #6b6a00;
+  --astro-code-token-punctuation: #2e2933;
 }
 
 html[data-theme='blue'] {
@@ -75,6 +105,16 @@ html[data-theme='blue'] {
   --pre-bg: #f0f7ff;
   --code-border: #385a79;
   --highlight: #fff0a8;
+  --astro-code-foreground: #24313d;
+  --astro-code-background: transparent;
+  --astro-code-token-constant: #805e00;
+  --astro-code-token-string: #8b0202;
+  --astro-code-token-comment: #6e7a85;
+  --astro-code-token-keyword: #06192c;
+  --astro-code-token-function: #06192c;
+  --astro-code-token-parameter: #24313d;
+  --astro-code-token-string-expression: #6b6a00;
+  --astro-code-token-punctuation: #24313d;
 }
 
 html[data-width='100'] {
@@ -520,8 +560,8 @@ code,
 pre,
 kbd,
 samp {
-  font-family: monospace;
-  font-size: 95%;
+  font-family: 'Courier New', monospace;
+  font-size: 10pt;
 }
 
 :not(pre) > code {
@@ -539,13 +579,14 @@ pre {
 }
 
 div#cgit .content-body pre.astro-code {
-  color: var(--title) !important;
-  background: var(--bg) !important;
+  background:
+    linear-gradient(var(--muted), var(--muted)) 4em 0 / 1px 100% no-repeat,
+    var(--bg) !important;
 }
 
 div#cgit .content-body pre code {
   display: block;
-  padding: 0.5em 0 0.5em 0;
+  padding: 0.125em 0;
   background: transparent;
   color: inherit;
   counter-reset: code-line;
@@ -553,8 +594,9 @@ div#cgit .content-body pre code {
 
 div#cgit .content-body pre.astro-code .line {
   display: block;
-  min-height: 1.25em;
-  color: inherit !important;
+  line-height: 1.25;
+  margin: 0;
+  padding: 0 0.5em;
   counter-increment: code-line;
 }
 
@@ -563,18 +605,11 @@ div#cgit .content-body pre.astro-code .line::before {
   display: inline-block;
   width: 3em;
   margin-right: 0.5em;
-  padding: 0 0.5em;
-  border-right: 1px solid gray;
+  padding-right: 0.5em;
   color: gray;
   text-align: right;
   user-select: none;
-}
-
-div#cgit .content-body pre.astro-code span {
-  color: inherit !important;
-  font-style: normal !important;
-  font-weight: normal !important;
-  text-decoration: none !important;
+  vertical-align: top;
 }
 
 div#cgit .content-body img {

@@ -25,8 +25,8 @@ export function getRelativeTime(startDate: Date, endDate = new Date()) {
 // 获取一个格式化的日期，格式为：2024 年 1 月 1 日 星期一
 export function getFormattedDate(date: Date) {
   const year = date.getFullYear() % 100
-  const month = date.getMonth() + 1
-  const day = date.getDate()
+  const month = padZero(date.getMonth() + 1)
+  const day = padZero(date.getDate())
   const week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][date.getDay()]
 
   return `${year} 年 ${month} 月 ${day} 日 ${week}`

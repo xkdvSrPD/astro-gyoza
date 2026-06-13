@@ -9,4 +9,9 @@ export default defineConfig({
   site: siteUrl,
   integrations: [sitemap()],
   output: 'static',
+  markdown: {
+    shikiConfig: {
+      theme: 'css-variables',
+    },
+  },
 })
