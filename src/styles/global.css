@@ -683,6 +683,9 @@ blockquote {
 .list-category {
   width: 12em;
   white-space: nowrap;
+}
+
+td.list-category {
   font-family: monospace;
   font-weight: bold;
 }
