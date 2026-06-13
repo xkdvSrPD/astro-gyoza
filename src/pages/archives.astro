@@ -6,8 +6,8 @@ import { getOldestPosts } from '@/utils/content'
 const posts = await getOldestPosts()
 ---
 
-<Layout title="Archives">
-  <h1>Archives</h1>
+<Layout title="Summary">
+  <h1>Summary</h1>
   <p class="page-note">共 {posts.length} 篇文章</p>
-  <PostTable posts={posts} filterable />
+  <PostTable posts={posts} />
 </Layout>

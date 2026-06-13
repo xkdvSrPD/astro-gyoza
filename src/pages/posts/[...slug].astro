@@ -4,6 +4,7 @@ import type { GetStaticPaths } from 'astro'
 import Layout from '@/layouts/Layout.astro'
 import { getSortedPosts } from '@/utils/content'
 import { getFormattedDateTime } from '@/utils/date'
+import { getTagStyle, taxonomyHref } from '@/utils/taxonomy'
 
 export const getStaticPaths = (async () => {
   const sortedPosts = await getSortedPosts()
@@ -19,8 +20,6 @@ interface Props {
 
 const { post } = Astro.props
 const { Content } = await post.render()
-const archiveLink = (type: 'tag' | 'category', value: string) =>
-  `/archives?${type}=${encodeURIComponent(value)}`
 ---
 
 <Layout title={post.data.title} description={post.data.summary}>
@@ -54,7 +53,7 @@ const archiveLink = (type: 'tag' | 'category', value: string) =>
               <tr>
                 <th>category</th>
                 <td>
-                  <a href={archiveLink('category', post.data.category)}>{post.data.category}</a>
+                  <a href={taxonomyHref('category', post.data.category)}>{post.data.category}</a>
                 </td>
               </tr>
             )
@@ -64,11 +63,10 @@ const archiveLink = (type: 'tag' | 'category', value: string) =>
               <tr>
                 <th>tags</th>
                 <td class="tag-list">
-                  {post.data.tags.map((tag, index) => (
-                    <>
-                      {index > 0 && ', '}
-                      <a href={archiveLink('tag', tag)}>{tag}</a>
-                    </>
+                  {post.data.tags.map((tag) => (
+                    <a class="tag-deco" style={getTagStyle(tag)} href={taxonomyHref('tag', tag)}>
+                      {tag}
+                    </a>
                   ))}
                 </td>
               </tr>

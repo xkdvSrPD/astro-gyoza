@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import type { GetStaticPaths } from 'astro'
+import Layout from '@/layouts/Layout.astro'
+import PostTable from '@/components/PostTable.astro'
+import { getOldestPosts } from '@/utils/content'
+
+type PostEntry = CollectionEntry<'posts'>
+
+export const getStaticPaths = (async () => {
+  const posts = await getOldestPosts()
+  const tagPosts = new Map<string, PostEntry[]>()
+
+  posts.forEach((post) => {
+    post.data.tags.forEach((tag) => {
+      tagPosts.set(tag, [...(tagPosts.get(tag) || []), post])
+    })
+  })
+
+  return [...tagPosts.entries()].map(([tag, posts]) => ({
+    params: { tag },
+    props: { tag, posts },
+  }))
+}) satisfies GetStaticPaths
+
+interface Props {
+  tag: string
+  posts: PostEntry[]
+}
+
+const { tag, posts } = Astro.props
+---
+
+<Layout title={`Tag: ${tag}`}>
+  <h1>Tag: {tag}</h1>
+  <p class="page-note">共 {posts.length} 篇文章</p>
+  <PostTable posts={posts} />
+</Layout>

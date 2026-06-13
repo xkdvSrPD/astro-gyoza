@@ -11,7 +11,6 @@ const { title, description } = Astro.props
 
 const pageTitle = title ? `${title} - ${site.title}` : site.title
 const pathname = Astro.url.pathname
-const pathParts = pathname.split('/').filter(Boolean)
 const avatar = author.avatar || '/favicon.ico'
 
 const isActive = (href: string) => {
@@ -22,7 +21,7 @@ const isActive = (href: string) => {
 }
 
 const summaryActive = isActive('/')
-const archivesActive = isActive('/archives')
+const archivesActive = isActive('/archives') || isActive('/tag') || isActive('/category')
 const friendsActive = isActive('/friends')
 ---
 
@@ -38,7 +37,10 @@ const friendsActive = isActive('/friends')
     <link rel="sitemap" href="/sitemap-index.xml" />
     <script is:inline>
       ;(() => {
-        const theme = localStorage.getItem('site-theme') || 'white'
+        const storedTheme = localStorage.getItem('site-theme')
+        const theme =
+          storedTheme ||
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'black' : 'white')
         const width = localStorage.getItem('site-width') || '100'
         document.documentElement.dataset.theme = theme
         document.documentElement.dataset.width = width
@@ -102,37 +104,23 @@ const friendsActive = isActive('/friends')
                   <a
                     href="/"
                     class={summaryActive ? 'active' : undefined}
-                    aria-current={summaryActive ? 'page' : undefined}>summary</a
+                    aria-current={summaryActive ? 'page' : undefined}>about</a
                   >
                   <a
                     href="/archives"
                     class={archivesActive ? 'active' : undefined}
-                    aria-current={archivesActive ? 'page' : undefined}>archives</a
+                    aria-current={archivesActive ? 'page' : undefined}>summary</a
                   >
                   <a
                     href="/friends"
                     class={friendsActive ? 'active' : undefined}
-                    aria-current={friendsActive ? 'page' : undefined}>friends</a
+                    aria-current={friendsActive ? 'page' : undefined}>ref</a
                   >
                 </nav>
               </td>
             </tr>
           </tbody>
         </table>
-        <div class="path">
-          path: <a href="/">root</a>
-          {
-            pathParts.map((part, index) => {
-              const href = `/${pathParts.slice(0, index + 1).join('/')}`
-              return (
-                <>
-                  {' / '}
-                  <a href={href}>{decodeURIComponent(part)}</a>
-                </>
-              )
-            })
-          }
-        </div>
       </header>
       <main class="content" data-pagefind-body>
         <slot />

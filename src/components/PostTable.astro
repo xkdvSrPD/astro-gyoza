@@ -1,20 +1,16 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 import { getFormattedDate } from '@/utils/date'
+import { getTagStyle, taxonomyHref } from '@/utils/taxonomy'
 
 interface Props {
   posts: CollectionEntry<'posts'>[]
-  filterable?: boolean
 }
 
-const { posts, filterable = false } = Astro.props
-
-const archiveLink = (type: 'tag' | 'category', value: string) =>
-  `/archives?${type}=${encodeURIComponent(value)}`
+const { posts } = Astro.props
 ---
 
-<div class="post-table" data-filterable={filterable ? 'true' : undefined}>
-  {filterable && <p class="page-note filter-note" data-filter-note hidden />}
+<div class="post-table">
   <table class="list list-table">
     <thead>
       <tr class="logheader">
@@ -26,18 +22,18 @@ const archiveLink = (type: 'tag' | 'category', value: string) =>
     <tbody>
       {
         posts.map((post) => (
-          <tr data-category={post.data.category || ''} data-tags={JSON.stringify(post.data.tags)}>
+          <tr>
             <td class="list-title">
               <a href={`/posts/${post.slug}`}>{post.data.title}</a>
               {post.data.tags.map((tag) => (
-                <a class="tag-deco" href={archiveLink('tag', tag)}>
+                <a class="tag-deco" style={getTagStyle(tag)} href={taxonomyHref('tag', tag)}>
                   {tag}
                 </a>
               ))}
             </td>
             <td class="list-category">
               {post.data.category ? (
-                <a href={archiveLink('category', post.data.category)}>{post.data.category}</a>
+                <a href={taxonomyHref('category', post.data.category)}>{post.data.category}</a>
               ) : (
                 <span class="muted">-</span>
               )}
@@ -53,48 +49,3 @@ const archiveLink = (type: 'tag' | 'category', value: string) =>
     </tbody>
   </table>
 </div>
-
-<script is:inline>
-  ;(() => {
-    const filterableTables = document.querySelectorAll('[data-filterable="true"]')
-    if (filterableTables.length === 0) {
-      return
-    }
-
-    const params = new URLSearchParams(window.location.search)
-    const tag = params.get('tag')
-    const category = params.get('category')
-
-    if (!tag && !category) {
-      return
-    }
-
-    filterableTables.forEach((table) => {
-      const rows = Array.from(table.querySelectorAll('tbody tr'))
-      let visible = 0
-
-      rows.forEach((row) => {
-        const rowCategory = row.getAttribute('data-category') || ''
-        let rowTags = []
-
-        try {
-          rowTags = JSON.parse(row.getAttribute('data-tags') || '[]')
-        } catch {
-          rowTags = []
-        }
-
-        const matched = tag ? rowTags.includes(tag) : rowCategory === category
-        row.hidden = !matched
-        if (matched) {
-          visible += 1
-        }
-      })
-
-      const note = table.querySelector('[data-filter-note]')
-      if (note) {
-        note.textContent = `${tag ? 'Tag' : 'Category'}: ${tag || category} (${visible}/${rows.length})`
-        note.hidden = false
-      }
-    })
-  })()
-</script>

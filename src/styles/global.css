@@ -14,6 +14,7 @@ html[data-theme='white'] {
   --control-bg: white;
   --code-bg: #eee;
   --pre-bg: #f7f7f7;
+  --code-border: #000;
   --highlight: #ffc;
   --site-width: 100%;
 }
@@ -34,6 +35,7 @@ html[data-theme='black'] {
   --control-bg: #101010;
   --code-bg: #202020;
   --pre-bg: #151515;
+  --code-border: #777;
   --highlight: #514400;
 }
 
@@ -52,6 +54,7 @@ html[data-theme='purple'] {
   --control-bg: white;
   --code-bg: #eee6f8;
   --pre-bg: #f8f2ff;
+  --code-border: #624b76;
   --highlight: #f1e38f;
 }
 
@@ -70,6 +73,7 @@ html[data-theme='blue'] {
   --control-bg: white;
   --code-bg: #e5edf5;
   --pre-bg: #f0f7ff;
+  --code-border: #385a79;
   --highlight: #fff0a8;
 }
 
@@ -321,16 +325,14 @@ div#cgit a.branch-deco {
   padding: 0px 0.25em;
   background-color: #88ff88;
   border: solid 1px #007700;
-  border-radius: 2px;
 }
 
 div#cgit a.tag-deco {
   color: #000;
   margin: 0px 0.5em;
   padding: 0px 0.25em;
-  background-color: #ffff88;
-  border: solid 1px #777700;
-  border-radius: 2px;
+  background-color: var(--tag-bg, #ffff88);
+  border: solid 1px var(--tag-border, #777700);
   font-family: sans-serif;
   font-weight: normal;
 }
@@ -341,7 +343,6 @@ div#cgit a.tag-annotated-deco {
   padding: 0px 0.25em;
   background-color: #ffcc88;
   border: solid 1px #777700;
-  border-radius: 2px;
 }
 
 button,
@@ -530,9 +531,55 @@ samp {
 
 pre {
   overflow-x: auto;
-  padding: 0.75em 1em;
-  border: 1px solid var(--border-strong);
-  background: var(--pre-bg);
+  margin-top: 0.5em;
+  padding: 0;
+  border: 0;
+  border-top: solid 1px var(--code-border);
+  background: transparent;
+}
+
+div#cgit .content-body pre.astro-code {
+  color: var(--title) !important;
+  background: var(--bg) !important;
+}
+
+div#cgit .content-body pre code {
+  display: block;
+  padding: 0.5em 0 0.5em 0;
+  background: transparent;
+  color: inherit;
+  counter-reset: code-line;
+}
+
+div#cgit .content-body pre.astro-code .line {
+  display: block;
+  min-height: 1.25em;
+  color: inherit !important;
+  counter-increment: code-line;
+}
+
+div#cgit .content-body pre.astro-code .line::before {
+  content: counter(code-line);
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.5em;
+  padding: 0 0.5em;
+  border-right: 1px solid gray;
+  color: gray;
+  text-align: right;
+  user-select: none;
+}
+
+div#cgit .content-body pre.astro-code span {
+  color: inherit !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  text-decoration: none !important;
+}
+
+div#cgit .content-body img {
+  max-width: 100%;
+  height: auto;
 }
 
 blockquote {
@@ -612,7 +659,6 @@ blockquote {
   color: var(--muted);
 }
 
-.filter-note,
 .page-note {
   color: var(--muted);
 }

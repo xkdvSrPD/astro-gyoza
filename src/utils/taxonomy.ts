@@ -1,0 +1,34 @@
+type TaxonomyType = 'tag' | 'category'
+
+const tagHues = [60, 120, 30, 240, 0, 180, 300, 210, 90, 330, 150, 270]
+const tagSaturations = [100, 82, 66]
+const tagLightnesses = [77, 84, 90]
+const tagColorCount = tagHues.length * tagSaturations.length * tagLightnesses.length
+
+function hashString(value: string) {
+  let hash = 0x811c9dc5
+
+  for (const char of value) {
+    hash ^= char.codePointAt(0)!
+    hash = Math.imul(hash, 0x01000193) >>> 0
+  }
+
+  return hash
+}
+
+export function taxonomyHref(type: TaxonomyType, value: string) {
+  return `/${type}/${encodeURIComponent(value)}`
+}
+
+export function getTagStyle(tag: string) {
+  let slot = hashString(tag) % tagColorCount
+  const hue = tagHues[slot % tagHues.length]
+  slot = Math.floor(slot / tagHues.length)
+  const saturation = tagSaturations[slot % tagSaturations.length]
+  slot = Math.floor(slot / tagSaturations.length)
+  const lightness = tagLightnesses[slot % tagLightnesses.length]
+  const borderSaturation = Math.max(saturation - 28, 38)
+  const borderLightness = Math.max(lightness - 56, 24)
+
+  return `--tag-bg: hsl(${hue} ${saturation}% ${lightness}%); --tag-border: hsl(${hue} ${borderSaturation}% ${borderLightness}%);`
+}
