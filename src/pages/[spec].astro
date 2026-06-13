@@ -26,13 +26,13 @@ const isProjects = md.slug === 'projects'
 <Layout title={md.data.title} description={md.data.description}>
   {
     isFriends ? (
-      <div>
+      <div class="content-body">
         <h1>{md.data.title}</h1>
-        <p>{md.data.description}</p>
+        <p class="page-note">{md.data.description}</p>
         {await (async () => {
           const friends = await getCollection('friends')
           return (
-            <ul>
+            <ul class="card-list">
               {friends.map((f) => (
                 <li>
                   <a href={f.data.link} rel="noopener noreferrer" target="_blank">
@@ -56,13 +56,13 @@ const isProjects = md.slug === 'projects'
         <Content />
       </div>
     ) : isProjects ? (
-      <div>
+      <div class="content-body">
         <h1>{md.data.title}</h1>
-        <p>{md.data.description}</p>
+        <p class="page-note">{md.data.description}</p>
         {await (async () => {
           const projects = await getCollection('projects')
           return (
-            <ul>
+            <ul class="card-list project-list">
               {projects.map((p) => (
                 <li>
                   <a href={p.data.link} rel="noopener noreferrer" target="_blank">
@@ -86,7 +86,7 @@ const isProjects = md.slug === 'projects'
         <Content />
       </div>
     ) : (
-      <article>
+      <article class="content-body">
         <h1>{md.data.title}</h1>
         <Content />
       </article>

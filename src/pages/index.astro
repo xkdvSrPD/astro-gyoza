@@ -8,16 +8,28 @@ const posts = await getSortedPosts()
 
 <Layout>
   <h1>最新文章</h1>
-  <ul>
-    {
-      posts.map((post) => (
-        <li>
-          <a href={`/posts/${post.slug}`}>{post.data.title}</a>
-          <time datetime={post.data.createAt.toISOString()}>
-            {getFormattedDate(post.data.createAt)}
-          </time>
-        </li>
-      ))
-    }
-  </ul>
+  <table class="list-table">
+    <thead>
+      <tr>
+        <th class="list-date">date</th>
+        <th>subject</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        posts.map((post) => (
+          <tr>
+            <td class="list-date">
+              <time datetime={post.data.createAt.toISOString()}>
+                {getFormattedDate(post.data.createAt)}
+              </time>
+            </td>
+            <td class="list-title">
+              <a href={`/posts/${post.slug}`}>{post.data.title}</a>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
 </Layout>

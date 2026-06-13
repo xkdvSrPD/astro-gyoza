@@ -22,19 +22,49 @@ const { Content } = await post.render()
 ---
 
 <Layout title={post.data.title} description={post.data.summary}>
-  <article>
-    <header>
-      <h1>{post.data.title}</h1>
-      <time datetime={post.data.createAt.toISOString()}>
-        {getFormattedDateTime(post.data.createAt)}
-      </time>
-      {
-        post.data.updateAt && post.data.updateAt > post.data.createAt && (
-          <span> (更新于 {getFormattedDateTime(post.data.updateAt)})</span>
-        )
-      }
-      {post.data.category && <p>分类: {post.data.category}</p>}
-      {post.data.tags.length > 0 && <p>标签: {post.data.tags.join(', ')}</p>}
+  <article class="content-body">
+    <header class="article-header">
+      <h1 class="article-title">{post.data.title}</h1>
+      <table class="commit-info">
+        <tbody>
+          <tr>
+            <th>created</th>
+            <td>
+              <time datetime={post.data.createAt.toISOString()}>
+                {getFormattedDateTime(post.data.createAt)}
+              </time>
+            </td>
+          </tr>
+          {
+            post.data.updateAt && post.data.updateAt > post.data.createAt && (
+              <tr>
+                <th>updated</th>
+                <td>
+                  <time datetime={post.data.updateAt.toISOString()}>
+                    {getFormattedDateTime(post.data.updateAt)}
+                  </time>
+                </td>
+              </tr>
+            )
+          }
+          {
+            post.data.category && (
+              <tr>
+                <th>category</th>
+                <td>{post.data.category}</td>
+              </tr>
+            )
+          }
+          {
+            post.data.tags.length > 0 && (
+              <tr>
+                <th>tags</th>
+                <td class="tag-list">{post.data.tags.join(', ')}</td>
+              </tr>
+            )
+          }
+        </tbody>
+      </table>
     </header>
     <div>
       <Content />

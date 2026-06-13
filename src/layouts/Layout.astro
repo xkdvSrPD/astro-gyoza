@@ -1,4 +1,5 @@
 ---
+import '@/styles/global.css'
 import { site } from '@/config.json'
 
 interface Props {
@@ -9,6 +10,22 @@ interface Props {
 const { title, description } = Astro.props
 
 const pageTitle = title ? `${title} - ${site.title}` : site.title
+const pathname = Astro.url.pathname
+const navItems = [
+  { href: '/', label: 'summary' },
+  { href: '/archives', label: 'log' },
+  { href: '/about', label: 'about' },
+  { href: '/friends', label: 'friends' },
+  { href: '/projects', label: 'tree' },
+]
+const pathParts = pathname.split('/').filter(Boolean)
+
+const isActive = (href: string) => {
+  if (href === '/') {
+    return pathname === '/'
+  }
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
 ---
 
 <!doctype html>
@@ -23,20 +40,42 @@ const pageTitle = title ? `${title} - ${site.title}` : site.title
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
   <body>
-    <header>
-      <nav>
-        <a href="/">{site.title}</a>
-        <a href="/archives">归档</a>
-        <a href="/about">关于</a>
-        <a href="/friends">友链</a>
-        <a href="/projects">项目</a>
-      </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-    <footer>
-      <p>&copy; {new Date().getFullYear()} {site.title}</p>
-    </footer>
+    <div class="site-frame">
+      <header class="site-header">
+        <div class="site-mainline">
+          <a class="site-title" href="/">{site.title}</a>
+          <div class="site-description">{site.description}</div>
+        </div>
+        <nav class="site-tabs" aria-label="主导航">
+          {
+            navItems.map((item) => (
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+        <div class="pathline">
+          path: <a href="/">root</a>
+          {
+            pathParts.map((part, index) => {
+              const href = `/${pathParts.slice(0, index + 1).join('/')}`
+              return (
+                <>
+                  {' / '}
+                  <a href={href}>{decodeURIComponent(part)}</a>
+                </>
+              )
+            })
+          }
+        </div>
+      </header>
+      <main class="page-content">
+        <slot />
+      </main>
+      <footer class="site-footer">
+        <p>&copy; {new Date().getFullYear()} {site.title}</p>
+      </footer>
+    </div>
   </body>
 </html>
