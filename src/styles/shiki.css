@@ -1,9 +1,0 @@
-.shiki,
-.shiki span {
-  color: var(--shiki-light);
-}
-
-[data-theme='dark'] .shiki,
-[data-theme='dark'] .shiki span {
-  color: var(--shiki-dark);
-}

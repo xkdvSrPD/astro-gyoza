@@ -1,118 +1,43 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 import type { GetStaticPaths } from 'astro'
-import MarkdownLayout from '@/layouts/MarkdownLayout.astro'
+import Layout from '@/layouts/Layout.astro'
 import { getSortedPosts } from '@/utils/content'
-import MarkdownWrapper from '@/components/MarkdownWrapper.astro'
-import SectionBlock from '@/components/SectionBlock.astro'
-import PostToc from '@/components/post/PostToc.astro'
-import PostMetaInfo from '@/components/post/PostMetaInfo.astro'
-import PostArchiveInfo from '@/components/post/PostArchiveInfo.astro'
-import ReadingProgress from '@/components/post/ReadingProgress.astro'
-import Outdate from '@/components/post/Outdate.astro'
-import PostNav from '@/components/post/PostNav.astro'
-import { Comments } from '@/components/comment'
-import ActionAside from '@/components/post/ActionAside.astro'
-import PostCopyright from '@/components/post/PostCopyright.astro'
-import { generatePostOgImage } from '@/utils/ogImage'
+import { getFormattedDateTime } from '@/utils/date'
 
 export const getStaticPaths = (async () => {
   const sortedPosts = await getSortedPosts()
-
-  return sortedPosts.map((post, index) => ({
+  return sortedPosts.map((post) => ({
     params: { slug: post.slug },
-    props: {
-      current: post,
-      prev: index > 0 ? sortedPosts[index - 1] : undefined,
-      next: index < sortedPosts.length - 1 ? sortedPosts[index + 1] : undefined,
-    },
+    props: { post },
   }))
 }) satisfies GetStaticPaths
 
 interface Props {
-  current: CollectionEntry<'posts'>
-  prev?: CollectionEntry<'posts'>
-  next?: CollectionEntry<'posts'>
+  post: CollectionEntry<'posts'>
 }
 
-const { current, prev, next } = Astro.props
-
-const { headings, Content, remarkPluginFrontmatter } = await current.render()
-
-const mdSlug = `/posts/${current.slug}`
-
-const mdDescription = concat(current.data.category || '', current.data.tags.join(', '))
-
-function concat(str1: string, str2: string, sep = ' / ') {
-  if (str1 && str2) return str1 + sep + str2
-  if (str1) return str1
-  if (str2) return str2
-  return ''
-}
-
-const lastMod = current.data.updateAt || current.data.createAt
-
-// Generate OG image at build time
-const ogImage = await generatePostOgImage(current)
+const { post } = Astro.props
+const { Content } = await post.render()
 ---
 
-<MarkdownLayout
-  title={current.data.title}
-  description={current.data.summary}
-  image={ogImage}
-  mdTitle={current.data.title}
-  mdDescription={mdDescription}
-  mdSlug={mdSlug}
->
-  <div class="w-full max-w-full lg:max-w-[1100px] mx-auto px-4 md:px-8 py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px] gap-8">
-      <!-- Main content with swup transition -->
-      <div class="swup-transition-fade" data-pagefind-body>
-        <header class="space-y-4">
-          <h1 class="text-4xl font-bold text-center">
-            {current.data.title}
-          </h1>
-          <PostMetaInfo
-            class="justify-center"
-            createAt={current.data.createAt}
-            updateAt={current.data.updateAt}
-            words={remarkPluginFrontmatter.words}
-            readingMinutes={remarkPluginFrontmatter.readingMinutes}
-          />
-          <PostArchiveInfo
-            class="justify-center"
-            category={current.data.category}
-            tags={current.data.tags}
-          />
-          <div>
-            <Outdate lastMod={current.data.createAt} />
-          </div>
-        </header>
-
-        <div class="mt-8">
-          <MarkdownWrapper>
-            <Content />
-          </MarkdownWrapper>
-        </div>
-
-        <section class="mt-12 space-y-6" data-pagefind-ignore>
-          <PostCopyright title={current.data.title} slug={mdSlug} lastMod={lastMod} />
-          <PostNav prev={prev} next={next} />
-          {current.data.comments && <Comments />}
-        </section>
-      </div>
-
-      <!-- Sticky sidebar - outside swup transition -->
-      <div class="hidden lg:block" data-pagefind-ignore>
-        <aside class="sticky top-20">
-          <SectionBlock title="目录">
-            <PostToc headings={headings} />
-            <hr class="my-2 border-primary max-w-[100px]" />
-            <ReadingProgress />
-          </SectionBlock>
-          <ActionAside title={current.data.title} slug={mdSlug} />
-        </aside>
-      </div>
+<Layout title={post.data.title} description={post.data.summary}>
+  <article>
+    <header>
+      <h1>{post.data.title}</h1>
+      <time datetime={post.data.createAt.toISOString()}>
+        {getFormattedDateTime(post.data.createAt)}
+      </time>
+      {
+        post.data.updateAt && post.data.updateAt > post.data.createAt && (
+          <span> (更新于 {getFormattedDateTime(post.data.updateAt)})</span>
+        )
+      }
+      {post.data.category && <p>分类: {post.data.category}</p>}
+      {post.data.tags.length > 0 && <p>标签: {post.data.tags.join(', ')}</p>}
+    </header>
+    <div>
+      <Content />
     </div>
-  </div>
-</MarkdownLayout>
+  </article>
+</Layout>

@@ -2,26 +2,13 @@
 import type { GetStaticPaths } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 import { getCollection } from 'astro:content'
-import MarkdownLayout from '@/layouts/MarkdownLayout.astro'
-import PageLayout from '@/layouts/PageLayout.astro'
-import Highlight from '@/components/Highlight.astro'
-import SectionBlock from '@/components/SectionBlock.astro'
-import MarkdownWrapper from '@/components/MarkdownWrapper.astro'
-import FriendList from '@/components/FriendList.astro'
-import ProjectList from '@/components/ProjectList.astro'
-import ReadingProgress from '@/components/post/ReadingProgress.astro'
-import PostToc from '@/components/post/PostToc.astro'
-import { Comments } from '@/components/comment'
-import { generateSpecOgImage } from '@/utils/ogImage'
+import Layout from '@/layouts/Layout.astro'
 
 export const getStaticPaths = (async () => {
   const specList = await getCollection('spec')
-
   return specList.map((md) => ({
     params: { spec: md.slug },
-    props: {
-      md,
-    },
+    props: { md },
   }))
 }) satisfies GetStaticPaths
 
@@ -30,111 +17,79 @@ interface Props {
 }
 
 const { md } = Astro.props
+const { Content } = await md.render()
 
-const { headings, Content } = await md.render()
-
-const isPageLayout = ['friends', 'projects'].includes(md.slug)
-const isAboutPage = md.slug === 'about'
-const mdBody = md.body ?? ''
-const isMdContentEmpty = mdBody.trim().length === 0
-
-// Generate OG image at build time
-const ogImage = await generateSpecOgImage(md)
+const isFriends = md.slug === 'friends'
+const isProjects = md.slug === 'projects'
 ---
 
-{
-  isPageLayout ? (
-    <PageLayout title={md.data.title} description={md.data.description} image={ogImage}>
-      <div class="swup-transition-fade">
-        <div class="max-w-[800px] mx-auto px-4 py-16 space-y-8" data-pagefind-body>
-          <header class="space-y-4">
-            <h1 class="text-4xl font-bold">
-              <Highlight>{md.data.title}</Highlight>
-            </h1>
-            <p>{md.data.description}</p>
-          </header>
-          {md.slug === 'friends' && <FriendList />}
-          {md.slug === 'projects' && <ProjectList />}
-          {!isMdContentEmpty && (
-            <MarkdownWrapper>
-              <Content />
-            </MarkdownWrapper>
-          )}
-          {md.data.comments && <Comments />}
-        </div>
+<Layout title={md.data.title} description={md.data.description}>
+  {
+    isFriends ? (
+      <div>
+        <h1>{md.data.title}</h1>
+        <p>{md.data.description}</p>
+        {await (async () => {
+          const friends = await getCollection('friends')
+          return (
+            <ul>
+              {friends.map((f) => (
+                <li>
+                  <a href={f.data.link} rel="noopener noreferrer" target="_blank">
+                    {f.data.avatar && (
+                      <img
+                        src={f.data.avatar}
+                        alt={f.data.title}
+                        width="40"
+                        height="40"
+                        loading="lazy"
+                      />
+                    )}
+                    <span>{f.data.title}</span>
+                  </a>
+                  <p>{f.data.description}</p>
+                </li>
+              ))}
+            </ul>
+          )
+        })()}
+        <Content />
       </div>
-    </PageLayout>
-  ) : (
-    <MarkdownLayout
-      title={md.data.title}
-      description={md.data.description}
-      image={ogImage}
-      mdTitle={md.data.title}
-      mdDescription={md.data.description}
-      mdSlug={md.slug}
-    >
-      {isAboutPage ? (
-        <div class="swup-transition-fade">
-          <div
-            class="w-full max-w-full lg:max-w-[800px] mx-auto px-4 py-16 space-y-10"
-            data-pagefind-body
-          >
-            <header class="space-y-4 text-left">
-              <h1 class="text-4xl font-bold">
-                <Highlight>{md.data.title}</Highlight>
-              </h1>
-              <p>{md.data.description}</p>
-            </header>
-            <div class="text-left">
-              <MarkdownWrapper>
-                <Content />
-              </MarkdownWrapper>
-            </div>
-          </div>
-          {md.data.comments && (
-            <div class="w-full max-w-full lg:max-w-[800px] mx-auto px-4 pb-16">
-              <Comments />
-            </div>
-          )}
-        </div>
-      ) : (
-        <div class="w-full max-w-full lg:max-w-[1100px] mx-auto px-4 md:px-8 py-16">
-          <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px] gap-8">
-            {/* Main content with swup transition */}
-            <div class="swup-transition-fade" data-pagefind-body>
-              <header class="space-y-4">
-                <h1 class="text-4xl font-bold">
-                  <Highlight>{md.data.title}</Highlight>
-                </h1>
-                <p>{md.data.description}</p>
-              </header>
-
-              <div class="mt-8">
-                <MarkdownWrapper>
-                  <Content />
-                </MarkdownWrapper>
-              </div>
-
-              {md.data.comments && (
-                <div class="mt-12">
-                  <Comments />
-                </div>
-              )}
-            </div>
-
-            {/* Sticky sidebar - outside swup transition */}
-            <div class="hidden lg:block" data-pagefind-ignore>
-              <aside class="sticky top-20">
-                <SectionBlock title="目录">
-                  <PostToc headings={headings} />
-                  <hr class="my-2 border-primary max-w-[100px]" />
-                  <ReadingProgress />
-                </SectionBlock>
-              </aside>
-            </div>
-          </div>
-        </div>
-      )}
-    </MarkdownLayout>
-  )
-}
+    ) : isProjects ? (
+      <div>
+        <h1>{md.data.title}</h1>
+        <p>{md.data.description}</p>
+        {await (async () => {
+          const projects = await getCollection('projects')
+          return (
+            <ul>
+              {projects.map((p) => (
+                <li>
+                  <a href={p.data.link} rel="noopener noreferrer" target="_blank">
+                    {p.data.image && (
+                      <img
+                        src={p.data.image}
+                        alt={p.data.title}
+                        width="200"
+                        height="120"
+                        loading="lazy"
+                      />
+                    )}
+                    <span>{p.data.title}</span>
+                  </a>
+                  <p>{p.data.description}</p>
+                </li>
+              ))}
+            </ul>
+          )
+        })()}
+        <Content />
+      </div>
+    ) : (
+      <article>
+        <h1>{md.data.title}</h1>
+        <Content />
+      </article>
+    )
+  }
+</Layout>

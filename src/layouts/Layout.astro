@@ -1,52 +1,42 @@
 ---
-import {
-  CommonHead,
-  WebAnalytics,
-  ThemeLoader,
-  ToastBridge,
-  WidgetBootstrap,
-  PrintVersion,
-  RouteEnhancer,
-  ScrollController,
-  CodeCopyHandler,
-  ImageDragGuard,
-  ImageLoader,
-} from '@/components/head'
-import BackToTopFAB from '@/components/BackToTopFAB.astro'
-import AnimatedBackground from '@/components/AnimatedBackground.astro'
 import { site } from '@/config.json'
-import '@/styles/global.css'
 
 interface Props {
   title?: string
   description?: string
-  image?: string
 }
 
-const { title, description, image } = Astro.props
+const { title, description } = Astro.props
+
+const pageTitle = title ? `${title} - ${site.title}` : site.title
 ---
 
 <!doctype html>
 <html lang={site.lang}>
   <head>
-    <CommonHead title={title} description={description} image={image} />
-    <WebAnalytics />
-    <ThemeLoader />
-    <ToastBridge />
-    <PrintVersion />
-    <RouteEnhancer />
-    <ScrollController />
-    <CodeCopyHandler />
-    <ImageDragGuard />
-    <ImageLoader />
-    <WidgetBootstrap />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description || site.description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
-  <body class="relative min-h-screen">
-    <AnimatedBackground />
-    <div class="relative z-10 flex min-h-screen flex-col">
+  <body>
+    <header>
+      <nav>
+        <a href="/">{site.title}</a>
+        <a href="/archives">归档</a>
+        <a href="/about">关于</a>
+        <a href="/friends">友链</a>
+        <a href="/projects">项目</a>
+      </nav>
+    </header>
+    <main>
       <slot />
-
-      <BackToTopFAB />
-    </div>
+    </main>
+    <footer>
+      <p>&copy; {new Date().getFullYear()} {site.title}</p>
+    </footer>
   </body>
 </html>
