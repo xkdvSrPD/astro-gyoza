@@ -842,7 +842,21 @@ td.list-category {
   }
 }
 
-.giscus-container {
+.giscus-section {
   margin-top: 2em;
-  padding: 1em 0;
+}
+
+.giscus-section h2 {
+  margin: 0 0 0.75em;
+  padding-top: 0.4em;
+  border-top: 1px solid var(--border);
+  font-size: 130%;
+  color: var(--title);
+}
+
+.giscus-root {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--bg);
 }

@@ -29,19 +29,22 @@ const {
 } = Astro.props
 ---
 
-<div
-  class="giscus-container"
-  data-giscus-root
-  data-repo={repo}
-  data-repo-id={repoId}
-  data-category={category}
-  data-category-id={categoryId}
-  data-mapping={mapping}
-  data-strict={strict}
-  data-reactions-enabled={reactionsEnabled}
-  data-emit-metadata={emitMetadata}
-  data-input-position={inputPosition}
-  data-lang={lang}
-  data-loading={loading}
->
-</div>
+<section class="giscus-section">
+  <h2>Comments</h2>
+  <div
+    class="giscus-root"
+    data-giscus-root
+    data-repo={repo}
+    data-repo-id={repoId}
+    data-category={category}
+    data-category-id={categoryId}
+    data-mapping={mapping}
+    data-strict={strict}
+    data-reactions-enabled={reactionsEnabled}
+    data-emit-metadata={emitMetadata}
+    data-input-position={inputPosition}
+    data-lang={lang}
+    data-loading={loading}
+  >
+  </div>
+</section>
