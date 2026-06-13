@@ -16,5 +16,3 @@ description: Only the paranoid survive
 link: https://www.vio.vin
 avatar: https://www.vio.vin/favicon.ico
 ```
-
-PS：国内站不会显示评论嗷，你可以选择前往[国际站](https://vio.moe/friends)。
