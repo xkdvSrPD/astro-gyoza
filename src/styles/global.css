@@ -375,7 +375,7 @@ div#cgit a.branch-deco {
 div#cgit a.tag-deco.tag-deco {
   color: var(--tag-text, #000);
   margin: 0 0.4em 0 0;
-  padding: 0px 0.25em;
+  padding: 0px 0px;
   background-color: var(--tag-bg, #ffff88);
   border: solid 1px var(--tag-border, #777700);
   border-radius: 2px;
