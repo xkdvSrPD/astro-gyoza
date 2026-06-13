@@ -281,10 +281,7 @@ const friendsActive = isActive('/friends')
         })
 
         function getGiscusTheme() {
-          const base = 'https://git.vio.vin/violet/astro-gyoza/raw/branch/main/public'
-          return root.dataset.theme === 'black'
-            ? `${base}/giscus-dark.css`
-            : `${base}/giscus-light.css`
+          return root.dataset.theme === 'black' ? 'transparent_dark' : 'light'
         }
 
         function syncGiscusTheme() {
