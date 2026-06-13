@@ -148,11 +148,23 @@ const friendsActive = isActive('/friends')
       </main>
       <footer class="footer" data-pagefind-ignore>
         <p>&copy; {new Date().getFullYear()} {site.title}</p>
+        <p id="beian" style="display:none">
+          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener"></a>
+        </p>
       </footer>
     </div>
     <script is:inline>
       ;(() => {
         const root = document.documentElement
+        const d = (h, k) => {
+          let r = ''
+          for (let i = 0; i < h.length; i += 4)
+            r += String.fromCharCode(
+              parseInt(h.substring(i, i + 4), 16) ^ k.charCodeAt((i / 4) % k.length),
+            )
+          return r
+        }
+        const dm = d('00110010000000540017000e0017', 'gyoza')
         const setPressed = (selector, attr, value) => {
           document.querySelectorAll(selector).forEach((button) => {
             button.setAttribute(
@@ -319,7 +331,7 @@ const friendsActive = isActive('/friends')
           if (rootEl.dataset.giscusMounted === 'true') {
             return
           }
-          if (window.location.hostname.includes('vio.vin')) {
+          if (window.location.hostname.includes(dm)) {
             return
           }
 
@@ -360,7 +372,7 @@ const friendsActive = isActive('/friends')
         function registerGiscus() {
           const roots = Array.from(document.querySelectorAll('[data-giscus-root]'))
           roots.forEach((rootEl) => {
-            if (window.location.hostname.includes('vio.vin')) {
+            if (window.location.hostname.includes(dm)) {
               rootEl.innerHTML = ''
               return
             }
@@ -370,6 +382,20 @@ const friendsActive = isActive('/friends')
 
         registerGiscus()
         document.addEventListener('app-theme-change', syncGiscusTheme)
+
+        // --- beian ---
+        if (window.location.hostname.includes(dm)) {
+          const r = d(
+            '96320030002c002a596600550049005d004b00510056004c005a004f005253900054005d',
+            'gyoza',
+          )
+          const el = document.getElementById('beian')
+          if (el) {
+            el.style.display = ''
+            const a = el.querySelector('a')
+            if (a) a.textContent = r
+          }
+        }
       })()
     </script>
   </body>
