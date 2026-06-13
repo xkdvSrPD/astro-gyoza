@@ -1,4 +1,4 @@
-/*! cgit-inspired light theme for giscus */
+/*! cgit light theme for giscus */
 
 main {
   --color-prettylights-syntax-comment: #838183;
@@ -114,12 +114,4 @@ main input,
 main .Box,
 main .border {
   border-color: #ccc !important;
-}
-
-main .pagination-loader-container {
-  background-image: url('https://github.com/images/modules/pulls/progressive-disclosure-line.svg');
-}
-
-main .gsc-loading-image {
-  background-image: url('https://github.githubassets.com/images/mona-loading-default.gif');
 }
