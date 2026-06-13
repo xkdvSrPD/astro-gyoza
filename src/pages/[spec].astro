@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 import { getCollection } from 'astro:content'
 import Layout from '@/layouts/Layout.astro'
+import { Comments } from '@/components/comment'
 
 export const getStaticPaths = (async () => {
   const specList = await getCollection('spec')
@@ -56,6 +57,7 @@ const isProjects = md.slug === 'projects'
           )
         })()}
         <Content />
+        {md.data.comments !== false && <Comments />}
       </div>
     ) : isProjects ? (
       <div class="content-body">
@@ -86,11 +88,13 @@ const isProjects = md.slug === 'projects'
           )
         })()}
         <Content />
+        {md.data.comments !== false && <Comments />}
       </div>
     ) : (
       <article class="content-body">
         <h1>{md.data.title}</h1>
         <Content />
+        {md.data.comments !== false && <Comments />}
       </article>
     )
   }

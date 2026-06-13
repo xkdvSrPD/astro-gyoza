@@ -841,3 +841,8 @@ td.list-category {
     width: calc(100vw - 1.5em);
   }
 }
+
+.giscus-container {
+  margin-top: 2em;
+  padding: 1em 0;
+}

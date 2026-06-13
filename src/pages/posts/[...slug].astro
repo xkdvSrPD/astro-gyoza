@@ -5,6 +5,7 @@ import Layout from '@/layouts/Layout.astro'
 import { getSortedPosts } from '@/utils/content'
 import { getFormattedDateTime } from '@/utils/date'
 import { taxonomyHref } from '@/utils/taxonomy'
+import { Comments } from '@/components/comment'
 
 export const getStaticPaths = (async () => {
   const sortedPosts = await getSortedPosts()
@@ -79,5 +80,6 @@ const { Content } = await post.render()
     <div>
       <Content />
     </div>
+    {post.data.comments !== false && <Comments />}
   </article>
 </Layout>

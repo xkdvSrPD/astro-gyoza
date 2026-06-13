@@ -144,6 +144,7 @@ const friendsActive = isActive('/friends')
           root.dataset.theme = theme
           localStorage.setItem('site-theme', theme)
           setPressed('[data-theme-choice]', 'data-theme-choice', theme)
+          document.dispatchEvent(new CustomEvent('app-theme-change'))
         }
         const applyWidth = (width) => {
           root.dataset.width = width
@@ -278,6 +279,76 @@ const friendsActive = isActive('/friends')
             clearResults()
           }
         })
+
+        function getGiscusTheme() {
+          return root.dataset.theme === 'black' ? 'transparent_dark' : 'light'
+        }
+
+        function syncGiscusTheme() {
+          const frame = document.querySelector('iframe.giscus-frame')
+          if (frame?.contentWindow) {
+            frame.contentWindow.postMessage(
+              { giscus: { setConfig: { theme: getGiscusTheme() } } },
+              'https://giscus.app',
+            )
+          }
+        }
+
+        function mountGiscus(rootEl) {
+          if (rootEl.dataset.giscusMounted === 'true') {
+            return
+          }
+          if (window.location.hostname.includes('vio.vin')) {
+            return
+          }
+
+          rootEl.dataset.giscusMounted = 'true'
+          rootEl.innerHTML = ''
+
+          const script = document.createElement('script')
+          script.src = 'https://giscus.app/client.js'
+          script.async = true
+          script.crossOrigin = 'anonymous'
+
+          const attrs = [
+            'repo',
+            'repoId',
+            'category',
+            'categoryId',
+            'mapping',
+            'strict',
+            'reactionsEnabled',
+            'emitMetadata',
+            'inputPosition',
+            'lang',
+            'loading',
+          ]
+          attrs.forEach((attr) => {
+            const value = rootEl.dataset[attr]
+            if (value) {
+              script.setAttribute(
+                `data-${attr.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}`,
+                value,
+              )
+            }
+          })
+          script.setAttribute('data-theme', getGiscusTheme())
+          rootEl.appendChild(script)
+        }
+
+        function registerGiscus() {
+          const roots = Array.from(document.querySelectorAll('[data-giscus-root]'))
+          roots.forEach((rootEl) => {
+            if (window.location.hostname.includes('vio.vin')) {
+              rootEl.innerHTML = ''
+              return
+            }
+            mountGiscus(rootEl)
+          })
+        }
+
+        registerGiscus()
+        document.addEventListener('app-theme-change', syncGiscusTheme)
       })()
     </script>
   </body>
