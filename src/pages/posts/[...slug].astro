@@ -4,7 +4,7 @@ import type { GetStaticPaths } from 'astro'
 import Layout from '@/layouts/Layout.astro'
 import { getSortedPosts } from '@/utils/content'
 import { getFormattedDateTime } from '@/utils/date'
-import { getTagStyle, taxonomyHref } from '@/utils/taxonomy'
+import { taxonomyHref } from '@/utils/taxonomy'
 
 export const getStaticPaths = (async () => {
   const sortedPosts = await getSortedPosts()
@@ -62,11 +62,12 @@ const { Content } = await post.render()
             post.data.tags.length > 0 && (
               <tr>
                 <th>tags</th>
-                <td class="tag-list">
-                  {post.data.tags.map((tag) => (
-                    <a class="tag-deco" style={getTagStyle(tag)} href={taxonomyHref('tag', tag)}>
-                      {tag}
-                    </a>
+                <td>
+                  {post.data.tags.map((tag, i) => (
+                    <>
+                      {i > 0 && '、'}
+                      <a href={taxonomyHref('tag', tag)}>{tag}</a>
+                    </>
                   ))}
                 </td>
               </tr>
