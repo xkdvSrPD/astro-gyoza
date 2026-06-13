@@ -94,6 +94,27 @@ main {
   --color-social-reaction-bg-reacted-hover: #0d1a33;
 }
 
+.gsc-reactions-button,
+.btn,
+.form-control,
+.gsc-comment,
+.gsc-timeline-item,
+.gsc-reply,
+.gsc-reactions,
+.gsc-upvotes,
+.gsc-social-reaction-summary,
+.gsc-header {
+  border-radius: 0 !important;
+}
+
+.gsc-comment {
+  border-color: #444 !important;
+}
+
+.gsc-timeline {
+  border-color: #444;
+}
+
 main .pagination-loader-container {
   background-image: url('https://github.com/images/modules/pulls/progressive-disclosure-line.svg');
 }
