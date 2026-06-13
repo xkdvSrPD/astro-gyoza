@@ -369,8 +369,8 @@ div#cgit a.branch-deco {
 }
 
 div#cgit a.tag-deco {
-  color: #000;
-  margin: 0px 0.5em;
+  color: var(--tag-text, #000);
+  margin: 0 0.2em 0 0;
   padding: 0px 0.25em;
   background-color: var(--tag-bg, #ffff88);
   border: solid 1px var(--tag-border, #777700);
@@ -586,7 +586,8 @@ div#cgit .content-body pre.astro-code {
 div#cgit .content-body pre code {
   display: table;
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0.5em 0;
   padding: 0;
   background: transparent;
   color: inherit;
@@ -678,6 +679,8 @@ blockquote {
 .list-category {
   width: 12em;
   white-space: nowrap;
+  font-family: monospace;
+  font-weight: bold;
 }
 
 .list-date {

@@ -41,7 +41,7 @@ const friendsActive = isActive('/friends')
         const theme =
           storedTheme ||
           (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'black' : 'white')
-        const width = localStorage.getItem('site-width') || '100'
+        const width = localStorage.getItem('site-width') || '60'
         document.documentElement.dataset.theme = theme
         document.documentElement.dataset.width = width
       })()
