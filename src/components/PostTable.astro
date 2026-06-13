@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 import { getFormattedDate } from '@/utils/date'
-import { getTagStyle, taxonomyHref } from '@/utils/taxonomy'
+import { taxonomyHref } from '@/utils/taxonomy'
 
 interface Props {
   posts: CollectionEntry<'posts'>[]
@@ -15,6 +15,7 @@ const { posts } = Astro.props
     <thead>
       <tr class="logheader">
         <th>Title</th>
+        <th>Tags</th>
         <th class="list-category">Category</th>
         <th class="list-date">Date</th>
       </tr>
@@ -25,11 +26,18 @@ const { posts } = Astro.props
           <tr>
             <td class="list-title">
               <a href={`/posts/${post.slug}`}>{post.data.title}</a>
-              {post.data.tags.map((tag) => (
-                <a class="tag-deco" style={getTagStyle(tag)} href={taxonomyHref('tag', tag)}>
-                  {tag}
-                </a>
-              ))}
+            </td>
+            <td class="list-category">
+              {post.data.tags.length > 0 ? (
+                post.data.tags.map((tag, i) => (
+                  <>
+                    {i > 0 && '、'}
+                    <a href={taxonomyHref('tag', tag)}>{tag}</a>
+                  </>
+                ))
+              ) : (
+                <span class="muted">-</span>
+              )}
             </td>
             <td class="list-category">
               {post.data.category ? (
