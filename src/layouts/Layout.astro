@@ -281,7 +281,9 @@ const friendsActive = isActive('/friends')
         })
 
         function getGiscusTheme() {
-          return root.dataset.theme === 'black' ? 'noborder_dark' : 'noborder_light'
+          return root.dataset.theme === 'black'
+            ? `${window.location.origin}/giscus-dark.css`
+            : `${window.location.origin}/giscus-light.css`
         }
 
         function syncGiscusTheme() {
