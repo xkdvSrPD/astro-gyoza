@@ -853,10 +853,3 @@ td.list-category {
   font-size: 130%;
   color: var(--title);
 }
-
-.giscus-root {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  background: var(--bg);
-}
