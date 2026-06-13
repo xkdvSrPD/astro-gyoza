@@ -305,17 +305,18 @@ div#cgit table.list th {
 
 div#cgit table.list td {
   border: none;
-  padding: 0.1em 0.5em 0.1em 0.5em;
+  padding: 0.35em 0.5em;
+}
+
+div#cgit table.list td a {
+  line-height: 1.8;
+  color: var(--title);
 }
 
 div#cgit table.list td.logsubject,
 div#cgit table.list td.list-title {
   font-family: monospace;
   font-weight: bold;
-}
-
-div#cgit table.list td a {
-  color: var(--title);
 }
 
 div#cgit table.list td a:hover {
@@ -425,6 +426,7 @@ input {
 .site-search input {
   box-sizing: border-box;
   width: 100%;
+  min-height: 24px;
   border: 1px solid var(--border-strong);
   padding: 1px 0.35em;
   color: var(--text);
@@ -492,7 +494,8 @@ input {
 
 .tool-row button {
   border: 1px solid var(--border-strong);
-  padding: 0 0.35em;
+  padding: 0.15em 0.35em;
+  min-height: 24px;
   color: var(--link);
   background: var(--control-bg);
   cursor: pointer;

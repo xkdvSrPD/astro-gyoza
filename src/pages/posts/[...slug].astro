@@ -56,7 +56,12 @@ const ogImage = await generatePostOgImage(post)
               <tr>
                 <th>category</th>
                 <td>
-                  <a href={taxonomyHref('category', post.data.category)}>{post.data.category}</a>
+                  <a
+                    href={taxonomyHref('category', post.data.category)}
+                    aria-label={`Category: ${post.data.category}`}
+                  >
+                    {post.data.category}
+                  </a>
                 </td>
               </tr>
             )
@@ -69,7 +74,9 @@ const ogImage = await generatePostOgImage(post)
                   {post.data.tags.map((tag, i) => (
                     <>
                       {i > 0 && '、'}
-                      <a href={taxonomyHref('tag', tag)}>{tag}</a>
+                      <a href={taxonomyHref('tag', tag)} aria-label={`Tag: ${tag}`}>
+                        {tag}
+                      </a>
                     </>
                   ))}
                 </td>
