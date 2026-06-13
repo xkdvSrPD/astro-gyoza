@@ -19,6 +19,8 @@ interface Props {
 
 const { post } = Astro.props
 const { Content } = await post.render()
+const archiveLink = (type: 'tag' | 'category', value: string) =>
+  `/archives?${type}=${encodeURIComponent(value)}`
 ---
 
 <Layout title={post.data.title} description={post.data.summary}>
@@ -51,7 +53,9 @@ const { Content } = await post.render()
             post.data.category && (
               <tr>
                 <th>category</th>
-                <td>{post.data.category}</td>
+                <td>
+                  <a href={archiveLink('category', post.data.category)}>{post.data.category}</a>
+                </td>
               </tr>
             )
           }
@@ -59,7 +63,14 @@ const { Content } = await post.render()
             post.data.tags.length > 0 && (
               <tr>
                 <th>tags</th>
-                <td class="tag-list">{post.data.tags.join(', ')}</td>
+                <td class="tag-list">
+                  {post.data.tags.map((tag, index) => (
+                    <>
+                      {index > 0 && ', '}
+                      <a href={archiveLink('tag', tag)}>{tag}</a>
+                    </>
+                  ))}
+                </td>
               </tr>
             )
           }

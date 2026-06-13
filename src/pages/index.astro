@@ -1,35 +1,18 @@
 ---
 import Layout from '@/layouts/Layout.astro'
+import PostTable from '@/components/PostTable.astro'
 import { getSortedPosts } from '@/utils/content'
-import { getFormattedDate } from '@/utils/date'
+import { getEntry } from 'astro:content'
 
-const posts = await getSortedPosts()
+const posts = (await getSortedPosts()).slice(0, 10)
+const about = await getEntry('spec', 'about')
+const { Content } = await about!.render()
 ---
 
 <Layout>
-  <h1>最新文章</h1>
-  <table class="list-table">
-    <thead>
-      <tr>
-        <th class="list-date">date</th>
-        <th>subject</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        posts.map((post) => (
-          <tr>
-            <td class="list-date">
-              <time datetime={post.data.createAt.toISOString()}>
-                {getFormattedDate(post.data.createAt)}
-              </time>
-            </td>
-            <td class="list-title">
-              <a href={`/posts/${post.slug}`}>{post.data.title}</a>
-            </td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+  <article class="content-body summary-about">
+    <Content />
+  </article>
+  <h2>Recent posts</h2>
+  <PostTable posts={posts} />
 </Layout>

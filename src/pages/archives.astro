@@ -1,36 +1,13 @@
 ---
 import Layout from '@/layouts/Layout.astro'
+import PostTable from '@/components/PostTable.astro'
 import { getOldestPosts } from '@/utils/content'
-import { getFormattedDate } from '@/utils/date'
 
 const posts = await getOldestPosts()
 ---
 
-<Layout title="归档">
-  <h1>归档</h1>
+<Layout title="Archives">
+  <h1>Archives</h1>
   <p class="page-note">共 {posts.length} 篇文章</p>
-  <table class="list-table">
-    <thead>
-      <tr>
-        <th class="list-date">date</th>
-        <th>subject</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        posts.map((post) => (
-          <tr>
-            <td class="list-date">
-              <time datetime={post.data.createAt.toISOString()}>
-                {getFormattedDate(post.data.createAt)}
-              </time>
-            </td>
-            <td class="list-title">
-              <a href={`/posts/${post.slug}`}>{post.data.title}</a>
-            </td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+  <PostTable posts={posts} filterable />
 </Layout>

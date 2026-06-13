@@ -1,6 +1,6 @@
 ---
 import '@/styles/global.css'
-import { site } from '@/config.json'
+import { author, site } from '@/config.json'
 
 interface Props {
   title?: string
@@ -11,14 +11,8 @@ const { title, description } = Astro.props
 
 const pageTitle = title ? `${title} - ${site.title}` : site.title
 const pathname = Astro.url.pathname
-const navItems = [
-  { href: '/', label: 'summary' },
-  { href: '/archives', label: 'log' },
-  { href: '/about', label: 'about' },
-  { href: '/friends', label: 'friends' },
-  { href: '/projects', label: 'tree' },
-]
 const pathParts = pathname.split('/').filter(Boolean)
+const avatar = author.avatar || '/favicon.ico'
 
 const isActive = (href: string) => {
   if (href === '/') {
@@ -26,6 +20,10 @@ const isActive = (href: string) => {
   }
   return pathname === href || pathname.startsWith(`${href}/`)
 }
+
+const summaryActive = isActive('/')
+const archivesActive = isActive('/archives')
+const friendsActive = isActive('/friends')
 ---
 
 <!doctype html>
@@ -38,24 +36,90 @@ const isActive = (href: string) => {
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <script is:inline>
+      ;(() => {
+        const theme = localStorage.getItem('site-theme') || 'white'
+        const width = localStorage.getItem('site-width') || '100'
+        document.documentElement.dataset.theme = theme
+        document.documentElement.dataset.width = width
+      })()
+    </script>
   </head>
   <body>
-    <div class="site-frame">
-      <header class="site-header">
-        <div class="site-mainline">
-          <a class="site-title" href="/">{site.title}</a>
-          <div class="site-description">{site.description}</div>
-        </div>
-        <nav class="site-tabs" aria-label="主导航">
-          {
-            navItems.map((item) => (
-              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
-        <div class="pathline">
+    <div id="cgit" class="site-frame">
+      <header class="site-header" data-pagefind-ignore>
+        <table id="header">
+          <tbody>
+            <tr>
+              <td class="logo" rowspan="2">
+                <a class="site-avatar" href="/" aria-label={site.title}>
+                  <img src={avatar} alt={author.name} width="96" height="96" loading="eager" />
+                </a>
+              </td>
+              <td class="main">
+                <a href="/">{site.title}</a>
+              </td>
+              <td class="form" rowspan="2">
+                <div class="site-tools" aria-label="站点工具">
+                  <form class="site-search" role="search">
+                    <label class="sr-only" for="site-search-input">Search</label>
+                    <input
+                      id="site-search-input"
+                      type="search"
+                      name="q"
+                      placeholder="search"
+                      autocomplete="off"
+                    />
+                    <div id="site-search-results" class="search-results" hidden></div>
+                  </form>
+                  <div class="tool-row" aria-label="主题切换">
+                    <span>theme:</span>
+                    <button type="button" data-theme-choice="white">white</button>
+                    <button type="button" data-theme-choice="black">black</button>
+                    <button type="button" data-theme-choice="purple">purple</button>
+                    <button type="button" data-theme-choice="blue">blue</button>
+                  </div>
+                  <div class="tool-row" aria-label="页面宽度">
+                    <span>width:</span>
+                    <button type="button" data-width-choice="100">100</button>
+                    <button type="button" data-width-choice="80">80</button>
+                    <button type="button" data-width-choice="60">60</button>
+                    <button type="button" data-width-choice="40">40</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="sub">{site.description}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="tabs">
+          <tbody>
+            <tr>
+              <td>
+                <nav aria-label="主导航">
+                  <a
+                    href="/"
+                    class={summaryActive ? 'active' : undefined}
+                    aria-current={summaryActive ? 'page' : undefined}>summary</a
+                  >
+                  <a
+                    href="/archives"
+                    class={archivesActive ? 'active' : undefined}
+                    aria-current={archivesActive ? 'page' : undefined}>archives</a
+                  >
+                  <a
+                    href="/friends"
+                    class={friendsActive ? 'active' : undefined}
+                    aria-current={friendsActive ? 'page' : undefined}>friends</a
+                  >
+                </nav>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="path">
           path: <a href="/">root</a>
           {
             pathParts.map((part, index) => {
@@ -70,12 +134,163 @@ const isActive = (href: string) => {
           }
         </div>
       </header>
-      <main class="page-content">
+      <main class="content" data-pagefind-body>
         <slot />
       </main>
-      <footer class="site-footer">
+      <footer class="footer" data-pagefind-ignore>
         <p>&copy; {new Date().getFullYear()} {site.title}</p>
       </footer>
     </div>
+    <script is:inline>
+      ;(() => {
+        const root = document.documentElement
+        const setPressed = (selector, attr, value) => {
+          document.querySelectorAll(selector).forEach((button) => {
+            button.setAttribute(
+              'aria-pressed',
+              button.getAttribute(attr) === value ? 'true' : 'false',
+            )
+          })
+        }
+        const applyTheme = (theme) => {
+          root.dataset.theme = theme
+          localStorage.setItem('site-theme', theme)
+          setPressed('[data-theme-choice]', 'data-theme-choice', theme)
+        }
+        const applyWidth = (width) => {
+          root.dataset.width = width
+          localStorage.setItem('site-width', width)
+          setPressed('[data-width-choice]', 'data-width-choice', width)
+        }
+
+        applyTheme(root.dataset.theme || 'white')
+        applyWidth(root.dataset.width || '100')
+
+        document.querySelectorAll('[data-theme-choice]').forEach((button) => {
+          button.addEventListener('click', () =>
+            applyTheme(button.getAttribute('data-theme-choice') || 'white'),
+          )
+        })
+        document.querySelectorAll('[data-width-choice]').forEach((button) => {
+          button.addEventListener('click', () =>
+            applyWidth(button.getAttribute('data-width-choice') || '100'),
+          )
+        })
+
+        const input = document.getElementById('site-search-input')
+        const resultsBox = document.getElementById('site-search-results')
+        let pagefindPromise
+        let lastSearch = 0
+
+        const clearResults = () => {
+          if (!resultsBox) {
+            return
+          }
+          resultsBox.replaceChildren()
+          resultsBox.hidden = true
+        }
+
+        const showMessage = (message) => {
+          if (!resultsBox) {
+            return
+          }
+          const row = document.createElement('div')
+          row.className = 'search-result search-result-empty'
+          row.textContent = message
+          resultsBox.replaceChildren(row)
+          resultsBox.hidden = false
+        }
+
+        const loadPagefind = () => {
+          if (!pagefindPromise) {
+            pagefindPromise = import('/pagefind/pagefind.js').then(async (pagefind) => {
+              if (typeof pagefind.options === 'function') {
+                await pagefind.options({ excerptLength: 18 })
+              }
+              return pagefind
+            })
+          }
+          return pagefindPromise
+        }
+
+        const renderResults = async () => {
+          if (!input || !resultsBox) {
+            return
+          }
+
+          const query = input.value.trim()
+          const searchId = Date.now()
+          lastSearch = searchId
+
+          if (query.length < 2) {
+            clearResults()
+            return
+          }
+
+          try {
+            const pagefind = await loadPagefind()
+            const search = await pagefind.search(query)
+            const results = await Promise.all(
+              search.results.slice(0, 8).map((result) => result.data()),
+            )
+
+            if (lastSearch !== searchId) {
+              return
+            }
+
+            if (results.length === 0) {
+              showMessage('no matches')
+              return
+            }
+
+            const fragment = document.createDocumentFragment()
+            results.forEach((result) => {
+              const link = document.createElement('a')
+              link.className = 'search-result'
+              link.href = result.url
+
+              const title = document.createElement('span')
+              title.className = 'search-result-title'
+              title.textContent = result.meta?.title || result.url
+
+              const excerpt = document.createElement('span')
+              excerpt.className = 'search-result-excerpt'
+              excerpt.innerHTML = result.excerpt || ''
+
+              link.append(title, excerpt)
+              fragment.append(link)
+            })
+
+            resultsBox.replaceChildren(fragment)
+            resultsBox.hidden = false
+          } catch {
+            showMessage('run pnpm build to create pagefind index')
+          }
+        }
+
+        input?.addEventListener('input', renderResults)
+        input?.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            input.value = ''
+            clearResults()
+          }
+          if (event.key === 'Enter') {
+            const first = resultsBox?.querySelector('a')
+            if (first) {
+              event.preventDefault()
+              first.click()
+            }
+          }
+        })
+        document.addEventListener('click', (event) => {
+          if (!event.target || !(event.target instanceof Node)) {
+            return
+          }
+          if (!document.querySelector('.site-tools')?.contains(event.target)) {
+            clearResults()
+          }
+        })
+      })()
+    </script>
   </body>
 </html>

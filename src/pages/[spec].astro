@@ -6,10 +6,12 @@ import Layout from '@/layouts/Layout.astro'
 
 export const getStaticPaths = (async () => {
   const specList = await getCollection('spec')
-  return specList.map((md) => ({
-    params: { spec: md.slug },
-    props: { md },
-  }))
+  return specList
+    .filter((md) => md.slug !== 'about')
+    .map((md) => ({
+      params: { spec: md.slug },
+      props: { md },
+    }))
 }) satisfies GetStaticPaths
 
 interface Props {
