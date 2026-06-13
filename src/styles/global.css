@@ -17,6 +17,7 @@ html[data-theme='white'] {
   --code-border: #000;
   --highlight: #ffc;
   --site-width: 100%;
+  --tag-text: #000;
   --astro-code-foreground: #000;
   --astro-code-background: transparent;
   --astro-code-token-constant: #b07e00;
@@ -47,6 +48,7 @@ html[data-theme='black'] {
   --pre-bg: #151515;
   --code-border: #777;
   --highlight: #514400;
+  --tag-text: #000;
   --astro-code-foreground: #d8d8d8;
   --astro-code-background: transparent;
   --astro-code-token-constant: #e5b567;
@@ -76,6 +78,7 @@ html[data-theme='purple'] {
   --pre-bg: #f8f2ff;
   --code-border: #624b76;
   --highlight: #f1e38f;
+  --tag-text: #000;
   --astro-code-foreground: #2e2933;
   --astro-code-background: transparent;
   --astro-code-token-constant: #805300;
@@ -105,6 +108,7 @@ html[data-theme='blue'] {
   --pre-bg: #f0f7ff;
   --code-border: #385a79;
   --highlight: #fff0a8;
+  --tag-text: #000;
   --astro-code-foreground: #24313d;
   --astro-code-background: transparent;
   --astro-code-token-constant: #805e00;
