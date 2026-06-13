@@ -1,8 +1,8 @@
 type TaxonomyType = 'tag' | 'category'
 
 const tagHues = [60, 120, 30, 240, 0, 180, 300, 210, 90, 330, 150, 270]
-const tagSaturations = [100, 90, 80]
-const tagLightnesses = [62, 70, 78]
+const tagSaturations = [100]
+const tagLightnesses = [74, 77, 80]
 const tagColorCount = tagHues.length * tagSaturations.length * tagLightnesses.length
 
 function hashString(value: string) {
@@ -27,8 +27,8 @@ export function getTagStyle(tag: string) {
   const saturation = tagSaturations[slot % tagSaturations.length]
   slot = Math.floor(slot / tagSaturations.length)
   const lightness = tagLightnesses[slot % tagLightnesses.length]
-  const borderSaturation = Math.max(saturation - 16, 72)
-  const borderLightness = Math.max(lightness - 32, 32)
+  const borderSaturation = saturation
+  const borderLightness = Math.max(lightness - 54, 22)
 
   return `--tag-bg: hsl(${hue} ${saturation}% ${lightness}%); --tag-border: hsl(${hue} ${borderSaturation}% ${borderLightness}%);`
 }

@@ -365,6 +365,7 @@ div#cgit a.branch-deco {
   padding: 0px 0.25em;
   background-color: #88ff88;
   border: solid 1px #007700;
+  border-radius: 2px;
 }
 
 div#cgit a.tag-deco {
@@ -373,8 +374,7 @@ div#cgit a.tag-deco {
   padding: 0px 0.25em;
   background-color: var(--tag-bg, #ffff88);
   border: solid 1px var(--tag-border, #777700);
-  font-family: sans-serif;
-  font-weight: normal;
+  border-radius: 2px;
 }
 
 div#cgit a.tag-annotated-deco {
@@ -383,6 +383,7 @@ div#cgit a.tag-annotated-deco {
   padding: 0px 0.25em;
   background-color: #ffcc88;
   border: solid 1px #777700;
+  border-radius: 2px;
 }
 
 button,
@@ -579,37 +580,33 @@ pre {
 }
 
 div#cgit .content-body pre.astro-code {
-  background:
-    linear-gradient(var(--muted), var(--muted)) 4em 0 / 1px 100% no-repeat,
-    var(--bg) !important;
+  background: var(--bg) !important;
 }
 
 div#cgit .content-body pre code {
-  display: block;
-  padding: 0.125em 0;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0;
   background: transparent;
   color: inherit;
   counter-reset: code-line;
 }
 
 div#cgit .content-body pre.astro-code .line {
-  display: block;
-  line-height: 1.25;
-  margin: 0;
-  padding: 0 0.5em;
+  display: table-row;
   counter-increment: code-line;
 }
 
 div#cgit .content-body pre.astro-code .line::before {
   content: counter(code-line);
-  display: inline-block;
+  display: table-cell;
   width: 3em;
-  margin-right: 0.5em;
-  padding-right: 0.5em;
+  padding: 0 0.5em;
+  border-right: 1px solid gray;
   color: gray;
   text-align: right;
   user-select: none;
-  vertical-align: top;
 }
 
 div#cgit .content-body img {
