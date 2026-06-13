@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 import type { GetStaticPaths } from 'astro'
 import Layout from '@/layouts/Layout.astro'
 import { getSortedPosts } from '@/utils/content'
+import { generatePostOgImage } from '@/utils/ogImage'
 import { getFormattedDateTime } from '@/utils/date'
 import { taxonomyHref } from '@/utils/taxonomy'
 import { Comments } from '@/components/comment'
@@ -21,9 +22,10 @@ interface Props {
 
 const { post } = Astro.props
 const { Content } = await post.render()
+const ogImage = await generatePostOgImage(post)
 ---
 
-<Layout title={post.data.title} description={post.data.summary}>
+<Layout title={post.data.title} description={post.data.summary} image={ogImage}>
   <article class="content-body">
     <header class="article-header">
       <h1 class="article-title">{post.data.title}</h1>

@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 import { getCollection } from 'astro:content'
 import Layout from '@/layouts/Layout.astro'
 import { Comments } from '@/components/comment'
+import { generateSpecOgImage } from '@/utils/ogImage'
 
 export const getStaticPaths = (async () => {
   const specList = await getCollection('spec')
@@ -22,11 +23,13 @@ interface Props {
 const { md } = Astro.props
 const { Content } = await md.render()
 
+const ogImage = await generateSpecOgImage(md)
+
 const isFriends = md.slug === 'friends'
 const isProjects = md.slug === 'projects'
 ---
 
-<Layout title={md.data.title} description={md.data.description}>
+<Layout title={md.data.title} description={md.data.description} image={ogImage}>
   {
     isFriends ? (
       <div class="content-body">

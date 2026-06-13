@@ -27,3 +27,5 @@ public/image
 public/og
 src/content/posts
 .alma-snapshots
+.fonts
+public/fonts

@@ -3,13 +3,16 @@ import Layout from '@/layouts/Layout.astro'
 import PostTable from '@/components/PostTable.astro'
 import { getSortedPosts } from '@/utils/content'
 import { getEntry } from 'astro:content'
+import { generatePageOgImage } from '@/utils/ogImage'
+import { site } from '@/config.json'
 
 const posts = (await getSortedPosts()).slice(0, 10)
 const about = await getEntry('spec', 'about')
 const { Content } = await about!.render()
+const ogImage = await generatePageOgImage('home', site.title, site.description)
 ---
 
-<Layout>
+<Layout image={ogImage}>
   <article class="content-body summary-about">
     <Content />
   </article>
