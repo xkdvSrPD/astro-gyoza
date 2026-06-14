@@ -29,7 +29,8 @@ const {
 } = Astro.props
 ---
 
-<section class="giscus-section">
+<section class="giscus-section" aria-labelledby="comments-title">
+  <h2 id="comments-title">comments</h2>
   <div
     data-giscus-root
     data-repo={repo}

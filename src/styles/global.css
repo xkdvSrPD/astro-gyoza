@@ -850,9 +850,23 @@ td.list-category {
 }
 
 .giscus-section h2 {
-  margin: 0 0 0.75em;
-  padding-top: 0.4em;
-  border-top: 1px solid var(--border);
-  font-size: 130%;
+  margin: 0;
+  padding: 0.35em 0.5em 0.25em;
+  border-top: 0;
+  border-bottom: solid 3px var(--border);
+  background: var(--band);
+  font-family: monospace;
+  font-size: 110%;
   color: var(--title);
+}
+
+.giscus-section [data-giscus-root] {
+  padding-top: 1em;
+}
+
+.giscus-section iframe.giscus-frame {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: var(--bg);
 }

@@ -1,0 +1,5 @@
+/giscus-cgit-*.css
+  Access-Control-Allow-Origin: https://giscus.app
+  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+  Access-Control-Allow-Headers: Origin, Accept, Content-Type
+  Cache-Control: public, max-age=31536000, immutable

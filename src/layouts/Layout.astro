@@ -316,7 +316,16 @@ const friendsActive = isActive('/friends')
         })
 
         function getGiscusTheme() {
-          return root.dataset.theme === 'black' ? 'transparent_dark' : 'light'
+          const theme = root.dataset.theme || 'white'
+          const themePath =
+            {
+              white: '/giscus-cgit-white.css?v=20260614-cors',
+              black: '/giscus-cgit-black.css?v=20260614-cors',
+              purple: '/giscus-cgit-purple.css?v=20260614-cors',
+              blue: '/giscus-cgit-blue.css?v=20260614-cors',
+            }[theme] || '/giscus-cgit-white.css?v=20260614-cors'
+
+          return new URL(themePath, window.location.origin).toString()
         }
 
         function syncGiscusTheme() {
