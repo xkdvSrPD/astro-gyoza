@@ -16,7 +16,7 @@ export default defineConfig({
   integrations: [sitemap()],
   output: 'static',
   build: {
-    inlineStylesheets: 'always',
+    inlineStylesheets: 'never',
   },
   markdown: {
     shikiConfig: {

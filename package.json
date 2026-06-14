@@ -6,7 +6,7 @@
     "prepare": "pnpm exec simple-git-hooks",
     "postinstall": "node scripts/download-fonts.js",
     "dev": "astro dev",
-    "build": "astro check && astro build && pagefind --site dist --output-subdir pagefind",
+    "build": "astro check && astro build && pagefind --site dist --output-subdir pagefind && node scripts/optimize-dist-assets.js",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "prettier --write .",
