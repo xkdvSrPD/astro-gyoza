@@ -82,7 +82,7 @@ const friendsActive = isActive('/friends')
                 </a>
               </td>
               <td class="main">
-                <a href="/">{site.title}</a>
+                <a href="/" data-scramble>{site.title}</a>
               </td>
               <td class="form" rowspan="2">
                 <div class="site-tools" aria-label="站点工具">
@@ -92,7 +92,7 @@ const friendsActive = isActive('/friends')
                       id="site-search-input"
                       type="search"
                       name="q"
-                      placeholder="search"
+                      placeholder='grep -r "keywords" .'
                       autocomplete="off"
                     />
                     <div id="site-search-results" class="search-results" hidden></div>
@@ -115,7 +115,9 @@ const friendsActive = isActive('/friends')
               </td>
             </tr>
             <tr>
-              <td class="sub">{site.description}</td>
+              <td class="sub" id="site-desc" data-typewriter data-text={site.description}>
+                {site.description}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -126,16 +128,19 @@ const friendsActive = isActive('/friends')
                 <nav aria-label="主导航">
                   <a
                     href="/"
+                    data-scramble
                     class={summaryActive ? 'active' : undefined}
                     aria-current={summaryActive ? 'page' : undefined}>about</a
                   >
                   <a
                     href="/archives"
+                    data-scramble
                     class={archivesActive ? 'active' : undefined}
                     aria-current={archivesActive ? 'page' : undefined}>summary</a
                   >
                   <a
                     href="/friends"
+                    data-scramble
                     class={friendsActive ? 'active' : undefined}
                     aria-current={friendsActive ? 'page' : undefined}>ref</a
                   >
@@ -145,7 +150,7 @@ const friendsActive = isActive('/friends')
           </tbody>
         </table>
       </header>
-      <main class="content" data-pagefind-body>
+      <main class="content" data-pagefind-body data-reveal-root>
         <slot />
       </main>
       <footer class="footer" data-pagefind-ignore>
@@ -156,5 +161,6 @@ const friendsActive = isActive('/friends')
       </footer>
     </div>
     <script is:inline type="module" src="/site.js"></script>
+    <script is:inline type="module" src="/terminal.js"></script>
   </body>
 </html>
