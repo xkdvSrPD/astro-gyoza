@@ -1050,3 +1050,83 @@ tr[data-reveal] {
     content: none;
   }
 }
+
+/* ---- terminal shell & boot ---- */
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+html {
+  scrollbar-color: var(--border-strong) var(--bg);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border: 2px solid var(--bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* hover prompt marker */
+.list-table tbody tr td:first-child a::before,
+.card-list li a::before {
+  content: '> ';
+  color: var(--accent);
+  visibility: hidden;
+}
+
+.list-table tbody tr:hover td:first-child a::before,
+.card-list li:hover a::before {
+  visibility: visible;
+}
+
+/* shell output inside the search results box */
+.shell-line {
+  padding: 0.3em 0.5em;
+  color: var(--text);
+  font-family: var(--mono);
+  white-space: pre-wrap;
+}
+
+a.shell-output {
+  font-family: var(--mono);
+}
+
+/* footer prompt line */
+.footer .shell-line {
+  margin-bottom: 0.4em;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 90%;
+}
+
+/* boot overlay */
+.boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  padding: 2.5em 3em;
+  background: #0d0d0d;
+  color: #7ee787;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  text-shadow: 0 0 8px rgba(126, 231, 135, 0.35);
+  transition: opacity 0.4s ease;
+}
+
+.boot-overlay.boot-done {
+  opacity: 0;
+  pointer-events: none;
+}

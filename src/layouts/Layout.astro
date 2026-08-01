@@ -1,6 +1,7 @@
 ---
 import '@/styles/global.css'
 import { author, site } from '@/config.json'
+import { getSortedPosts } from '@/utils/content'
 
 interface Props {
   title?: string
@@ -17,6 +18,13 @@ const siteUrl = Astro.site?.toString() || site.url
 const ogImageUrl = image
   ? new URL(image, siteUrl).toString()
   : new URL('/apple-touch-icon.png', siteUrl).toString()
+
+const shellPosts = (await getSortedPosts()).map((post) => ({
+  t: post.data.title,
+  s: `/posts/${post.slug}/`,
+  d: post.data.createAt.toISOString().slice(0, 10),
+}))
+const shellData = JSON.stringify({ user: author.name, posts: shellPosts }).replace(/</g, '\\u003c')
 
 const isActive = (href: string) => {
   if (href === '/') {
@@ -154,12 +162,16 @@ const friendsActive = isActive('/friends')
         <slot />
       </main>
       <footer class="footer" data-pagefind-ignore>
+        <p class="shell-line" aria-hidden="true">
+          {author.name}@gyoza:~$ <span class="tw-cursor">▮</span>
+        </p>
         <p>&copy; {new Date().getFullYear()} {site.title}</p>
         <p id="beian" style="display:none">
           <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener"></a>
         </p>
       </footer>
     </div>
+    <script is:inline type="application/json" id="shell-data" set:html={shellData} />
     <script is:inline type="module" src="/site.js"></script>
     <script is:inline type="module" src="/terminal.js"></script>
   </body>

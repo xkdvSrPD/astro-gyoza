@@ -96,6 +96,10 @@ const renderResults = async () => {
     return
   }
 
+  if (typeof window.__terminalShell === 'function' && window.__terminalShell(query)) {
+    return
+  }
+
   try {
     const pagefind = await loadPagefind()
     const search = await pagefind.search(query)
