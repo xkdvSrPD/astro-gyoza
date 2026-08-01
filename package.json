@@ -42,10 +42,5 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,md,css,json}": "prettier --write"
-  },
-  "pnpm": {
-    "overrides": {
-      "baseline-browser-mapping": "2.10.21"
-    }
   }
 }

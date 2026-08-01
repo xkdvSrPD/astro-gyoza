@@ -1,0 +1,7 @@
+overrides:
+  baseline-browser-mapping: 2.10.21
+blockExoticSubdeps: false
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+  - simple-git-hooks
